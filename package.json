@@ -1,0 +1,13 @@
+{
+  "name": "chervyachokmigo",
+  "version": "1.0.0",
+  "description": "Мой личный сайт на GitHub Pages.",
+  "main": "script.js",
+  "scripts": {
+    "test": "echo \"Error: no test specified\" && exit 1"
+  },
+  "keywords": [],
+  "author": "",
+  "license": "ISC",
+  "type": "commonjs"
+}
