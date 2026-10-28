@@ -3,55 +3,215 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Sample Text — GitHub Pages</title>
-    <meta name="description" content="Пример сайта на GitHub Pages">
-    <link rel="stylesheet" href="style.css">
+    <title>Медиа Плеер Игр</title>
+    <style>
+        :root {
+            --bg-color: #121214;
+            --card-bg: #1e1e24;
+            --text-color: #e1e1e6;
+            --accent-color: #6200ee;
+            --accent-hover: #7c4dff;
+        }
+        body {
+            font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+            background-color: var(--bg-color);
+            color: var(--text-color);
+            margin: 0;
+            padding: 20px;
+            display: flex;
+            flex-direction: column;
+            align-items: center;
+        }
+        h1 { margin-bottom: 10px; font-weight: 600; text-transform: uppercase; letter-spacing: 1px; }
+        
+        /* Переключатель папок */
+        .tabs {
+            display: flex;
+            gap: 15px;
+            margin-bottom: 30px;
+        }
+        .tab-btn {
+            background-color: var(--card-bg);
+            color: var(--text-color);
+            border: 2px solid transparent;
+            padding: 12px 24px;
+            font-size: 16px;
+            font-weight: bold;
+            cursor: pointer;
+            border-radius: 8px;
+            transition: all 0.3s ease;
+        }
+        .tab-btn:hover { border-color: var(--accent-hover); }
+        .tab-btn.active {
+            background-color: var(--accent-color);
+            box-shadow: 0 4px 15px rgba(98, 0, 238, 0.4);
+        }
+
+        /* Сетка картинок */
+        .gallery {
+            display: grid;
+            grid-template-columns: repeat(auto-fill, minmax(250px, 1fr));
+            gap: 20px;
+            width: 100%;
+            max-width: 1200px;
+        }
+        .img-card {
+            background-color: var(--card-bg);
+            border-radius: 12px;
+            overflow: hidden;
+            cursor: pointer;
+            transition: transform 0.2s, box-shadow 0.2s;
+            box-shadow: 0 4px 6px rgba(0,0,0,0.3);
+        }
+        .img-card:hover {
+            transform: translateY(-5px);
+            box-shadow: 0 8px 15px rgba(0,0,0,0.5);
+        }
+        .img-card img {
+            width: 100%;
+            height: 200px;
+            object-fit: cover;
+            display: block;
+        }
+        .img-name {
+            padding: 10px;
+            text-align: center;
+            font-size: 14px;
+            white-space: nowrap;
+            overflow: hidden;
+            text-overflow: ellipsis;
+        }
+
+        /* Просмотрщик (Плеер) */
+        .viewer {
+            display: none;
+            position: fixed;
+            top: 0; left: 0; width: 100%; height: 100%;
+            background-color: rgba(0,0,0,0.95);
+            z-index: 1000;
+            justify-content: center;
+            align-items: center;
+        }
+        .viewer img {
+            max-width: 90%;
+            max-height: 85%;
+            border-radius: 4px;
+            box-shadow: 0 0 30px rgba(0,0,0,0.8);
+        }
+        .close-btn, .nav-btn {
+            position: absolute;
+            background: rgba(255,255,255,0.1);
+            color: white;
+            border: none;
+            font-size: 24px;
+            padding: 15px 20px;
+            cursor: pointer;
+            border-radius: 8px;
+            transition: background 0.2s;
+        }
+        .close-btn:hover, .nav-btn:hover { background: rgba(255,255,255,0.2); }
+        .close-btn { top: 20px; right: 20px; }
+        .prev-btn { left: 20px; }
+        .next-btn { right: 20px; }
+    </style>
 </head>
 <body>
-    <header>
-        <nav class="navbar">
-            <a href="#" class="logo">Sample Site</a>
-            <ul class="nav-links">
-                <li><a href="#home">Главная</a></li>
-                <li><a href="#about">О нас</a></li>
-                <li><a href="#contact">Контакты</a></li>
-            </ul>
-        </nav>
-    </header>
 
-    <main>
-        <section id="home" class="hero">
-            <h1>Добро пожаловать!</h1>
-            <p class="sample-text">
-                Это пример текста для сайта на GitHub Pages.
-                Здесь вы можете разместить любую информацию о себе,
-                своём проекте или портфолио.
-            </p>
-            <button id="cta-button" class="btn">Нажми меня</button>
-        </section>
+    <h1>Медиа Архив</h1>
+    
+    <div class="tabs">
+        <button class="tab-btn active" onclick="switchFolder('da')">Deadly Assault (DA)</button>
+        <button class="tab-btn" onclick="switchFolder('sd')">Shiyui Deffence (SD)</button>
+    </div>
 
-        <section id="about" class="content">
-            <h2>О проекте</h2>
-            <p class="sample-text">
-                Lorem ipsum dolor sit amet, consectetur adipiscing elit.
-                Sed do eiusmod tempor incididunt ut labore et dolore magna aliqua.
-                Ut enim ad minim veniam, quis nostrud exercitation ullamco.
-            </p>
-        </section>
+    <div class="gallery" id="gallery"><!-- Картинки загружаются сюда скриптом --></div>
 
-        <section id="contact" class="content">
-            <h2>Контакты</h2>
-            <p class="sample-text">
-                Свяжитесь со мной по электронной почте:
-                <a href="mailto:example@example.com">example@example.com</a>
-            </p>
-        </section>
-    </main>
+    <!-- Полноэкранный плеер -->
+    <div class="viewer" id="viewer" onclick="closeViewer(event)">
+        <button class="close-btn" onclick="closeViewer(event)">✕</button>
+        <button class="nav-btn prev-btn" onclick="changeImage(-1, event)">❮</button>
+        <img id="viewer-img" src="" alt="Просмотр">
+        <button class="nav-btn next-btn" onclick="changeImage(1, event)">❯</button>
+    </div>
 
-    <footer>
-        <p>&copy; <span id="year"></span> Sample Site. Все права защищены.</p>
-    </footer>
+    <!-- Подключаем наш список картинок -->
+    <script src="images.js"></script>
+    <script>
+        let currentFolder = 'da';
+        let currentImgIndex = 0;
 
-    <script src="script.js"></script>
+        function renderGallery() {
+            const galleryEl = document.getElementById('gallery');
+            galleryEl.innerHTML = '';
+            
+            const images = galleryData[currentFolder];
+            
+            if(!images || images.length === 0) {
+                galleryEl.innerHTML = '<p style="grid-column: 1/-1; text-align:center; opacity:0.5;">В этой папке пока нет картинок</p>';
+                return;
+            }
+
+            images.forEach((imgName, index) => {
+                const card = document.createElement('div');
+                card.className = 'img-card';
+                card.onclick = () => openViewer(index);
+                
+                // Путь складывается из имени папки и имени файла
+                const imgPath = `${currentFolder}/${imgName}`;
+                
+                card.innerHTML = `
+                    <img src="${imgPath}" alt="${imgName}" loading="lazy">
+                    <div class="img-name">${imgName}</div>
+                `;
+                galleryEl.appendChild(card);
+            });
+        }
+
+        function switchFolder(folder) {
+            currentFolder = folder;
+            document.querySelectorAll('.tab-btn').forEach(btn => btn.classList.remove('active'));
+            event.target.classList.add('active');
+            renderGallery();
+        }
+
+        function openViewer(index) {
+            currentImgIndex = index;
+            const viewer = document.getElementById('viewer');
+            const viewerImg = document.getElementById('viewer-img');
+            
+            viewerImg.src = `${currentFolder}/${galleryData[currentFolder][currentImgIndex]}`;
+            viewer.style.display = 'flex';
+        }
+
+        function closeViewer(e) {
+            // Закрываем только если кликнули по фону или крестику, а не по самой картинке
+            if (e.target.id === 'viewer' || e.target.className === 'close-btn') {
+                document.getElementById('viewer').style.display = 'none';
+            }
+        }
+
+        function changeImage(direction, e) {
+            e.stopPropagation(); // Чтобы не закрывался плеер
+            const images = galleryData[currentFolder];
+            currentImgIndex += direction;
+            
+            if (currentImgIndex >= images.length) currentImgIndex = 0;
+            if (currentImgIndex < 0) currentImgIndex = images.length - 1;
+            
+            document.getElementById('viewer-img').src = `${currentFolder}/${images[currentImgIndex]}`;
+        }
+
+        // Кнопки клавиатуры (влево/вправо/escape)
+        document.addEventListener('keydown', (e) => {
+            if (document.getElementById('viewer').style.display === 'flex') {
+                if (e.key === 'ArrowRight') changeImage(1, event);
+                if (e.key === 'ArrowLeft') changeImage(-1, event);
+                if (e.key === 'Escape') document.getElementById('viewer').style.display = 'none';
+            }
+        });
+
+        // Первая сборка при старте
+        renderGallery();
+    </script>
 </body>
 </html>
