@@ -118,6 +118,12 @@
       "avatar": "avatars/Avatar_Zhu_Yuan.webp"
     },
     {
+      "nick": "BY",
+      "points": "114575",
+      "id": "9057f45a",
+      "avatar": "avatars/Avatar_Starlight_-_Billy_Kid.webp"
+    },
+    {
       "nick": "XE",
       "points": "114206",
       "id": "adfb4dbc",
@@ -134,12 +140,6 @@
       "points": "113582",
       "id": "abbd1b6e",
       "avatar": "avatars/Avatar_Tempered_Crown.webp"
-    },
-    {
-      "nick": "BY",
-      "points": "113179",
-      "id": "9057f45a",
-      "avatar": "avatars/Avatar_Starlight_-_Billy_Kid.webp"
     },
     {
       "nick": "MH",
@@ -251,9 +251,15 @@
     },
     {
       "nick": "BR",
-      "points": "101482",
+      "points": "101965",
       "id": "ba938d27",
       "avatar": "avatars/Avatar_Trigger.webp"
+    },
+    {
+      "nick": "АА",
+      "points": "101741",
+      "id": "896c39cc",
+      "avatar": "avatars/Avatar_Jane_Doe.webp"
     },
     {
       "nick": "DI",
@@ -406,6 +412,6 @@
       "avatar": "avatars/Avatar_Burnice_White.webp"
     }
   ],
-  "savedAt": "2026-11-14T11:54:59.082Z",
+  "savedAt": "2026-11-14T19:41:31.882Z",
   "type": "defence"
 }
