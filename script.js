@@ -37,6 +37,7 @@ let manifest       = null;
 let nicks          = {};
 let currentSection = 'bases';
 let currentType    = 'assault';
+let currentSubtype = 'test';   // 'test' | 'stamina' — только для assault
 let currentFile    = null;
 let currentData    = null;
 let previousData   = null;
@@ -49,6 +50,7 @@ const titleEl         = document.getElementById('mainTitle');
 const countEl         = document.getElementById('participantsCount');
 const lastUpdEl       = document.getElementById('lastUpdate');
 const tableSelectorEl = document.getElementById('tableSelector');
+const subTypeSelEl    = document.getElementById('subTypeSelector');
 
 /* ============================================================
    Утилиты
@@ -91,7 +93,6 @@ async function fetchJSON(url) {
 
 /* ============================================================
    Ключ строки для дельт
-   Приоритет — id (уникален), fallback — ник|аватарка
    ============================================================ */
 function rowKey(row) {
     if (row.id) return String(row.id);
@@ -102,15 +103,11 @@ function rowKey(row) {
 
 /* ============================================================
    Путь к аватарке
-   row.avatar может быть:
-   - полный путь ("avatars/Avatar_Sunna.webp") — новый формат
-   - имя ("Avatar_Sunna") — старый формат
-   - отсутствовать — fallback по нику через nicks.json
    ============================================================ */
 function resolveAvatarPath(row) {
     const av = row.avatar;
-    if (av && av.includes('/')) return av;             // уже полный путь
-    if (av && manifest.avatars?.[av]) return manifest.avatars[av];   // имя
+    if (av && av.includes('/')) return av;
+    if (av && manifest.avatars?.[av]) return manifest.avatars[av];
     const fromNicks = nicks[row.nick];
     if (fromNicks && manifest.avatars?.[fromNicks]) return manifest.avatars[fromNicks];
     return null;
@@ -138,9 +135,6 @@ function computeRanking(rows, field) {
     return map;
 }
 
-/* ============================================================
-   Индекс предыдущей таблицы
-   ============================================================ */
 function buildPrevIndex(prevRows) {
     const map = new Map();
     if (!Array.isArray(prevRows)) return map;
@@ -203,7 +197,7 @@ function render() {
     const cfg = CONFIG[currentType];
     const baseTitle = (currentData?.title || cfg.title).replace(/\s*\([^)]*\)\s*$/, '').trim();
 
-    if (currentType === 'assault') {
+    if (currentType === 'assault' && currentSubtype === 'test') {
         titleEl.textContent = baseTitle + ' (ИСПЫТАНИЕ)';
     } else {
         titleEl.textContent = baseTitle;
@@ -218,6 +212,7 @@ function render() {
         countEl.textContent = '0';
         lastUpdEl.textContent = '—';
         renderStamina();
+        applySubtypeVisibility();
         return;
     }
 
@@ -292,15 +287,24 @@ function render() {
     }
 
     renderStamina();
+    applySubtypeVisibility();
 }
 
 /* ============================================================
-   СТОЙКОСТЬ (только для штурма)
+   СТОЙКОСТЬ
    ============================================================ */
 function renderStamina() {
-    const area = document.getElementById('staminaArea');
-    if (currentType !== 'assault' || !currentData?.rows) {
-        area.style.display = 'none';
+    if (currentType !== 'assault') return;
+
+    const head  = document.getElementById('staminaHead');
+    const body  = document.getElementById('staminaBody');
+    const title = document.getElementById('staminaTitle');
+    if (!head || !body || !title) return;
+
+    if (!currentData?.rows) {
+        head.innerHTML = '';
+        body.innerHTML = '';
+        title.textContent = 'Нет данных';
         return;
     }
 
@@ -308,18 +312,9 @@ function renderStamina() {
         .filter(r => num(r.stamina) != null)
         .sort((a, b) => num(b.stamina) - num(a.stamina));
 
-    if (!rows.length) {
-        area.style.display = 'none';
-        return;
-    }
-    area.style.display = '';
-
     const baseTitle = (currentData.title || 'ОПАСНЫЙ ШТУРМ').replace(/\s*\([^)]*\)\s*$/, '').trim();
-    document.getElementById('staminaTitle').textContent = baseTitle + ' (СТОЙКОСТЬ)';
+    title.textContent = baseTitle + ' (СТОЙКОСТЬ)';
 
-    const ranked = computeRanking(rows, 'stamina');
-
-    const head = document.getElementById('staminaHead');
     head.innerHTML = '';
     const trh = document.createElement('tr');
     [
@@ -336,9 +331,14 @@ function renderStamina() {
     });
     head.appendChild(trh);
 
-    const body = document.getElementById('staminaBody');
     body.innerHTML = '';
 
+    if (!rows.length) {
+        body.innerHTML = '<tr><td colspan="5" style="text-align:center;padding:40px;color:#666;">Нет данных по стойкости</td></tr>';
+        return;
+    }
+
+    const ranked = computeRanking(rows, 'stamina');
     const prevIndex = buildPrevIndex(previousData?.rows);
 
     for (const row of rows) {
@@ -382,6 +382,22 @@ function renderStamina() {
 }
 
 /* ============================================================
+   Видимость основной / стойкости по подтипу
+   ============================================================ */
+function applySubtypeVisibility() {
+    const mainArea    = document.getElementById('captureArea');
+    const staminaArea = document.getElementById('staminaArea');
+
+    if (currentType === 'assault' && currentSubtype === 'stamina') {
+        mainArea.style.display    = 'none';
+        staminaArea.style.display = '';
+    } else {
+        mainArea.style.display    = '';
+        staminaArea.style.display = 'none';
+    }
+}
+
+/* ============================================================
    Выбор таблицы
    ============================================================ */
 function renderTableSelector() {
@@ -408,6 +424,13 @@ function renderTableSelector() {
 function updateTableSelector() {
     tableSelectorEl.querySelectorAll('.table-btn').forEach(b => {
         b.classList.toggle('active', b.dataset.file === currentFile);
+    });
+}
+
+function updateSubtypeSelector() {
+    if (!subTypeSelEl) return;
+    subTypeSelEl.querySelectorAll('.table-btn[data-subtype]').forEach(b => {
+        b.classList.toggle('active', b.dataset.subtype === currentSubtype);
     });
 }
 
@@ -450,6 +473,53 @@ async function loadTable(fileName) {
 }
 
 /* ============================================================
+   Стикеры
+   ============================================================ */
+async function loadStickers() {
+    const grid = document.getElementById('stickerGrid');
+    if (!grid) return;
+
+    let items;
+    try {
+        items = await fetchJSON('stickers.json');
+    } catch (e) {
+        console.warn('Не удалось загрузить stickers.json:', e.message);
+        grid.innerHTML = '<span class="empty-selector">stickers.json не найден</span>';
+        return;
+    }
+
+    if (!Array.isArray(items) || items.length === 0) {
+        grid.innerHTML = '<span class="empty-selector">Список стикеров пуст</span>';
+        return;
+    }
+
+    grid.innerHTML = '';
+
+    for (const item of items) {
+        const href = String(item.href || '').trim();
+        if (!href) continue;
+
+        const a = document.createElement('a');
+        a.className = 'sticker-card';
+        a.href = href;
+        a.target = '_blank';
+        a.rel = 'noopener';
+
+        const n = document.createElement('span');
+        n.className = 'sticker-name';
+        n.textContent = item.name || '—';
+        a.appendChild(n);
+
+        const u = document.createElement('span');
+        u.className = 'sticker-url';
+        u.textContent = item.url || '';
+        a.appendChild(u);
+
+        grid.appendChild(a);
+    }
+}
+
+/* ============================================================
    Алтари
    ============================================================ */
 async function loadAltars() {
@@ -477,10 +547,11 @@ async function loadAltars() {
         const name = String(item.name || '').trim();
         if (!src) continue;
 
-        const video = isVideoUrl(src);
+        const video    = isVideoUrl(src);
+        const isPending = item.finalized === 0;
 
         const btn = document.createElement('button');
-        btn.className = 'altar-card';
+        btn.className = 'altar-card ' + (isPending ? 'pending' : 'finalized');
         btn.dataset.src  = src;
         btn.dataset.type = video ? 'video' : 'image';
 
@@ -507,7 +578,57 @@ async function loadAltars() {
         grid.appendChild(btn);
     }
 }
+/* ============================================================
+   Полезные ссылки — плоский грид кнопок
+   ============================================================ */
+async function loadLinks() {
+    const grid = document.getElementById('linksGrid');
+    if (!grid) return;
 
+    let items;
+    try {
+        items = await fetchJSON('links.json');
+    } catch (e) {
+        console.warn('Не удалось загрузить links.json:', e.message);
+        grid.innerHTML = '<span class="empty-selector">links.json не найден</span>';
+        return;
+    }
+
+    if (!Array.isArray(items) || items.length === 0) {
+        grid.innerHTML = '<span class="empty-selector">Список ссылок пуст</span>';
+        return;
+    }
+
+    grid.innerHTML = '';
+
+    for (const cat of items) {
+        const links = Array.isArray(cat.links) ? cat.links : [];
+        for (const link of links) {
+            const href = String(link.url || '').trim();
+            if (!href) continue;
+
+            const a = document.createElement('a');
+            a.className = 'link-btn';
+            a.href = href;
+            a.target = '_blank';
+            a.rel = 'noopener';
+
+            // Категория — крупно (что делает)
+            const catEl = document.createElement('span');
+            catEl.className = 'link-btn-cat';
+            catEl.textContent = cat.category || '';
+            a.appendChild(catEl);
+
+            // Название сайта — мелко (кто именно)
+            const name = document.createElement('span');
+            name.className = 'link-btn-name';
+            name.textContent = link.name || href;
+            a.appendChild(name);
+
+            grid.appendChild(a);
+        }
+    }
+}
 function bindAltars() {
     const modal    = document.getElementById('altarModal');
     const body     = document.getElementById('altarModalBody');
@@ -598,8 +719,23 @@ function showSection(section) {
         lastUpdEl.textContent = '—';
         return;
     }
+    if (section === 'links') {
+        document.getElementById('viewLinks').classList.add('active');
+        lastUpdEl.textContent = '—';
+        return;
+    }
 
     currentType = section;
+
+    // Селектор подтипа — только для штурма
+    if (section === 'assault') {
+        subTypeSelEl.style.display = '';
+        updateSubtypeSelector();
+    } else {
+        subTypeSelEl.style.display = 'none';
+        currentSubtype = 'test';
+    }
+
     document.getElementById('viewTables').classList.add('active');
 
     renderTableSelector();
@@ -618,9 +754,23 @@ function showSection(section) {
     }
 }
 
+/* ============================================================
+   Обработчики
+   ============================================================ */
 document.querySelectorAll('.nav-btn').forEach(btn => {
     btn.addEventListener('click', () => showSection(btn.dataset.section));
 });
+
+if (subTypeSelEl) {
+    subTypeSelEl.querySelectorAll('.table-btn[data-subtype]').forEach(btn => {
+        btn.addEventListener('click', () => {
+            if (btn.dataset.subtype === currentSubtype) return;
+            currentSubtype = btn.dataset.subtype;
+            updateSubtypeSelector();
+            render();
+        });
+    });
+}
 
 /* ============================================================
    Старт
@@ -642,6 +792,6 @@ document.querySelectorAll('.nav-btn').forEach(btn => {
         return;
     }
 
-    await loadAltars();
+    await Promise.all([loadStickers(), loadAltars(), loadLinks()]);
     showSection('bases');
 })();

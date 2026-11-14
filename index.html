@@ -19,6 +19,7 @@
         <button class="nav-btn" data-section="defence">Оборона Шиюй</button>
         <button class="nav-btn" data-section="stickers">Стикеры</button>
         <button class="nav-btn" data-section="altars">Алтари</button>
+        <button class="nav-btn" data-section="links">Полезное</button>
     </nav>
 
     <section class="view active" id="viewBases">
@@ -45,6 +46,11 @@
     <section class="view" id="viewTables">
         <div class="table-selector" id="tableSelector"></div>
 
+        <div class="table-selector" id="subTypeSelector" style="display:none;">
+            <button class="table-btn" data-subtype="test">Испытание</button>
+            <button class="table-btn" data-subtype="stamina">Стойкость</button>
+        </div>
+
         <div id="staminaArea" class="capture-area stamina-area" style="display:none;">
             <div class="title-wrapper">
                 <div class="main-title" id="staminaTitle">…</div>
@@ -68,37 +74,7 @@
     </section>
 
     <section class="view" id="viewStickers">
-        <div class="sticker-grid">
-            <a class="sticker-card" href="https://2ch.org/makaba/stickers/show/z16EyZ3F" target="_blank" rel="noopener">
-                <span class="sticker-name">Zzz</span>
-                <span class="sticker-url">zzZ</span>
-            </a>
-            <a class="sticker-card" href="https://2ch.org/makaba/stickers/show/tCFWRAiU" target="_blank" rel="noopener">
-                <span class="sticker-name">OctoberPack</span>
-                <span class="sticker-url">giantboy</span>
-            </a>
-            <a class="sticker-card" href="https://2ch.org/makaba/stickers/show/3OOkGVkl" target="_blank" rel="noopener">
-                <span class="sticker-name">Zenless</span>
-                <span class="sticker-url">Zzz</span>
-            </a>
-            <a class="sticker-card" href="https://2ch.org/makaba/stickers/show/CRh7RxMO" target="_blank" rel="noopener">
-                <span class="sticker-name">Zzz2</span>
-                <span class="sticker-url">zzZ2</span>
-            </a>
-            <a class="sticker-card" href="https://2ch.org/makaba/stickers/show/FQCHer9x" target="_blank" rel="noopener">
-                <span class="sticker-name">ZZZero</span>
-                <span class="sticker-url">zzz</span>
-            </a>
-            <a class="sticker-card" href="https://2ch.org/makaba/stickers/show/csZiziNB" target="_blank" rel="noopener">
-                <span class="sticker-name">ZZZSeseren</span>
-                <span class="sticker-url">ZZZSeseren</span>
-            </a>
-            <a class="sticker-card" href="https://2ch.org/makaba/stickers/show/2ADKv8U2" target="_blank" rel="noopener">
-                <span class="sticker-name">proxy_zuzik</span>
-                <span class="sticker-url">zzzedkaaa</span>
-            </a>
-            
-        </div>
+        <div class="sticker-grid" id="stickerGrid"></div>
         <div class="altar-note">
             Стикерпаки размещены на 2ch.org и являются творчеством участников сообщества.
             Права на персонажей — HoYoverse / miHoYo.
@@ -107,6 +83,10 @@
     </section>
 
     <section class="view" id="viewAltars">
+        <div class="altar-legend">
+            <span class="legend-item"><span class="legend-dot legend-finalized"></span>Финальные</span>
+            <span class="legend-item"><span class="legend-dot legend-pending"></span>Неизвестные</span>
+        </div>
         <div class="altar-grid" id="altarGrid"></div>
 
         <div class="altar-note">
@@ -114,7 +94,16 @@
             <a href="rights.html">Подробнее →</a>
         </div>
     </section>
-    <!-- ==================== Модалка алтаря ==================== -->
+
+    <section class="view" id="viewLinks">
+        <div class="links-grid" id="linksGrid"></div>
+
+        <div class="altar-note">
+            Ссылки ведут на внешние ресурсы сообщества. Администрация сайта не несёт ответственности за их содержимое.
+            <a href="rights.html">Подробнее →</a>
+        </div>
+    </section>
+
     <div class="altar-modal" id="altarModal" hidden>
         <button class="altar-modal-close" id="altarModalClose" title="Закрыть (Esc)">×</button>
         <div class="altar-modal-name" id="altarModalName"></div>
@@ -127,7 +116,7 @@
     <script>
     if ('serviceWorker' in navigator) {
         window.addEventListener('load', () => {
-        navigator.serviceWorker.register('./sw.js');
+            navigator.serviceWorker.register('./sw.js');
         });
     }
     </script>

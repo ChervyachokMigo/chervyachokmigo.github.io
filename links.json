@@ -1,0 +1,89 @@
+[
+    {
+        "category": "Чекинг",
+        "links": [
+            { "name": "HoYoLAB", "url": "https://act.hoyolab.com/bbs/event/signin/zzz/e202406031448091.html?act_id=e202406031448091" }
+        ]
+    },
+    {
+        "category": "Счётчики роллов",
+        "links": [
+            { "name": "RNG.moe", "url": "https://zzz.rng.moe" },
+            { "name": "StarDB",  "url": "https://stardb.gg" }
+        ]
+    },
+    {
+        "category": "Статистика DPS",
+        "links": [
+            { "name": "ZZZ Analytics", "url": "https://zzz.analytics.moe/" },
+            { "name": "Kodie Calcs",   "url": "https://kodiecalcs.pages.dev/zzz/" }
+        ]
+    },
+    {
+        "category": "История банеров",
+        "links": [
+            { "name": "Banner History", "url": "https://bannerhistory.app/en/zzz-banners?v=1&hm=r" }
+        ]
+    },
+    {
+        "category": "Официальные инструменты HoYoLAB",
+        "links": [
+            { "name": "HoYoLAB Official", "url": "https://www.hoyolab.com/circles/8/47/official" }
+        ]
+    },
+    {
+        "category": "Базы данных",
+        "links": [
+            { "name": "Nanoka",       "url": "https://zzz.nanoka.cc/" },
+            { "name": "GachaBase",    "url": "https://zzz.gachabase.net/changelog/beta?lang=en" },
+            { "name": "Honey Hunter", "url": "https://zzz.honeyhunterworld.com/" }
+        ]
+    },
+    {
+        "category": "Вики и гайды",
+        "links": [
+            { "name": "Fandom",  "url": "https://zenless-zone-zero.fandom.com" },
+            { "name": "Prydwen", "url": "https://www.prydwen.gg/zenless" }
+        ]
+    },
+    {
+        "category": "Показать билд картинкой",
+        "links": [
+            { "name": "Enka Network", "url": "https://enka.network/?zzz" },
+            { "name": "ZFae",         "url": "https://zfae.net/" }
+        ]
+    },
+    {
+        "category": "Таблица эффективности банбу",
+        "links": [
+            { "name": "Google Sheets", "url": "https://docs.google.com/spreadsheets/d/e/2PACX-1vRhcejlTkFU_YJgWAYMl9Az3hh3o0edzQllePlbxZXqex04nUABDh6K1ceKSkPl9w3BYLdc6vqA1C7Y/pubhtml#" }
+        ]
+    },
+    {
+        "category": "Планировщик ресурсов",
+        "links": [
+            { "name": "Zenless Tools", "url": "https://zenless.tools/leveling-calculator" },
+            { "name": "Seelie",        "url": "https://zzz.seelie.me" }
+        ]
+    },
+    {
+        "category": "Счётчик круток",
+        "links": [
+            { "name": "RNG.moe", "url": "https://zzz.rng.moe" },
+            { "name": "StarDB",  "url": "https://stardb.gg" }
+        ]
+    },
+    {
+        "category": "Подсчёт роллов по версиям",
+        "links": [
+            { "name": "Google Sheets", "url": "https://docs.google.com/spreadsheets/d/e/2PACX-1vTiSx8OSyx-BZktnpT-fh_pQHjjkD8q3sp3Csy2aOI-8CV_QroqxzhhNjiCZNV4IdzhyK3xbipZn9WD/pubhtml" }
+        ]
+    },
+    {
+        "category": "Трекеры ачивок",
+        "links": [
+            { "name": "StarDB",  "url": "https://stardb.gg/ru/zzz/achievement-tracker" },
+            { "name": "RNG.moe", "url": "https://zzz.rng.moe/ru/achievements/normal" }
+        ]
+    }
+]
