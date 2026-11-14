@@ -108,41 +108,79 @@ body.index-page {
   align-items: center;
 }
 
-/* ---------- Коды баз ---------- */
-.base-codes {
-  background: rgba(13, 13, 13, 0.92);
-  border: 1px solid #333;
-  padding: 12px 18px;
-  margin-bottom: 30px;
+
+/* ============================================================
+   Базы Зюзиков — таблица
+   ============================================================ */
+.bases-table {
   width: 100%;
-  max-width: 982px;
-  display: flex;
-  flex-direction: column;
+  max-width: 620px;
+  border-collapse: collapse;
+  background: #161616;
+  border: 1px solid #2a2a2a;
+  font-family: 'Segoe UI', sans-serif;
 }
 
-.base-row {
-  display: flex;
-  justify-content: space-between;
-  align-items: center;
-  gap: 16px;
-  padding: 12px 4px;
-  border-bottom: 1px dashed #333;
-  font-family: 'Segoe UI', sans-serif;
+.bases-table thead th {
+  background: #101010;
   color: var(--accent);
+  font-size: 0.8rem;
+  font-weight: 600;
   text-transform: uppercase;
   letter-spacing: 1.5px;
-  font-size: 0.95rem;
-  font-weight: 600;
-}
-.base-row:last-child { border-bottom: none; }
-.base-name { font-weight: 600; }
-.base-code {
-  color: var(--accent);
-  font-weight: 800;
+  padding: 14px 22px;
+  text-align: left;
+  border-bottom: 1px dashed #222;
   white-space: nowrap;
+  opacity: 0.7;
+}
+
+.bases-table thead th.bases-code-col {
+  text-align: right;
+  border-left: 0px dashed #222;
+}
+
+.bases-table tbody td {
+  padding: 18px 22px;
+  color: #c4c4c4;
+  font-size: 1.1rem;
+  border-bottom: 0px dashed #222;
+  word-break: break-word;
+}
+
+.bases-table tbody tr:last-child td {
+  border-bottom: none;
+}
+
+.bases-table tbody tr:nth-child(even) td {
+  background: #121212;
+}
+
+.bases-table td.bases-name-cell {
+  font-weight: 600;
+  letter-spacing: 0.5px;
+  color: var(--accent);
+}
+
+.bases-table td.bases-code-cell {
+  text-align: right;
   font-variant-numeric: tabular-nums;
-  font-size: 1rem;
+  font-feature-settings: "tnum" 1;
+  font-weight: 700;
+  color: var(--accent);
+  letter-spacing: 0.5px;
+  white-space: nowrap;
+  border-left: 0px dashed #222;
+  font-size: 1.15rem;
+}
+
+.bases-table .empty-cell {
+  text-align: center;
+  color: #666;
+  padding: 40px 20px;
+  font-size: 0.9rem;
   letter-spacing: 1px;
+  text-transform: uppercase;
 }
 
 /* ============================================================
@@ -641,8 +679,9 @@ body.index-page {
   .main-title { font-size: 1.8rem; letter-spacing: 3px; }
   .page-title { font-size: 1.8rem; letter-spacing: 2px; }
   .page-subtitle { letter-spacing: 4px; font-size: 0.8rem; }
-  .base-row   { font-size: 0.82rem; letter-spacing: 1px; }
-  .base-code  { font-size: 0.85rem; }
+.bases-table thead th { padding: 14px 22px; font-size: 0.72rem; letter-spacing: 1px; }
+.bases-table tbody td { padding: 18px 22px; font-size: 1rem; }
+.bases-table td.bases-code-cell { font-size: 1.05rem; }
   .nav-btn    { padding: 12px 14px; font-size: 0.85rem; letter-spacing: 1px; }
   .table-btn  { font-size: 0.72rem; padding: 6px 10px; }
   .sticker-grid { grid-template-columns: 1fr; }
@@ -827,5 +866,88 @@ body.index-page {
 @media (max-width: 1050px) {
   .links-grid {
     grid-template-columns: 1fr;
+  }
+}
+/* ============================================================
+   Базы Зюзиков — инструкция под таблицей
+   ============================================================ */
+.bases-help {
+  width: 100%;
+  max-width: 620px;
+  margin-top: 24px;
+  padding: 18px 22px;
+  background: #161616;
+  border: 1px solid #2a2a2a;
+  border-left: 3px solid #2a2a2a;
+  font-family: 'Segoe UI', sans-serif;
+}
+
+.bases-help-title {
+  color: #a0a0a0;
+  font-size: 0.75rem;
+  font-weight: 700;
+  text-transform: uppercase;
+  letter-spacing: 2px;
+  margin-bottom: 14px;
+  padding-bottom: 10px;
+  border-bottom: 1px dashed #2a2a2a;
+}
+
+.bases-help-steps {
+  list-style: none;
+  counter-reset: step;
+  padding: 0;
+  margin: 0;
+  display: flex;
+  flex-direction: column;
+  gap: 12px;
+}
+
+.bases-help-steps li {
+  counter-increment: step;
+  position: relative;
+  padding-left: 32px;
+  color: #b0b0b0;
+  font-size: 0.95rem;
+  line-height: 1.5;
+}
+
+.bases-help-steps li::before {
+  content: counter(step);
+  position: absolute;
+  left: 0;
+  top: 0;
+  width: 22px;
+  height: 22px;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  color: #8a8a8a;
+  font-size: 0.72rem;
+  font-weight: 700;
+  border: 1px solid #3a3a3a;
+  border-radius: 3px;
+  font-variant-numeric: tabular-nums;
+}
+
+.bases-help-steps li strong {
+  color: #d4d4d4;
+  font-weight: 700;
+}
+
+/* Мобильная версия */
+@media (max-width: 1050px) {
+  .bases-help {
+    padding: 14px 16px;
+    margin-top: 18px;
+  }
+  .bases-help-steps li {
+    font-size: 0.88rem;
+    padding-left: 28px;
+  }
+  .bases-help-steps li::before {
+    width: 20px;
+    height: 20px;
+    font-size: 0.65rem;
   }
 }

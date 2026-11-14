@@ -518,7 +518,45 @@ async function loadStickers() {
         grid.appendChild(a);
     }
 }
+/* ============================================================
+   Базы Зюзиков
+   ============================================================ */
+async function loadBases() {
+    const tbody = document.getElementById('basesBody');
+    if (!tbody) return;
 
+    let items;
+    try {
+        items = await fetchJSON('bases.json');
+    } catch (e) {
+        console.warn('Не удалось загрузить bases.json:', e.message);
+        tbody.innerHTML = '<tr><td colspan="2" class="empty-cell">bases.json не найден</td></tr>';
+        return;
+    }
+
+    if (!Array.isArray(items) || items.length === 0) {
+        tbody.innerHTML = '<tr><td colspan="2" class="empty-cell">Список баз пуст</td></tr>';
+        return;
+    }
+
+    tbody.innerHTML = '';
+
+    for (const item of items) {
+        const tr = document.createElement('tr');
+
+        const tdName = document.createElement('td');
+        tdName.className = 'bases-name-cell';
+        tdName.textContent = item.name || '';
+        tr.appendChild(tdName);
+
+        const tdCode = document.createElement('td');
+        tdCode.className = 'bases-code-cell';
+        tdCode.textContent = item.code || '';
+        tr.appendChild(tdCode);
+
+        tbody.appendChild(tr);
+    }
+}
 /* ============================================================
    Алтари
    ============================================================ */
@@ -792,6 +830,6 @@ if (subTypeSelEl) {
         return;
     }
 
-    await Promise.all([loadStickers(), loadAltars(), loadLinks()]);
+        await Promise.all([loadBases(), loadStickers(), loadAltars(), loadLinks()]);
     showSection('bases');
 })();
