@@ -1,0 +1,130 @@
+<!DOCTYPE html>
+<html lang="ru">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>двач /gacha/zzz — добро пожаловать снова</title>
+    <link rel="stylesheet" href="viewer.css">
+</head>
+<body class="index-page bases">
+
+    <header class="site-header">
+        <h1 class="page-title">Двач /gacha/zzz</h1>
+        <div class="page-subtitle">Добро пожаловать. Снова.</div>
+    </header>
+
+    <nav class="top-nav">
+        <button class="nav-btn active" data-section="bases">Базы Зюзиков</button>
+        <button class="nav-btn" data-section="assault">Опасный Штурм</button>
+        <button class="nav-btn" data-section="defence">Оборона Шиюй</button>
+        <button class="nav-btn" data-section="stickers">Стикеры</button>
+        <button class="nav-btn" data-section="altars">Алтари</button>
+    </nav>
+
+    <section class="view active" id="viewBases">
+        <div class="base-codes">
+            <div class="base-row">
+                <span class="base-name">Мышинг</span>
+                <span class="base-code">Код базы: 44743</span>
+            </div>
+            <div class="base-row">
+                <span class="base-name">Мияби</span>
+                <span class="base-code">Код базы: 39053</span>
+            </div>
+            <div class="base-row">
+                <span class="base-name">2ch</span>
+                <span class="base-code">Код базы: 5593</span>
+            </div>
+            <div class="base-row">
+                <span class="base-name">2ch.org/gacha/</span>
+                <span class="base-code">Код базы: 78033</span>
+            </div>
+        </div>
+    </section>
+
+    <section class="view" id="viewTables">
+        <div class="table-selector" id="tableSelector"></div>
+
+        <div id="staminaArea" class="capture-area stamina-area" style="display:none;">
+            <div class="title-wrapper">
+                <div class="main-title" id="staminaTitle">…</div>
+            </div>
+            <table class="edit-table stamina-table" id="staminaTable">
+                <thead id="staminaHead"></thead>
+                <tbody id="staminaBody"></tbody>
+            </table>
+        </div>
+
+        <div id="captureArea" class="capture-area">
+            <div class="title-wrapper">
+                <div class="main-title" id="mainTitle">Загрузка…</div>
+            </div>
+            <table class="edit-table" id="editTable">
+                <thead id="tableHead"></thead>
+                <tbody id="tableBody"></tbody>
+            </table>
+            <div class="participants-line">Участников: <span id="participantsCount">0</span></div>
+        </div>
+    </section>
+
+    <section class="view" id="viewStickers">
+        <div class="sticker-grid">
+            <a class="sticker-card" href="https://2ch.org/makaba/stickers/show/z16EyZ3F" target="_blank" rel="noopener">
+                <span class="sticker-name">Zzz</span>
+                <span class="sticker-url">zzZ</span>
+            </a>
+            <a class="sticker-card" href="https://2ch.org/makaba/stickers/show/tCFWRAiU" target="_blank" rel="noopener">
+                <span class="sticker-name">OctoberPack</span>
+                <span class="sticker-url">giantboy</span>
+            </a>
+            <a class="sticker-card" href="https://2ch.org/makaba/stickers/show/3OOkGVkl" target="_blank" rel="noopener">
+                <span class="sticker-name">Zenless</span>
+                <span class="sticker-url">Zzz</span>
+            </a>
+            <a class="sticker-card" href="https://2ch.org/makaba/stickers/show/CRh7RxMO" target="_blank" rel="noopener">
+                <span class="sticker-name">Zzz2</span>
+                <span class="sticker-url">zzZ2</span>
+            </a>
+            <a class="sticker-card" href="https://2ch.org/makaba/stickers/show/FQCHer9x" target="_blank" rel="noopener">
+                <span class="sticker-name">ZZZero</span>
+                <span class="sticker-url">zzz</span>
+            </a>
+            <a class="sticker-card" href="https://2ch.org/makaba/stickers/show/csZiziNB" target="_blank" rel="noopener">
+                <span class="sticker-name">ZZZSeseren</span>
+                <span class="sticker-url">ZZZSeseren</span>
+            </a>
+        </div>
+        <div class="altar-note">
+            Стикерпаки размещены на 2ch.org и являются творчеством участников сообщества.
+            Права на персонажей — HoYoverse / miHoYo.
+            <a href="rights.html">Подробнее →</a>
+        </div>
+    </section>
+
+    <section class="view" id="viewAltars">
+        <div class="altar-grid" id="altarGrid"></div>
+
+        <div class="altar-note">
+            Алтари — народное творчество участников. Права на персонажей — HoYoverse / miHoYo.
+            <a href="rights.html">Подробнее →</a>
+        </div>
+    </section>
+    <!-- ==================== Модалка алтаря ==================== -->
+    <div class="altar-modal" id="altarModal" hidden>
+        <button class="altar-modal-close" id="altarModalClose" title="Закрыть (Esc)">×</button>
+        <div class="altar-modal-name" id="altarModalName"></div>
+        <div class="altar-modal-body" id="altarModalBody"></div>
+    </div>
+
+    <div class="last-update" id="lastUpdate">—</div>
+    <a class="site-footer-link" href="rights.html">© права</a>
+    <script src="script.js"></script>
+    <script>
+    if ('serviceWorker' in navigator) {
+        window.addEventListener('load', () => {
+        navigator.serviceWorker.register('./sw.js');
+        });
+    }
+    </script>
+</body>
+</html>

@@ -1,0 +1,699 @@
+{
+  "version": 1,
+  "title": "ОБОРОНА ШИЮЙ 30 10 2026",
+  "locked": false,
+  "rows": [
+    {
+      "nick": "MS",
+      "points": "150000",
+      "id": "33dd49e9",
+      "avatar": "avatars/Avatar_Sunna.webp"
+    },
+    {
+      "nick": "SD",
+      "points": "141305",
+      "id": "f300adf2",
+      "avatar": "avatars/belle_wise_b_p_2.png"
+    },
+    {
+      "nick": "MW",
+      "points": "140283",
+      "id": "404cdd7b",
+      "avatar": "avatars/Avatar_Koleda_Belobog.webp"
+    },
+    {
+      "nick": "КА",
+      "points": "138564",
+      "id": "7305b0bf",
+      "avatar": "avatars/ridu_09_26.png"
+    },
+    {
+      "nick": "DR",
+      "points": "135251",
+      "id": "04e9418e",
+      "avatar": "avatars/Avatar_Evelyn_Chevalier.webp"
+    },
+    {
+      "nick": "ЁЁ",
+      "points": "134666",
+      "id": "c907b1f3",
+      "avatar": "avatars/Avatar_Nangong_Yu.webp"
+    },
+    {
+      "nick": "ВА",
+      "points": "133009",
+      "id": "98ed7026",
+      "avatar": "avatars/ridu_09_26.png"
+    },
+    {
+      "nick": "SC",
+      "points": "131252",
+      "id": "0fc702d4",
+      "avatar": "avatars/Avatar_Hoshimi_Miyabi.webp"
+    },
+    {
+      "nick": "ЖЯ",
+      "points": "130396",
+      "id": "4857bd72",
+      "avatar": "avatars/ridu_09_26.png"
+    },
+    {
+      "nick": "ТЙ",
+      "points": "130378",
+      "id": "edbf4a3e",
+      "avatar": "avatars/avatar_severian.png"
+    },
+    {
+      "nick": "MK",
+      "points": "129730",
+      "id": "ff9e52d3",
+      "avatar": "avatars/Avatar_Burnice_White.webp"
+    },
+    {
+      "nick": "NE",
+      "points": "128639",
+      "id": "4959b51f",
+      "avatar": "avatars/Avatar_Default_Anonymous.webp"
+    },
+    {
+      "nick": "WR",
+      "points": "128008",
+      "id": "494f55c7",
+      "avatar": "avatars/Avatar_Tempered_Crown.webp"
+    },
+    {
+      "nick": "CR",
+      "points": "126238",
+      "id": "e3c72a1f",
+      "avatar": "avatars/Avatar_Hoshimi_Miyabi.webp"
+    },
+    {
+      "nick": "RN",
+      "points": "125929",
+      "id": "c0efc449",
+      "avatar": "avatars/Avatar_Remielle_Dan.webp"
+    },
+    {
+      "nick": "MM",
+      "points": "125069",
+      "id": "e1ef8900",
+      "avatar": "avatars/Avatar_Alice_Thymefield.webp"
+    },
+    {
+      "nick": "XE",
+      "points": "123446",
+      "id": "adfb4dbc",
+      "avatar": "avatars/Avatar_Hoshimi_Miyabi.webp"
+    },
+    {
+      "nick": "ED",
+      "points": "122452",
+      "id": "cceac96c",
+      "avatar": "avatars/Avatar_Qingyi.webp"
+    },
+    {
+      "nick": "MH",
+      "points": "121748",
+      "id": "1b8aa508",
+      "avatar": "avatars/Avatar_Tempered_Crown.webp"
+    },
+    {
+      "nick": "SD",
+      "points": "121424",
+      "id": "5d8751bc",
+      "avatar": "avatars/Avatar_Ju_Fufu.webp"
+    },
+    {
+      "nick": "ME",
+      "points": "120934",
+      "id": "9fc1987b",
+      "avatar": "avatars/Avatar_Hoshimi_Miyabi.webp"
+    },
+    {
+      "nick": "MH",
+      "points": "120285",
+      "id": "5bbf6901",
+      "avatar": "avatars/Avatar_Alexandrina_Sebastiane.webp"
+    },
+    {
+      "nick": "КИ",
+      "points": "119959",
+      "id": "fde6f094",
+      "avatar": "avatars/Avatar_Norma_Hollowell.webp"
+    },
+    {
+      "nick": "НУ",
+      "points": "119498",
+      "id": "b19cb5d9",
+      "avatar": "avatars/Avatar_Tempered_Crown.webp"
+    },
+    {
+      "nick": "BO",
+      "points": "119242",
+      "id": "3286b2f3",
+      "avatar": "avatars/Avatar_Starlight_-_Billy_Kid.webp"
+    },
+    {
+      "nick": "HA",
+      "points": "118595",
+      "id": "ef669066",
+      "avatar": "avatars/Avatar_Zhu_Yuan.webp"
+    },
+    {
+      "nick": "ЦУ",
+      "points": "118111",
+      "id": "4043ac45",
+      "avatar": "avatars/Avatar_Norma_Hollowell.webp"
+    },
+    {
+      "nick": "YY",
+      "points": "117079",
+      "id": "02f35ac4",
+      "avatar": "avatars/Avatar_Tempered_Crown.webp"
+    },
+    {
+      "nick": "K7",
+      "points": "116954",
+      "id": "3e1323d0",
+      "avatar": "avatars/Avatar_Hoshimi_Miyabi.webp"
+    },
+    {
+      "nick": "LA",
+      "points": "116909",
+      "id": "5ed45566",
+      "avatar": "avatars/Avatar_Nicole_Demara.webp"
+    },
+    {
+      "nick": "WM",
+      "points": "116118",
+      "id": "dcf480a3",
+      "avatar": "avatars/Avatar_Evelyn_Chevalier.webp"
+    },
+    {
+      "nick": "PO",
+      "points": "116104",
+      "id": "29902bb0",
+      "avatar": "avatars/Avatar_Alice_Thymefield.webp"
+    },
+    {
+      "nick": "MO",
+      "points": "115929",
+      "id": "36c19cd3",
+      "avatar": "avatars/avatar_phoenix.png"
+    },
+    {
+      "nick": "DO",
+      "points": "115654",
+      "id": "e4f461c2",
+      "avatar": "avatars/Avatar_%2522My_Love_For_You%2522.webp"
+    },
+    {
+      "nick": "KU",
+      "points": "114313",
+      "id": "0a6c230f",
+      "avatar": "avatars/Avatar_Hoshimi_Miyabi.webp"
+    },
+    {
+      "nick": "A0",
+      "points": "113111",
+      "id": "abbd1b6e",
+      "avatar": "avatars/Avatar_Tempered_Crown.webp"
+    },
+    {
+      "nick": "AG",
+      "points": "113084",
+      "id": "0d0180eb",
+      "avatar": "avatars/Avatar_Remielle_Dan.webp"
+    },
+    {
+      "nick": "AM",
+      "points": "112655",
+      "id": "384f85ed",
+      "avatar": "avatars/Avatar_Velina_Airgid.webp"
+    },
+    {
+      "nick": "BN",
+      "points": "112139",
+      "id": "e456a704",
+      "avatar": "avatars/avatar_phoenix.png"
+    },
+    {
+      "nick": "KA",
+      "points": "112059",
+      "id": "5d9b165e",
+      "avatar": "avatars/Avatar_Zhao.webp"
+    },
+    {
+      "nick": "ML",
+      "points": "111920",
+      "id": "07916b53",
+      "avatar": "avatars/Avatar_Blessed_by_Glory_The_Crown.webp"
+    },
+    {
+      "nick": "СЫ",
+      "points": "111761",
+      "id": "371c77f6",
+      "avatar": "avatars/Avatar_Banyue.webp"
+    },
+    {
+      "nick": "МЬ",
+      "points": "111011",
+      "id": "10c7cb83",
+      "avatar": "avatars/Avatar_Jane_Doe.webp"
+    },
+    {
+      "nick": "KR",
+      "points": "110223",
+      "id": "d668aa19",
+      "avatar": "avatars/Avatar_Remielle_Dan.webp"
+    },
+    {
+      "nick": "RF",
+      "points": "109804",
+      "id": "4b7676fd",
+      "avatar": "avatars/Avatar_A_Flavorful_Journey_Home.webp"
+    },
+    {
+      "nick": "YU",
+      "points": "109028",
+      "id": "d3a00e9f",
+      "avatar": "avatars/Avatar_Default_Anonymous.webp"
+    },
+    {
+      "nick": "LD",
+      "points": "108932",
+      "id": "7d641735",
+      "avatar": "avatars/Avatar_Hoshimi_Miyabi.webp"
+    },
+    {
+      "nick": "ZE",
+      "points": "108895",
+      "id": "bc96fd7c",
+      "avatar": "avatars/Avatar_Starlight_-_Billy_Kid.webp"
+    },
+    {
+      "nick": "NA",
+      "points": "108507",
+      "id": "fc255113",
+      "avatar": "avatars/Avatar_Tempered_Crown.webp"
+    },
+    {
+      "nick": "ИН",
+      "points": "108305",
+      "id": "74f46a58",
+      "avatar": "avatars/Avatar_Hoshimi_Miyabi.webp"
+    },
+    {
+      "nick": "DI",
+      "points": "108018",
+      "id": "cbbbd416",
+      "avatar": "avatars/Avatar_Seed.webp"
+    },
+    {
+      "nick": "TB",
+      "points": "107888",
+      "id": "7ebf1e52",
+      "avatar": "avatars/Avatar_Ye_Shunguang.webp"
+    },
+    {
+      "nick": "CA",
+      "points": "107579",
+      "id": "5c77a468",
+      "avatar": "avatars/Avatar_All_Magic_Is_a_Miracle.webp"
+    },
+    {
+      "nick": "BY",
+      "points": "107262",
+      "id": "9057f45a",
+      "avatar": "avatars/Avatar_Starlight_-_Billy_Kid.webp"
+    },
+    {
+      "nick": "BR",
+      "points": "106531",
+      "id": "5d790795",
+      "avatar": "avatars/Avatar_Crowned_by_Waves_Apex.webp"
+    },
+    {
+      "nick": "NE",
+      "points": "105530",
+      "id": "c252c99d",
+      "avatar": "avatars/Avatar_Camera_Sense.webp"
+    },
+    {
+      "nick": "BR",
+      "points": "105456",
+      "id": "ba938d27",
+      "avatar": "avatars/Avatar_Trigger.webp"
+    },
+    {
+      "nick": "TN",
+      "points": "105266",
+      "id": "1fbb338b",
+      "avatar": "avatars/Avatar_Luciana_de_Montefio.webp"
+    },
+    {
+      "nick": "AS",
+      "points": "105222",
+      "id": "62ae6f90",
+      "avatar": "avatars/Avatar_Orphie_Magnusson_%2526_Magus.webp"
+    },
+    {
+      "nick": "D4",
+      "points": "104871",
+      "id": "4b01b43a",
+      "avatar": "avatars/Avatar_Ju_Fufu.webp"
+    },
+    {
+      "nick": "АТ",
+      "points": "104296",
+      "id": "c0b6877f",
+      "avatar": "avatars/Avatar_Cissia.webp"
+    },
+    {
+      "nick": "PN",
+      "points": "104217",
+      "id": "ac0d41bb",
+      "avatar": "avatars/Avatar_Soldier_11.webp"
+    },
+    {
+      "nick": "ЧЦ",
+      "points": "103262",
+      "id": "32070fbb",
+      "avatar": "avatars/Avatar_Pulchra_Fellini.webp"
+    },
+    {
+      "nick": "KI",
+      "points": "102866",
+      "id": "8fc7c800",
+      "avatar": "avatars/avatar_severian.png"
+    },
+    {
+      "nick": "KA",
+      "points": "102295",
+      "id": "f7dbdff4",
+      "avatar": "avatars/Avatar_Ukinami_Yuzuha.webp"
+    },
+    {
+      "nick": "ФА",
+      "points": "102085",
+      "id": "263a36fc",
+      "avatar": "avatars/Avatar_Banyue.webp"
+    },
+    {
+      "nick": "DL",
+      "points": "101579",
+      "id": "2e6c7a60",
+      "avatar": "avatars/Avatar_Zhu_Yuan.webp"
+    },
+    {
+      "nick": "DS",
+      "points": "100876",
+      "id": "bf7d2db9",
+      "avatar": "avatars/Avatar_Qingyi.webp"
+    },
+    {
+      "nick": "CS",
+      "points": "100661",
+      "id": "a5cc7f88",
+      "avatar": "avatars/Avatar_Remielle_Dan.webp"
+    },
+    {
+      "nick": "KP",
+      "points": "100349",
+      "id": "fd20d6c3",
+      "avatar": "avatars/Avatar_Zhu_Yuan.webp"
+    },
+    {
+      "nick": "HO",
+      "points": "100321",
+      "id": "ae6c79d1",
+      "avatar": "avatars/Avatar_A_Flavorful_Journey_Home.webp"
+    },
+    {
+      "nick": "VP",
+      "points": "99719",
+      "id": "17f7166a",
+      "avatar": "avatars/Avatar_Fragrant_Infusion.webp"
+    },
+    {
+      "nick": "LK",
+      "points": "99470",
+      "id": "c9932d6c",
+      "avatar": "avatars/Avatar_Ellen_Joe.webp"
+    },
+    {
+      "nick": "BA",
+      "points": "98965",
+      "id": "c7d53ee6",
+      "avatar": "avatars/Avatar_Aria.webp"
+    },
+    {
+      "nick": "HA",
+      "points": "98904",
+      "id": "a4aa9ebe",
+      "avatar": "avatars/Avatar_Zhao.webp"
+    },
+    {
+      "nick": "EH",
+      "points": "98682",
+      "id": "85bb56b3",
+      "avatar": "avatars/Avatar_Ellen_Joe.webp"
+    },
+    {
+      "nick": "AN",
+      "points": "98365",
+      "id": "2cbf4a94",
+      "avatar": "avatars/Avatar_Ellen_Joe.webp"
+    },
+    {
+      "nick": "DR",
+      "points": "97831",
+      "id": "35cb9028",
+      "avatar": "avatars/Avatar_Default_Cat.webp"
+    },
+    {
+      "nick": "KD",
+      "points": "97454",
+      "id": "8e4a3128",
+      "avatar": "avatars/Avatar_Velina_Airgid.webp"
+    },
+    {
+      "nick": "LN",
+      "points": "96919",
+      "id": "0951caa8",
+      "avatar": "avatars/Avatar_Ukinami_Yuzuha.webp"
+    },
+    {
+      "nick": "LE",
+      "points": "96019",
+      "id": "124ab232",
+      "avatar": "avatars/Avatar_Ben_Bigger.webp"
+    },
+    {
+      "nick": "WE",
+      "points": "95177",
+      "id": "cca1a928",
+      "avatar": "avatars/Avatar_Default_Anonymous.webp"
+    },
+    {
+      "nick": "PE",
+      "points": "92364",
+      "id": "716ac6f0",
+      "avatar": "avatars/Avatar_Sunna.webp"
+    },
+    {
+      "nick": "D9",
+      "points": "92318",
+      "id": "b11aeaf7",
+      "avatar": "avatars/Avatar_Hoshimi_Miyabi.webp"
+    },
+    {
+      "nick": "KA",
+      "points": "91555",
+      "id": "852700f8",
+      "avatar": "avatars/Avatar_Promeia.webp"
+    },
+    {
+      "nick": "ML",
+      "points": "91282",
+      "id": "c939e0b0",
+      "avatar": "avatars/Avatar_Claret_Flint.webp"
+    },
+    {
+      "nick": "KK",
+      "points": "91273",
+      "id": "e9374be8",
+      "avatar": "avatars/Avatar_Sigrid_de_L%2527Azur.webp"
+    },
+    {
+      "nick": "GG",
+      "points": "90101",
+      "id": "09395b14",
+      "avatar": "avatars/Avatar_Deadly_Assault_Line_Breaker.webp"
+    },
+    {
+      "nick": "FK",
+      "points": "90027",
+      "id": "b3cd578d",
+      "avatar": "avatars/Avatar_Jane_Doe.webp"
+    },
+    {
+      "nick": "WR",
+      "points": "89545",
+      "id": "bf52bf2a",
+      "avatar": "avatars/Avatar_Ju_Fufu.webp"
+    },
+    {
+      "nick": "HN",
+      "points": "89083",
+      "id": "69b962c3",
+      "avatar": "avatars/Avatar_Subtle_Wink.webp"
+    },
+    {
+      "nick": "АЙ",
+      "points": "89005",
+      "id": "e1c1a9ca",
+      "avatar": "avatars/Avatar_Sunna.webp"
+    },
+    {
+      "nick": "TE",
+      "points": "88199",
+      "id": "35c60b86",
+      "avatar": "avatars/Avatar_Default_Anonymous.webp"
+    },
+    {
+      "nick": "CL",
+      "points": "88133",
+      "id": "b3f465e9",
+      "avatar": "avatars/avatar_phoenix.png"
+    },
+    {
+      "nick": "АА",
+      "points": "87848",
+      "id": "896c39cc",
+      "avatar": "avatars/Avatar_Jane_Doe.webp"
+    },
+    {
+      "nick": "JN",
+      "points": "87820",
+      "id": "9fd21aa6",
+      "avatar": "avatars/Avatar_Grace_Howard.webp"
+    },
+    {
+      "nick": "LR",
+      "points": "87457",
+      "id": "dd392274",
+      "avatar": "avatars/Avatar_Caesar_King.webp"
+    },
+    {
+      "nick": "LY",
+      "points": "87377",
+      "id": "6058d008",
+      "avatar": "avatars/Avatar_Sigrid_de_L%2527Azur.webp"
+    },
+    {
+      "nick": "ZA",
+      "points": "87241",
+      "id": "5aca9ba3",
+      "avatar": "avatars/Avatar_Fragrant_Infusion.webp"
+    },
+    {
+      "nick": "FL",
+      "points": "87140",
+      "id": "a3010121",
+      "avatar": "avatars/Avatar_Remielle_Dan.webp"
+    },
+    {
+      "nick": "ТЛ",
+      "points": "86926",
+      "id": "38f0d092",
+      "avatar": "avatars/Avatar_Hoshimi_Miyabi.webp"
+    },
+    {
+      "nick": "NI",
+      "points": "86764",
+      "id": "e16d863f",
+      "avatar": "avatars/Avatar_Ju_Fufu.webp"
+    },
+    {
+      "nick": "YO",
+      "points": "86353",
+      "id": "347b5412",
+      "avatar": "avatars/Avatar_Burnice_White.webp"
+    },
+    {
+      "nick": "AA",
+      "points": "86216",
+      "id": "8d8f469e",
+      "avatar": "avatars/Avatar_Endless_Ascension_Smooth_Path.webp"
+    },
+    {
+      "nick": "WE",
+      "points": "85881",
+      "id": "2297d4f1",
+      "avatar": "avatars/belle_wise_event.png"
+    },
+    {
+      "nick": "NN",
+      "points": "84689",
+      "id": "45aa66a7",
+      "avatar": "avatars/Avatar_Luciana_de_Montefio.webp"
+    },
+    {
+      "nick": "OA",
+      "points": "84569",
+      "id": "596538e7",
+      "avatar": "avatars/Avatar_Sigrid_de_L%2527Azur.webp"
+    },
+    {
+      "nick": "KA",
+      "points": "84345",
+      "id": "14a111dd",
+      "avatar": "avatars/Avatar_Deadly_Assault_Line_Breaker.webp"
+    },
+    {
+      "nick": "BE",
+      "points": "84275",
+      "id": "0fe7c9ef",
+      "avatar": "avatars/Avatar_Vivian_Banshee.webp"
+    },
+    {
+      "nick": "MA",
+      "points": "83008",
+      "id": "7b85f25b",
+      "avatar": "avatars/Avatar_Claret_Flint.webp"
+    },
+    {
+      "nick": "SN",
+      "points": "82210",
+      "id": "242870a1",
+      "avatar": "avatars/Avatar_Nangong_Yu.webp"
+    },
+    {
+      "nick": "NX",
+      "points": "81826",
+      "id": "b076d064",
+      "avatar": "avatars/Avatar_Von_Lycaon.webp"
+    },
+    {
+      "nick": "TS",
+      "points": "79658",
+      "id": "b745bc18",
+      "avatar": "avatars/Avatar_Zhao.webp"
+    },
+    {
+      "nick": "LT",
+      "points": "78644",
+      "id": "f816cb47",
+      "avatar": "avatars/Avatar_Anby_Demara.webp"
+    },
+    {
+      "nick": "AR",
+      "points": "78549",
+      "id": "905bf326",
+      "avatar": "avatars/Avatar_Ukinami_Yuzuha.webp"
+    }
+  ],
+  "savedAt": "2026-11-13T02:49:05.731Z",
+  "type": "defence"
+}

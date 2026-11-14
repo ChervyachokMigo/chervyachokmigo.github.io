@@ -1,0 +1,703 @@
+/* ============================================================
+   Переменные акцента — по разделу
+   ============================================================ */
+body.bases    { --accent: #7ec8e3; --accent-dark: #3d8ba8; }  /* голубой */
+body.assault  { --accent: #f5e900; --accent-dark: #8a7e00; }  /* жёлтый */
+body.defence  { --accent: #ff9500; --accent-dark: #b06a00; }  /* оранжевый */
+body.stickers { --accent: #4ade80; --accent-dark: #1f9e58; }  /* зелёный */
+body.altars   { --accent: #f472b6; --accent-dark: #b8387a; }  /* розовый */
+
+/* ============================================================
+   Базовая типографика
+   ============================================================ */
+* { margin: 0; padding: 0; box-sizing: border-box; }
+
+body {
+  background: #1e1e1e;
+  font-family: 'Segoe UI', Roboto, Arial, sans-serif;
+  color: #e1e1e6;
+  min-height: 100vh;
+}
+
+body.index-page {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  justify-content: flex-start;
+  padding: 40px 20px 80px !important;
+}
+
+/* ============================================================
+   Заголовок сайта (две строки)
+   ============================================================ */
+.site-header {
+  width: 100%;
+  max-width: 982px;
+  margin: 0 0 40px;
+  padding-bottom: 16px;
+  border-bottom: 4px solid var(--accent);
+  text-align: center;
+}
+
+.page-title {
+  color: var(--accent);
+  font-size: clamp(2rem, 5vw, 3rem);
+  font-weight: 800;
+  text-transform: none;
+  letter-spacing: 4px;
+  line-height: 1.1;
+  margin: 0;
+  font-family: 'Segoe UI', 'Arial Black', Impact, sans-serif;
+  word-break: break-word;
+}
+
+.page-subtitle {
+  color: var(--accent);
+  font-size: clamp(0.75rem, 1.4vw, 0.95rem);
+  font-weight: 500;
+  text-transform: uppercase;
+  letter-spacing: 6px;
+  margin-top: 12px;
+  opacity: 0.7;
+  font-family: 'Segoe UI', sans-serif;
+}
+
+/* ============================================================
+   Верхнее меню (5 разделов)
+   ============================================================ */
+.top-nav {
+  display: flex;
+  gap: 12px;
+  margin-bottom: 30px;
+  flex-wrap: wrap;
+  justify-content: center;
+  width: 100%;
+  max-width: 982px;
+}
+
+.nav-btn {
+  flex: 1 1 160px;
+  background: #0d0d0d;
+  color: var(--accent);
+  border: 2px solid var(--accent);
+  padding: 16px 18px;
+  font-size: 0.95rem;
+  font-weight: 700;
+  cursor: pointer;
+  text-transform: uppercase;
+  letter-spacing: 1.5px;
+  font-family: 'Segoe UI', sans-serif;
+  transition: 0.15s;
+}
+
+.nav-btn:hover  { background: #1c1c1c; }
+.nav-btn.active { background: var(--accent); color: #0d0d0d; }
+.nav-btn:disabled { opacity: 0.4; cursor: not-allowed; }
+
+/* ============================================================
+   Views — переключение разделов
+   ============================================================ */
+.view { display: none; width: 100%; }
+.view.active {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+}
+
+/* ---------- Коды баз ---------- */
+.base-codes {
+  background: rgba(13, 13, 13, 0.92);
+  border: 1px solid #333;
+  padding: 12px 18px;
+  margin-bottom: 30px;
+  width: 100%;
+  max-width: 982px;
+  display: flex;
+  flex-direction: column;
+}
+
+.base-row {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  gap: 16px;
+  padding: 12px 4px;
+  border-bottom: 1px dashed #333;
+  font-family: 'Segoe UI', sans-serif;
+  color: var(--accent);
+  text-transform: uppercase;
+  letter-spacing: 1.5px;
+  font-size: 0.95rem;
+  font-weight: 600;
+}
+.base-row:last-child { border-bottom: none; }
+.base-name { font-weight: 600; }
+.base-code {
+  color: var(--accent);
+  font-weight: 800;
+  white-space: nowrap;
+  font-variant-numeric: tabular-nums;
+  font-size: 1rem;
+  letter-spacing: 1px;
+}
+
+/* ============================================================
+   Выбор таблицы (Штурм / Оборона)
+   ============================================================ */
+.table-selector {
+  display: flex;
+  gap: 8px;
+  margin-bottom: 24px;
+  flex-wrap: wrap;
+  justify-content: center;
+  width: 100%;
+  max-width: 982px;
+  padding: 12px;
+  background: rgba(13, 13, 13, 0.92);
+  border: 1px solid #333;
+  max-height: 220px;
+  overflow-y: auto;
+}
+
+.table-btn {
+  background: #0d0d0d;
+  color: var(--accent);
+  border: 1px solid var(--accent);
+  padding: 8px 14px;
+  font-size: 0.8rem;
+  font-weight: 600;
+  cursor: pointer;
+  text-transform: uppercase;
+  letter-spacing: 1px;
+  font-family: 'Segoe UI', sans-serif;
+  transition: 0.15s;
+  white-space: nowrap;
+  max-width: 100%;
+  overflow: hidden;
+  text-overflow: ellipsis;
+}
+
+.table-btn:hover  { background: #1c1c1c; }
+.table-btn.active { background: var(--accent); color: #0d0d0d; }
+
+.empty-selector {
+  color: #666;
+  font-size: 0.9rem;
+  padding: 8px;
+  text-transform: uppercase;
+  letter-spacing: 1px;
+}
+
+/* ============================================================
+   Заглушка раздела
+   ============================================================ */
+.empty-msg {
+  color: #666;
+  font-size: 1.2rem;
+  text-transform: uppercase;
+  letter-spacing: 3px;
+  padding: 60px 20px;
+  text-align: center;
+  border: 1px dashed #333;
+  width: 100%;
+  max-width: 982px;
+  background: rgba(13, 13, 13, 0.5);
+}
+
+/* ============================================================
+   Контейнер таблицы
+   ============================================================ */
+.capture-area {
+  background: #1a1a1a;
+  padding: 40px 60px 50px 60px;
+  box-shadow: 0 10px 25px rgba(0,0,0,0.7);
+  width: fit-content;
+}
+.title-wrapper { text-align: center; }
+.main-title {
+  color: var(--accent);
+  font-size: 3rem; font-weight: 800;
+  text-transform: uppercase; letter-spacing: 6px; line-height: 1.1;
+  text-align: center; margin-bottom: 30px;
+  font-family: 'Segoe UI', 'Arial Black', Impact, sans-serif;
+  border-bottom: 4px solid var(--accent);
+  padding-bottom: 15px; display: inline-block; width: 100%;
+}
+
+/* ============================================================
+   Таблица
+   ============================================================ */
+.edit-table {
+  width: 982px; max-width: 100%;
+  margin: 0 auto; border-collapse: collapse; table-layout: fixed;
+  user-select: text; border: 1px solid #333;
+}
+
+.edit-table th {
+  background: #0d0d0d;
+  color: #b8a878;
+  font-size: 0.92rem;
+  font-weight: 700;
+  text-transform: uppercase;
+  letter-spacing: 1px;
+  padding: 14px 10px 14px 6px;
+  text-align: center;
+  border-bottom: 1px solid #262626;
+  border-right: 1px dashed #2a2a2a;
+  white-space: nowrap;
+  overflow: hidden;
+  text-overflow: ellipsis;
+}
+.edit-table th:last-child { border-right: none; }
+
+.edit-table td {
+  background: #111111; color: var(--accent);
+  padding: 14px 14px 14px 6px;
+  font-size: 1.6rem;
+  font-weight: 700;
+  height: 62px; text-align: center; vertical-align: middle;
+  word-break: break-word; white-space: pre-wrap;
+  border-bottom: 1px solid rgba(255, 255, 255, 0.05);
+  border-right: 1px dashed #2a2a2a;
+}
+.edit-table td:last-child { border-right: none; }
+.edit-table tr:last-child td { border-bottom: none; }
+
+.edit-table tbody tr:nth-child(even) td { background: #181818; }
+
+/* ---------- Числовые колонки ---------- */
+.edit-table th.num-col,
+.edit-table td.num-cell {
+  text-align: center;
+  padding-left: 6px;
+  padding-right: 6px;
+  font-variant-numeric: tabular-nums;
+  font-feature-settings: "tnum" 1;
+  white-space: nowrap;
+  overflow: hidden;
+}
+
+.edit-table th.rating-col,
+.edit-table td.rating-cell {
+  width: 148px;
+  text-align: center;
+  padding-left: 6px;
+  padding-right: 6px;
+  white-space: nowrap;
+}
+.edit-table td.rating-cell {
+  font-size: 1.45rem;
+  letter-spacing: 0.5px;
+  color: var(--accent);
+}
+
+.edit-table th.test-col,
+.edit-table td.test-cell,
+.edit-table th.stamina-col,
+.edit-table td.stamina-cell {
+  padding-left: 2px;
+  padding-right: 2px;
+}
+.edit-table th.test-col,
+.edit-table th.stamina-col {
+  width: 140px;
+}
+
+.edit-table td.points-cell {
+  color: var(--accent);
+  font-size: 1.5rem;
+  letter-spacing: 0.3px;
+  padding-right: 6px;
+}
+.edit-table td.points-cell.high-score {
+  color: #cfcfcf;
+  text-shadow: 0 0 8px rgba(200, 200, 200, 0.55), 0 0 2px rgba(255, 255, 255, 0.4);
+}
+
+/* ---------- Аватары ---------- */
+.edit-table th.avatar-col,
+.edit-table td.avatar-cell {
+  width: 96px;
+  padding: 6px;
+}
+.edit-table th.nick-col,
+.edit-table td.nick-cell {
+  width: 180px;
+}
+.avatar-cell img {
+  width: 64px; height: 64px; object-fit: cover;
+  display: block; margin: 0 auto;
+  background: transparent;
+}
+.avatar-cell .no-avatar {
+  color: #444;
+  font-size: 1.4rem;
+  font-weight: 500;
+  display: block;
+  text-align: center;
+}
+
+/* ============================================================
+   Разница с предыдущей таблицей
+   ============================================================ */
+.edit-table td .cell-diff {
+  display: block;
+  font-size: 0.95rem;
+  font-weight: 700;
+  letter-spacing: 0.5px;
+  line-height: 1.1;
+  margin-top: 2px;
+  white-space: nowrap;
+  pointer-events: none;
+}
+.edit-table td .cell-diff.positive {
+  color: #43d17a;
+  text-shadow: 0 0 6px rgba(67, 209, 122, 0.35);
+}
+.edit-table td .cell-diff.negative {
+  color: #ff4b3e;
+  text-shadow: 0 0 6px rgba(255, 75, 62, 0.35);
+}
+
+/* ============================================================
+   Участники
+   ============================================================ */
+.participants-line {
+  margin-top: 24px; padding-top: 14px;
+  border-top: 2px solid var(--accent);
+  color: var(--accent); font-size: 1.4rem; font-weight: 700;
+  letter-spacing: 3px; text-transform: uppercase; text-align: right;
+  font-family: 'Segoe UI', 'Arial Black', Impact, sans-serif;
+}
+.participants-line span { font-size: 1.6rem; font-weight: 800; }
+
+/* ============================================================
+   Дополнительная таблица СТОЙКОСТИ (показывается выше основной)
+   ============================================================ */
+.stamina-area {
+  margin-bottom: 50px;
+}
+
+.sub-title {
+  color: var(--accent);
+  font-size: 1.6rem;
+  font-weight: 800;
+  text-transform: uppercase;
+  letter-spacing: 4px;
+  line-height: 1.1;
+  text-align: center;
+  margin-bottom: 20px;
+  padding-bottom: 10px;
+  border-bottom: 2px solid var(--accent);
+  font-family: 'Segoe UI', 'Arial Black', Impact, sans-serif;
+}
+
+.edit-table.stamina-table {
+  width: 900px;
+  max-width: 100%;
+}
+
+/* ============================================================
+   Сетка стикеров
+   ============================================================ */
+.sticker-grid {
+  display: grid;
+  grid-template-columns: repeat(auto-fill, minmax(280px, 1fr));
+  gap: 12px;
+  width: 100%;
+  max-width: 982px;
+}
+
+.sticker-card {
+  display: flex;
+  flex-direction: column;
+  gap: 8px;
+  padding: 18px 22px;
+  background: #0d0d0d;
+  border: 2px solid var(--accent);
+  text-decoration: none;
+  color: var(--accent);
+  text-transform: uppercase;
+  letter-spacing: 1.5px;
+  font-family: 'Segoe UI', sans-serif;
+  font-weight: 700;
+  transition: 0.15s;
+}
+
+.sticker-card:hover {
+  background: var(--accent);
+  color: #0d0d0d;
+}
+
+.sticker-card .sticker-name {
+  font-size: 1.1rem;
+  letter-spacing: 2px;
+}
+
+.sticker-card .sticker-url {
+  font-size: 0.7rem;
+  opacity: 0.55;
+  font-weight: 500;
+  letter-spacing: 0.3px;
+  text-transform: none;
+  word-break: break-all;
+}
+
+.sticker-card:hover .sticker-url { opacity: 0.8; }
+
+/* ============================================================
+   Сетка алтарей (компактные кнопки)
+   ============================================================ */
+.altar-grid {
+  display: grid;
+  grid-template-columns: repeat(auto-fill, minmax(240px, 1fr));
+  gap: 12px;
+  width: 100%;
+  max-width: 982px;
+}
+
+.altar-card {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  gap: 12px;
+  padding: 16px 20px;
+  background: #0d0d0d;
+  border: 2px solid var(--accent);
+  color: var(--accent);
+  text-transform: uppercase;
+  letter-spacing: 1.5px;
+  font-family: 'Segoe UI', sans-serif;
+  font-weight: 700;
+  cursor: pointer;
+  transition: 0.15s;
+  text-align: left;
+}
+
+.altar-card:hover,
+.altar-card.active {
+  background: var(--accent);
+  color: #0d0d0d;
+}
+
+.altar-name {
+  font-size: 1rem;
+  letter-spacing: 1.5px;
+  word-break: break-word;
+}
+.altar-info {
+  display: flex;
+  align-items: center;
+  gap: 8px;
+  flex-wrap: wrap;
+  min-width: 0;
+}
+
+.altar-version {
+  flex-shrink: 0;
+  font-size: 0.75rem;
+  font-weight: 700;
+  letter-spacing: 1px;
+  padding: 2px 8px;
+  border: 1px solid currentColor;
+  border-radius: 3px;
+  opacity: 0.75;
+  white-space: nowrap;
+}
+.altar-tag {
+  flex-shrink: 0;
+  font-size: 0.7rem;
+  font-weight: 700;
+  letter-spacing: 1px;
+  padding: 3px 8px;
+  border: 1px solid currentColor;
+  border-radius: 3px;
+  opacity: 0.6;
+}
+
+.altar-card:hover .altar-tag,
+.altar-card.active .altar-tag { opacity: 1; }
+
+/* ============================================================
+   Полноэкранная модалка алтаря
+   ============================================================ */
+.altar-modal {
+  position: fixed;
+  inset: 0;
+  z-index: 2000;
+  background: rgba(0, 0, 0, 0.95);
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  justify-content: center;
+  padding: 60px 20px 20px;
+  animation: altarFadeIn 0.15s ease-out;
+}
+
+.altar-modal[hidden] { display: none; }
+
+@keyframes altarFadeIn {
+  from { opacity: 0; }
+  to   { opacity: 1; }
+}
+
+.altar-modal-close {
+  position: fixed;
+  top: 16px;
+  right: 16px;
+  width: 48px;
+  height: 48px;
+  background: transparent;
+  color: var(--accent);
+  border: 2px solid var(--accent);
+  font-size: 1.8rem;
+  font-weight: 700;
+  line-height: 1;
+  cursor: pointer;
+  font-family: 'Segoe UI', sans-serif;
+  transition: 0.15s;
+  z-index: 2001;
+}
+
+.altar-modal-close:hover {
+  background: var(--accent);
+  color: #0d0d0d;
+}
+
+.altar-modal-name {
+  position: fixed;
+  top: 16px;
+  left: 16px;
+  color: var(--accent);
+  font-size: 1rem;
+  font-weight: 700;
+  text-transform: uppercase;
+  letter-spacing: 2px;
+  padding: 10px 16px;
+  border: 2px solid var(--accent);
+  background: rgba(13, 13, 13, 0.9);
+  max-width: calc(100% - 100px);
+  word-break: break-word;
+  z-index: 2001;
+}
+
+.altar-modal-body {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  width: 100%;
+  height: 100%;
+  overflow: hidden;
+}
+
+.altar-modal-body img,
+.altar-modal-body video {
+  max-width: 100%;
+  max-height: 100%;
+  object-fit: contain;
+  display: block;
+  box-shadow: 0 8px 40px rgba(0, 0, 0, 0.9);
+}
+
+/* Мобильная версия — размер модалки */
+@media (max-width: 700px) {
+  .altar-modal { padding: 56px 10px 10px; }
+  .altar-modal-close { width: 40px; height: 40px; font-size: 1.5rem; top: 8px; right: 8px; }
+  .altar-modal-name { font-size: 0.85rem; padding: 8px 12px; top: 8px; left: 8px; }
+}
+
+/* ============================================================
+   Последнее обновление
+   ============================================================ */
+.last-update {
+  position: fixed;
+  left: 12px;
+  bottom: 6px;
+  color: #666;
+  background: rgba(13,13,13,0.75);
+  padding: 4px 10px;
+  border: 1px solid #2a2a2a;
+  font-size: 0.68rem;
+  letter-spacing: 1px;
+  text-transform: uppercase;
+  font-family: 'Segoe UI', sans-serif;
+  z-index: 90;
+  pointer-events: none;
+}
+
+/* ============================================================
+   Мобильная адаптация
+   ============================================================ */
+@media (max-width: 1050px) {
+  .capture-area {
+    padding: 20px 15px 30px;
+    max-width: 100%;
+    overflow-x: auto;
+  }
+  .main-title { font-size: 1.8rem; letter-spacing: 3px; }
+  .page-title { font-size: 1.8rem; letter-spacing: 2px; }
+  .page-subtitle { letter-spacing: 4px; font-size: 0.8rem; }
+  .base-row   { font-size: 0.82rem; letter-spacing: 1px; }
+  .base-code  { font-size: 0.85rem; }
+  .nav-btn    { padding: 12px 14px; font-size: 0.85rem; letter-spacing: 1px; }
+  .table-btn  { font-size: 0.72rem; padding: 6px 10px; }
+  .sticker-grid { grid-template-columns: 1fr; }
+  .altar-grid   { grid-template-columns: 1fr; }
+  .sub-title { font-size: 1.2rem; letter-spacing: 2px; }
+  .stamina-area { margin-bottom: 30px; }
+}
+/* ============================================================
+   Сноска под алтарями
+   ============================================================ */
+.altar-note {
+  margin-top: 24px;
+  width: 100%;
+  max-width: 982px;
+  color: #666;
+  font-size: 0.78rem;
+  line-height: 1.5;
+  text-align: center;
+  letter-spacing: 0.5px;
+  padding: 12px 16px;
+  border-top: 1px dashed #333;
+  font-family: 'Segoe UI', sans-serif;
+}
+
+.altar-note a {
+  color: var(--accent);
+  text-decoration: none;
+  border-bottom: 1px dashed var(--accent);
+  margin-left: 6px;
+  white-space: nowrap;
+}
+
+.altar-note a:hover {
+  background: var(--accent);
+  color: #0d0d0d;
+  border-bottom-color: transparent;
+}
+
+/* ============================================================
+   Футер — маленькая ссылка на права
+   ============================================================ */
+.site-footer-link {
+  position: fixed;
+  right: 12px;
+  bottom: 6px;
+  color: #666;
+  background: rgba(13, 13, 13, 0.75);
+  padding: 4px 10px;
+  border: 1px solid #2a2a2a;
+  font-size: 0.68rem;
+  letter-spacing: 1px;
+  text-transform: uppercase;
+  text-decoration: none;
+  font-family: 'Segoe UI', sans-serif;
+  z-index: 90;
+  transition: 0.15s;
+}
+
+.site-footer-link:hover {
+  color: var(--accent);
+  border-color: var(--accent);
+}

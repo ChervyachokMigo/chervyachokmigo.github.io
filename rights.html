@@ -1,0 +1,137 @@
+<!DOCTYPE html>
+<html lang="ru">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Об авторстве изображений — Таблички зюзиков</title>
+    <style>
+        :root {
+            --bg: #1e1e1e;
+            --bg-alt: #1a1a1a;
+            --border: #333;
+            --text: #e1e1e6;
+            --text-dim: #888;
+            --accent: #f472b6;
+            --accent-dark: #b8387a;
+        }
+
+        * { margin: 0; padding: 0; box-sizing: border-box; }
+
+        body {
+            background: var(--bg);
+            color: var(--text);
+            font-family: 'Segoe UI', Roboto, Arial, sans-serif;
+            line-height: 1.7;
+            padding: 40px 20px 80px;
+            min-height: 100vh;
+        }
+
+        .container {
+            max-width: 760px;
+            margin: 0 auto;
+        }
+
+        .back {
+            display: inline-block;
+            color: var(--accent);
+            text-decoration: none;
+            font-size: 0.85rem;
+            text-transform: uppercase;
+            letter-spacing: 2px;
+            padding: 8px 14px;
+            border: 1px solid var(--accent);
+            margin-bottom: 30px;
+            font-weight: 700;
+            transition: 0.15s;
+        }
+
+        .back:hover {
+            background: var(--accent);
+            color: #0d0d0d;
+        }
+
+        h1 {
+            color: var(--accent);
+            font-size: clamp(1.6rem, 4vw, 2.4rem);
+            font-weight: 800;
+            text-transform: uppercase;
+            letter-spacing: 3px;
+            line-height: 1.15;
+            margin-bottom: 30px;
+            padding-bottom: 16px;
+            border-bottom: 4px solid var(--accent);
+            font-family: 'Segoe UI', 'Arial Black', Impact, sans-serif;
+        }
+
+        p {
+            margin-bottom: 16px;
+            font-size: 1.05rem;
+        }
+
+        strong { color: var(--accent); font-weight: 700; }
+
+        .note {
+            background: var(--bg-alt);
+            border-left: 3px solid var(--accent);
+            padding: 16px 20px;
+            margin: 24px 0;
+            font-size: 0.92rem;
+            color: var(--text-dim);
+        }
+
+        .note strong { color: var(--accent); }
+
+        a:not(.back) {
+            color: var(--accent);
+            text-decoration: none;
+            border-bottom: 1px dashed var(--accent);
+        }
+
+        a:not(.back):hover {
+            background: var(--accent);
+            color: #0d0d0d;
+            border-bottom-color: transparent;
+        }
+
+        @media (max-width: 700px) {
+            body { padding: 20px 12px 60px; }
+            h1 { letter-spacing: 2px; }
+            p { font-size: 0.95rem; }
+        }
+    </style>
+</head>
+<body>
+    <div class="container">
+        <a href="index.html" class="back">← На главную</a>
+
+        <h1>Об авторстве изображений</h1>
+
+        <p>
+            Алтари, представленные в этом разделе, являются <strong>народным (анонимным) творчеством</strong>
+            участников сообщества. Администрация сайта не претендует на авторство этих работ.
+        </p>
+
+        <p>
+            Все права на изображённых персонажей и элементы вселенной <strong>Zenless Zone Zero</strong>
+            принадлежат их правообладателям (<strong>HoYoverse / miHoYo</strong>).
+        </p>
+
+        <div class="note">
+            <strong>Обратная связь:</strong> если вы являетесь автором одной из работ
+            и хотите указать авторство, изменить условия публикации или удалить её —
+            свяжитесь с администрацией через тред на дваче (раздел <strong>/gacha/</strong>).
+        </div>
+
+        <p>
+            Материалы раздела «Стикеры» — внешние стикерпаки, размещённые на
+            <a href="https://2ch.org" target="_blank" rel="noopener">2ch.org</a>.
+            Их содержимое — зона ответственности администрации 2ch и авторов соответствующих паков.
+        </p>
+
+        <p>
+            Таблицы рейтингов, базы и прочие данные — результат коллективного творчества
+            участников сообщества. Сайт не является официальным ресурсом и не связан с HoYoverse / miHoYo.
+        </p>
+    </div>
+</body>
+</html>
