@@ -288,8 +288,11 @@ body.index-page {
    ============================================================ */
 .edit-table {
   width: 982px; max-width: 100%;
-  margin: 0 auto; border-collapse: collapse; table-layout: fixed;
-  user-select: text; border: 1px solid #333;
+  margin: 0 auto;
+  border-collapse: collapse;
+  table-layout: fixed;
+  user-select: text;
+  border: 1px solid #333;
 }
 
 .edit-table th {
@@ -311,16 +314,15 @@ body.index-page {
 
 .edit-table td {
   background: #111111; color: var(--accent);
-  padding: 14px 14px 14px 6px;
-  font-size: 1.6rem;
+  padding: 14px 8px 14px 4px;
+  font-size: 1.45rem;
   font-weight: 700;
-  height: 62px; text-align: center; vertical-align: middle;
+  height: 40px; text-align: center; vertical-align: middle;
   word-break: break-word; white-space: pre-wrap;
-  border-bottom: 1px solid rgba(255, 255, 255, 0.05);
   border-right: 1px dashed #2a2a2a;
+  border-bottom: 1px solid rgba(255, 255, 255, 0.06);
 }
-.edit-table td:last-child { border-right: none; }
-.edit-table tr:last-child td { border-bottom: none; }
+
 
 .edit-table tbody tr:nth-child(even) td { background: #181818; }
 
@@ -335,56 +337,64 @@ body.index-page {
   white-space: nowrap;
   overflow: hidden;
 }
-
+/* ТОП */
 .edit-table th.rating-col,
 .edit-table td.rating-cell {
-  width: 148px;
+  width: 180px;
   text-align: center;
   padding-left: 6px;
   padding-right: 6px;
   white-space: nowrap;
 }
 .edit-table td.rating-cell {
-  font-size: 1.45rem;
-  letter-spacing: 0.5px;
+  font-size: 1.35rem;
+  letter-spacing: 0.3px;
   color: var(--accent);
 }
 
-.edit-table th.test-col,
-.edit-table td.test-cell,
-.edit-table th.stamina-col,
-.edit-table td.stamina-cell {
+/* ОТ СРЕДНЕГО */
+.edit-table th.avg-col,
+.edit-table td.avg-cell {
+  width: 180px;
+  text-align: center;
+  padding-left: 6px;
+  padding-right: 6px;
+  white-space: nowrap;
+}
+.edit-table td.avg-cell {
+  font-size: 1.35rem;
+  letter-spacing: 0.3px;
+  color: var(--accent);
+}
+/* Числовые данные — единая колонка для всех таблиц */
+.edit-table th.value-col,
+.edit-table td.value-cell {
+  width: 400px;
   padding-left: 2px;
   padding-right: 2px;
 }
-.edit-table th.test-col,
-.edit-table th.stamina-col {
-  width: 140px;
-}
 
-.edit-table td.points-cell {
+.edit-table td.value-cell {
   color: var(--accent);
-  font-size: 1.5rem;
-  letter-spacing: 0.3px;
-  padding-right: 6px;
+  font-size: 1.4rem;
+  letter-spacing: 0.2px;
 }
-.edit-table td.points-cell.high-score {
+.edit-table td.value-cell.high-score {
   color: #cfcfcf;
   text-shadow: 0 0 8px rgba(200, 200, 200, 0.55), 0 0 2px rgba(255, 255, 255, 0.4);
 }
 
-/* ---------- Аватары ---------- */
 .edit-table th.avatar-col,
 .edit-table td.avatar-cell {
-  width: 96px;
-  padding: 6px;
+  width: 92px;
+  padding: 4px;
 }
 .edit-table th.nick-col,
 .edit-table td.nick-cell {
-  width: 180px;
+  width: 128px;
 }
 .avatar-cell img {
-  width: 64px; height: 64px; object-fit: cover;
+  width: 56px; height: 56px; object-fit: cover;
   display: block; margin: 0 auto;
   background: transparent;
 }
@@ -401,11 +411,11 @@ body.index-page {
    ============================================================ */
 .edit-table td .cell-diff {
   display: block;
-  font-size: 0.95rem;
+  font-size: 0.75rem;
   font-weight: 700;
-  letter-spacing: 0.5px;
-  line-height: 1.1;
-  margin-top: 2px;
+  letter-spacing: 0.3px;
+  line-height: 1.05;
+  margin-top: 1px;
   white-space: nowrap;
   pointer-events: none;
 }
@@ -752,6 +762,11 @@ body.index-page {
   .altar-grid   { grid-template-columns: 1fr; }
   .sub-title { font-size: 1.2rem; letter-spacing: 2px; }
   .stamina-area { margin-bottom: 30px; }
+  .avatar-cell img { width: 32px; height: 32px; }
+  .edit-table th { padding: 6px 6px 6px 3px; font-size: 0.7rem; }
+  .edit-table th.value-col,
+  .edit-table td.value-cell { width: 140px; }
+  .edit-table td { padding: 3px 6px 3px 3px; font-size: 1.05rem; }
 }
 /* ============================================================
    Сноска под алтарями

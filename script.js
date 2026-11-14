@@ -11,8 +11,8 @@ const CONFIG = {
             { key: 'rating',  label: 'ТОП',         thClass: 'rating-col num-col',  tdClass: 'rating-cell num-cell',  role: 'rating' },
             { key: 'avatar',  label: 'АВАТАР',      thClass: 'avatar-col',          tdClass: 'avatar-cell',           role: 'avatar' },
             { key: 'nick',    label: 'НИК',         thClass: 'nick-col',            tdClass: 'nick-cell',             role: 'nick'   },
-            { key: 'test',    label: 'ИСПЫТАНИЕ',   thClass: 'num-col test-col',    tdClass: 'num-cell test-cell',    role: 'number' },
-            { key: 'avg',     label: 'ОТ СРЕДНЕГО', thClass: 'rating-col num-col',  tdClass: 'rating-cell num-cell',  role: 'avg'    },
+            { key: 'test',    label: 'ИСПЫТАНИЕ',   thClass: 'num-col value-col',    tdClass: 'num-cell value-cell',    role: 'number' },
+            { key: 'avg',     label: 'ОТ СРЕДНЕГО', thClass: 'avg-col num-col',     tdClass: 'avg-cell num-cell',     role: 'avg'    },
         ],
     },
     defence: {
@@ -24,8 +24,8 @@ const CONFIG = {
             { key: 'rating', label: 'ТОП',         thClass: 'rating-col num-col', tdClass: 'rating-cell num-cell',  role: 'rating' },
             { key: 'avatar', label: 'АВАТАР',      thClass: 'avatar-col',         tdClass: 'avatar-cell',           role: 'avatar' },
             { key: 'nick',   label: 'НИК',         thClass: 'nick-col',           tdClass: 'nick-cell',             role: 'nick'   },
-            { key: 'points', label: 'ОЧКИ',        thClass: 'num-col',            tdClass: 'points-cell num-cell',  role: 'number' },
-            { key: 'avg',    label: 'ОТ СРЕДНЕГО', thClass: 'rating-col num-col', tdClass: 'rating-cell num-cell',  role: 'avg'    },
+            { key: 'points',  label: 'ОЧКИ',        thClass: 'num-col value-col', tdClass: 'value-cell num-cell',  role: 'number' },
+            { key: 'avg',    label: 'ОТ СРЕДНЕГО', thClass: 'avg-col num-col',     tdClass: 'avg-cell num-cell',     role: 'avg'    },
         ],
     },
 };
@@ -308,7 +308,7 @@ function renderStamina() {
         { cls: 'rating-col num-col',  label: 'ТОП' },
         { cls: 'avatar-col',          label: 'АВАТАР' },
         { cls: 'nick-col',            label: 'НИК' },
-        { cls: 'num-col stamina-col', label: 'СТОЙКОСТЬ' },
+        { cls: 'num-col value-col', label: 'СТОЙКОСТЬ' },
         { cls: 'rating-col num-col',  label: 'ОТ СРЕДНЕГО' },
     ].forEach(d => {
         const th = document.createElement('th');
@@ -348,7 +348,7 @@ function renderStamina() {
         tr.appendChild(tdNick);
 
         const tdSt = document.createElement('td');
-        tdSt.className = 'num-cell stamina-cell';
+        tdSt.className = 'num-cell value-cell';
         const v = num(row.stamina);
         tdSt.textContent = fmtInt(v);
 
