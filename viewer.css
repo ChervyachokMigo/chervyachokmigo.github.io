@@ -186,25 +186,40 @@ body.index-page {
 /* ============================================================
    Выбор таблицы (Штурм / Оборона)
    ============================================================ */
-.table-selector {
+.tables-control {
   display: flex;
-  gap: 8px;
-  margin-bottom: 24px;
-  flex-wrap: wrap;
-  justify-content: center;
+  flex-direction: column;
+  gap: 10px;
   width: 100%;
   max-width: 982px;
-  padding: 12px;
+  margin-bottom: 24px;
+  padding: 14px;
   background: rgba(13, 13, 13, 0.92);
-  border: 1px solid #333;
-  max-height: 220px;
+  border: 1px solid #2a2a2a;
+  max-height: 280px;
   overflow-y: auto;
 }
 
+.table-selector {
+  display: flex;
+  gap: 6px;
+  flex-wrap: wrap;
+  justify-content: center;
+  width: 100%;
+}
+
+/* Второй уровень — с разделителем сверху */
+.sub-selector {
+  padding-top: 10px;
+  border-top: 1px dashed #2a2a2a;
+}
+
 .table-btn {
-  background: #0d0d0d;
+  background: #0f0f0f;
   color: var(--accent);
-  border: 1px solid var(--accent);
+  opacity: 0.85;
+  border: 1px solid #2a2a2a;
+  border-left: 2px solid color-mix(in srgb, var(--accent) 50%, transparent);
   padding: 8px 14px;
   font-size: 0.8rem;
   font-weight: 600;
@@ -219,8 +234,20 @@ body.index-page {
   text-overflow: ellipsis;
 }
 
-.table-btn:hover  { background: #1c1c1c; }
-.table-btn.active { background: var(--accent); color: #0d0d0d; }
+.table-btn:hover {
+  background: color-mix(in srgb, var(--accent) 8%, transparent);
+  border-color: color-mix(in srgb, var(--accent) 55%, transparent);
+  border-left-color: var(--accent);
+  opacity: 1;
+}
+
+.table-btn.active {
+  background: color-mix(in srgb, var(--accent) 14%, transparent);
+  border-color: color-mix(in srgb, var(--accent) 75%, transparent);
+  border-left-color: var(--accent);
+  color: var(--accent);
+  opacity: 1;
+}
 
 .empty-selector {
   color: #666;
@@ -247,23 +274,13 @@ body.index-page {
 }
 
 /* ============================================================
-   Контейнер таблицы
+   Контейнер таблицы — без рамки и фона, только таблица
    ============================================================ */
 .capture-area {
-  background: #1a1a1a;
-  padding: 40px 60px 50px 60px;
-  box-shadow: 0 10px 25px rgba(0,0,0,0.7);
+  display: flex;
+  flex-direction: column;
   width: fit-content;
-}
-.title-wrapper { text-align: center; }
-.main-title {
-  color: var(--accent);
-  font-size: 3rem; font-weight: 800;
-  text-transform: uppercase; letter-spacing: 6px; line-height: 1.1;
-  text-align: center; margin-bottom: 30px;
-  font-family: 'Segoe UI', 'Arial Black', Impact, sans-serif;
-  border-bottom: 4px solid var(--accent);
-  padding-bottom: 15px; display: inline-block; width: 100%;
+  max-width: 100%;
 }
 
 /* ============================================================
@@ -414,28 +431,14 @@ body.index-page {
 .participants-line span { font-size: 1.6rem; font-weight: 800; }
 
 /* ============================================================
-   Дополнительная таблица СТОЙКОСТИ (показывается выше основной)
+   Дополнительная таблица СТОЙКОСТИ
    ============================================================ */
 .stamina-area {
-  margin-bottom: 50px;
-}
-
-.sub-title {
-  color: var(--accent);
-  font-size: 1.6rem;
-  font-weight: 800;
-  text-transform: uppercase;
-  letter-spacing: 4px;
-  line-height: 1.1;
-  text-align: center;
-  margin-bottom: 20px;
-  padding-bottom: 10px;
-  border-bottom: 2px solid var(--accent);
-  font-family: 'Segoe UI', 'Arial Black', Impact, sans-serif;
+  margin-bottom: 0;
 }
 
 .edit-table.stamina-table {
-  width: 900px;
+  width: 982px;
   max-width: 100%;
 }
 
@@ -454,38 +457,50 @@ body.index-page {
   display: flex;
   flex-direction: column;
   gap: 8px;
-  padding: 18px 22px;
-  background: #0d0d0d;
-  border: 2px solid var(--accent);
+  padding: 16px 20px;
+  background: #0f0f0f;
+  border: 1px solid #2a2a2a;
+  border-left: 2px solid rgba(74, 222, 128, 0.5);
   text-decoration: none;
-  color: var(--accent);
-  text-transform: uppercase;
-  letter-spacing: 1.5px;
   font-family: 'Segoe UI', sans-serif;
-  font-weight: 700;
   transition: 0.15s;
 }
 
 .sticker-card:hover {
-  background: var(--accent);
-  color: #0d0d0d;
+  background: rgba(74, 222, 128, 0.08);
+  border-color: rgba(74, 222, 128, 0.55);
+  border-left-color: var(--accent);
 }
 
 .sticker-card .sticker-name {
-  font-size: 1.1rem;
-  letter-spacing: 2px;
+  color: var(--accent);
+  opacity: 0.85;
+  font-size: 1rem;
+  font-weight: 700;
+  letter-spacing: 1.5px;
+  text-transform: uppercase;
+  transition: opacity 0.15s;
+}
+
+.sticker-card:hover .sticker-name {
+  opacity: 1;
 }
 
 .sticker-card .sticker-url {
+  color: #666;
   font-size: 0.7rem;
-  opacity: 0.55;
-  font-weight: 500;
-  letter-spacing: 0.3px;
+  font-weight: 600;
+  letter-spacing: 0.5px;
   text-transform: none;
-  word-break: break-all;
+  white-space: nowrap;
+  overflow: hidden;
+  text-overflow: ellipsis;
+  transition: color 0.15s;
 }
 
-.sticker-card:hover .sticker-url { opacity: 0.8; }
+.sticker-card:hover .sticker-url {
+  color: #8a8a8a;
+}
 
 /* ============================================================
    Сетка алтарей (компактные кнопки)
@@ -503,12 +518,11 @@ body.index-page {
   justify-content: space-between;
   align-items: center;
   gap: 12px;
-  padding: 16px 20px;
-  background: #0d0d0d;
-  border: 2px solid var(--accent);
+  padding: 14px 18px;
+  background: #0f0f0f;
+  border: 1px solid #2a2a2a;
+  border-left: 2px solid rgba(244, 114, 182, 0.5);
   color: var(--accent);
-  text-transform: uppercase;
-  letter-spacing: 1.5px;
   font-family: 'Segoe UI', sans-serif;
   font-weight: 700;
   cursor: pointer;
@@ -516,17 +530,38 @@ body.index-page {
   text-align: left;
 }
 
-.altar-card:hover,
-.altar-card.active {
-  background: var(--accent);
-  color: #0d0d0d;
+.altar-card:hover {
+  background: rgba(244, 114, 182, 0.08);
+  border-color: rgba(244, 114, 182, 0.55);
+  border-left-color: var(--accent);
 }
 
-.altar-name {
-  font-size: 1rem;
-  letter-spacing: 1.5px;
-  word-break: break-word;
+/* Активная карточка (открыта в модалке) — чуть заметнее */
+.altar-card.active {
+  background: rgba(244, 114, 182, 0.14);
+  border-color: rgba(244, 114, 182, 0.75);
+  border-left-color: var(--accent);
+  box-shadow: 0 0 0 1px rgba(244, 114, 182, 0.35);
 }
+
+/* Неизвестные алтари — оранжевые */
+.altar-card.pending {
+  border-left-color: rgba(255, 149, 0, 0.5);
+}
+
+.altar-card.pending:hover {
+  background: rgba(255, 149, 0, 0.08);
+  border-color: rgba(255, 149, 0, 0.55);
+  border-left-color: #ff9500;
+}
+
+.altar-card.pending.active {
+  background: rgba(255, 149, 0, 0.14);
+  border-color: rgba(255, 149, 0, 0.75);
+  border-left-color: #ff9500;
+  box-shadow: 0 0 0 1px rgba(255, 149, 0, 0.35);
+}
+
 .altar-info {
   display: flex;
   align-items: center;
@@ -535,30 +570,60 @@ body.index-page {
   min-width: 0;
 }
 
+.altar-name {
+  color: var(--accent);
+  opacity: 0.85;
+  font-size: 1rem;
+  font-weight: 700;
+  letter-spacing: 1.5px;
+  text-transform: uppercase;
+  word-break: break-word;
+  transition: opacity 0.15s;
+}
+
+.altar-card:hover .altar-name,
+.altar-card.active .altar-name {
+  opacity: 1;
+}
+
 .altar-version {
   flex-shrink: 0;
-  font-size: 0.75rem;
-  font-weight: 700;
-  letter-spacing: 1px;
+  color: #6a6a6a;
+  font-size: 0.72rem;
+  font-weight: 600;
+  letter-spacing: 0.5px;
   padding: 2px 8px;
-  border: 1px solid currentColor;
+  border: 1px solid #2a2a2a;
   border-radius: 3px;
-  opacity: 0.75;
   white-space: nowrap;
+  transition: color 0.15s, border-color 0.15s;
+  font-variant-numeric: tabular-nums;
 }
+
+.altar-card:hover .altar-version,
+.altar-card.active .altar-version {
+  color: #8a8a8a;
+  border-color: #3a3a3a;
+}
+
 .altar-tag {
   flex-shrink: 0;
-  font-size: 0.7rem;
+  color: #555;
+  font-size: 0.65rem;
   font-weight: 700;
   letter-spacing: 1px;
   padding: 3px 8px;
-  border: 1px solid currentColor;
+  border: 1px solid #2a2a2a;
   border-radius: 3px;
-  opacity: 0.6;
+  white-space: nowrap;
+  transition: color 0.15s, border-color 0.15s;
 }
 
 .altar-card:hover .altar-tag,
-.altar-card.active .altar-tag { opacity: 1; }
+.altar-card.active .altar-tag {
+  color: #777;
+  border-color: #3a3a3a;
+}
 
 /* ============================================================
    Полноэкранная модалка алтаря
@@ -672,18 +737,17 @@ body.index-page {
    ============================================================ */
 @media (max-width: 1050px) {
   .capture-area {
-    padding: 20px 15px 30px;
-    max-width: 100%;
+    width: 100%;
     overflow-x: auto;
   }
-  .main-title { font-size: 1.8rem; letter-spacing: 3px; }
   .page-title { font-size: 1.8rem; letter-spacing: 2px; }
   .page-subtitle { letter-spacing: 4px; font-size: 0.8rem; }
 .bases-table thead th { padding: 14px 22px; font-size: 0.72rem; letter-spacing: 1px; }
 .bases-table tbody td { padding: 18px 22px; font-size: 1rem; }
 .bases-table td.bases-code-cell { font-size: 1.05rem; }
   .nav-btn    { padding: 12px 14px; font-size: 0.85rem; letter-spacing: 1px; }
-  .table-btn  { font-size: 0.72rem; padding: 6px 10px; }
+  .tables-control { padding: 10px; max-height: 320px; }
+.table-btn  { font-size: 0.72rem; padding: 6px 10px; }
   .sticker-grid { grid-template-columns: 1fr; }
   .altar-grid   { grid-template-columns: 1fr; }
   .sub-title { font-size: 1.2rem; letter-spacing: 2px; }
@@ -796,19 +860,6 @@ body.index-page {
 }
 
 /* ============================================================
-   Третий уровень — переключатель «Испытание / Стойкость»
-   ============================================================ */
-#subTypeSelector {
-  margin-top: -12px;         /* прижимаем ближе к датам, они логически связаны */
-  padding: 10px 12px;
-}
-
-#subTypeSelector .table-btn {
-  padding: 10px 20px;
-  font-size: 0.85rem;
-  letter-spacing: 1.5px;
-}
-/* ============================================================
    Полезные ссылки — плоский грид компактных кнопок
    ============================================================ */
 .links-grid {
@@ -824,8 +875,9 @@ body.index-page {
   flex-direction: column;
   gap: 4px;
   padding: 14px 16px;
-  background: #0d0d0d;
-  border: 1px solid var(--accent);
+  background: #0f0f0f;
+  border: 1px solid #2a2a2a;
+  border-left: 2px solid rgba(192, 132, 252, 0.5);
   color: var(--accent);
   text-decoration: none;
   font-family: 'Segoe UI', sans-serif;
@@ -834,33 +886,42 @@ body.index-page {
 }
 
 .link-btn:hover {
-  background: var(--accent);
-  color: #0d0d0d;
+  background: rgba(192, 132, 252, 0.08);
+  border-color: rgba(192, 132, 252, 0.55);
+  border-left-color: var(--accent);
 }
 
 /* Категория — крупно, главная строка */
 .link-btn-cat {
-  font-size: 0.95rem;
+  font-size: 0.9rem;
   font-weight: 700;
   text-transform: uppercase;
   letter-spacing: 1px;
   word-break: break-word;
   line-height: 1.2;
+  color: var(--accent);
+  opacity: 0.85;
+  transition: opacity 0.15s;
 }
 
-/* Название сайта — мелко, приглушённо */
+.link-btn:hover .link-btn-cat {
+  opacity: 1;
+}
+
+/* Название сайта — мелко, приглушённо, серое */
 .link-btn-name {
   font-size: 0.7rem;
   font-weight: 600;
   letter-spacing: 0.5px;
-  opacity: 0.6;
+  color: #666;
   white-space: nowrap;
   overflow: hidden;
   text-overflow: ellipsis;
+  transition: color 0.15s;
 }
 
 .link-btn:hover .link-btn-name {
-  opacity: 0.85;
+  color: #8a8a8a;
 }
 
 @media (max-width: 1050px) {

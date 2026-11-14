@@ -48,17 +48,16 @@
     </section>
 
     <section class="view" id="viewTables">
-        <div class="table-selector" id="tableSelector"></div>
+        <div class="tables-control">
+            <div class="table-selector" id="tableSelector"></div>
 
-        <div class="table-selector" id="subTypeSelector" style="display:none;">
-            <button class="table-btn" data-subtype="test">Испытание</button>
-            <button class="table-btn" data-subtype="stamina">Стойкость</button>
+            <div class="table-selector sub-selector" id="subTypeSelector" style="display:none;">
+                <button class="table-btn" data-subtype="test">Испытание</button>
+                <button class="table-btn" data-subtype="stamina">Стойкость</button>
+            </div>
         </div>
 
         <div id="staminaArea" class="capture-area stamina-area" style="display:none;">
-            <div class="title-wrapper">
-                <div class="main-title" id="staminaTitle">…</div>
-            </div>
             <table class="edit-table stamina-table" id="staminaTable">
                 <thead id="staminaHead"></thead>
                 <tbody id="staminaBody"></tbody>
@@ -66,9 +65,6 @@
         </div>
 
         <div id="captureArea" class="capture-area">
-            <div class="title-wrapper">
-                <div class="main-title" id="mainTitle">Загрузка…</div>
-            </div>
             <table class="edit-table" id="editTable">
                 <thead id="tableHead"></thead>
                 <tbody id="tableBody"></tbody>

@@ -46,7 +46,6 @@ const selectedFiles = { assault: null, defence: null };
 
 const headEl          = document.getElementById('tableHead');
 const bodyEl          = document.getElementById('tableBody');
-const titleEl         = document.getElementById('mainTitle');
 const countEl         = document.getElementById('participantsCount');
 const lastUpdEl       = document.getElementById('lastUpdate');
 const tableSelectorEl = document.getElementById('tableSelector');
@@ -195,13 +194,6 @@ function appendDiff(td, diff) {
 
 function render() {
     const cfg = CONFIG[currentType];
-    const baseTitle = (currentData?.title || cfg.title).replace(/\s*\([^)]*\)\s*$/, '').trim();
-
-    if (currentType === 'assault' && currentSubtype === 'test') {
-        titleEl.textContent = baseTitle + ' (ИСПЫТАНИЕ)';
-    } else {
-        titleEl.textContent = baseTitle;
-    }
 
     buildHeader(cfg);
     bodyEl.innerHTML = '';
@@ -296,24 +288,19 @@ function render() {
 function renderStamina() {
     if (currentType !== 'assault') return;
 
-    const head  = document.getElementById('staminaHead');
-    const body  = document.getElementById('staminaBody');
-    const title = document.getElementById('staminaTitle');
-    if (!head || !body || !title) return;
+    const head = document.getElementById('staminaHead');
+    const body = document.getElementById('staminaBody');
+    if (!head || !body) return;
 
     if (!currentData?.rows) {
         head.innerHTML = '';
         body.innerHTML = '';
-        title.textContent = 'Нет данных';
         return;
     }
 
     const rows = currentData.rows
         .filter(r => num(r.stamina) != null)
         .sort((a, b) => num(b.stamina) - num(a.stamina));
-
-    const baseTitle = (currentData.title || 'ОПАСНЫЙ ШТУРМ').replace(/\s*\([^)]*\)\s*$/, '').trim();
-    title.textContent = baseTitle + ' (СТОЙКОСТЬ)';
 
     head.innerHTML = '';
     const trh = document.createElement('tr');
@@ -465,7 +452,6 @@ async function loadTable(fileName) {
         previousData = null;
         headEl.innerHTML = '';
         bodyEl.innerHTML = '';
-        titleEl.textContent = 'Ошибка загрузки';
         countEl.textContent = '0';
         lastUpdEl.textContent = e.message;
         document.getElementById('staminaArea').style.display = 'none';
@@ -785,7 +771,6 @@ function showSection(section) {
     } else {
         headEl.innerHTML = '';
         bodyEl.innerHTML = '';
-        titleEl.textContent = 'Нет таблиц';
         countEl.textContent = '0';
         lastUpdEl.textContent = '—';
         document.getElementById('staminaArea').style.display = 'none';
