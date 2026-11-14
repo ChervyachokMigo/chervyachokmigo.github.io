@@ -152,7 +152,7 @@
     },
     {
       "nick": "AM",
-      "test": "116561",
+      "test": "116934",
       "stamina": "",
       "id": "384f85ed",
       "avatar": "avatars/Avatar_Velina_Airgid.webp"
@@ -473,6 +473,13 @@
       "avatar": "avatars/belle_wise_event.png"
     },
     {
+      "nick": "LR",
+      "test": "79527",
+      "stamina": "",
+      "id": "dd392274",
+      "avatar": "avatars/Avatar_Caesar_King.webp"
+    },
+    {
       "nick": "FL",
       "test": "78966",
       "stamina": "",
@@ -543,6 +550,6 @@
       "avatar": "avatars/Avatar_Deadly_Assault_Line_Breaker.webp"
     }
   ],
-  "savedAt": "2026-11-14T02:40:18.300Z",
+  "savedAt": "2026-11-14T11:53:45.357Z",
   "type": "assault"
 }

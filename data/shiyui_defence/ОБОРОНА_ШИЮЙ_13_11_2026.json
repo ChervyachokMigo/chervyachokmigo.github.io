@@ -58,6 +58,12 @@
       "avatar": "avatars/Avatar_Tempered_Crown.webp"
     },
     {
+      "nick": "PO",
+      "points": "122184",
+      "id": "29902bb0",
+      "avatar": "avatars/Avatar_Alice_Thymefield.webp"
+    },
+    {
       "nick": "ME",
       "points": "121860",
       "id": "9fc1987b",
@@ -80,12 +86,6 @@
       "points": "118488",
       "id": "07916b53",
       "avatar": "avatars/Avatar_Blessed_by_Glory_The_Crown.webp"
-    },
-    {
-      "nick": "PO",
-      "points": "118205",
-      "id": "29902bb0",
-      "avatar": "avatars/Avatar_Alice_Thymefield.webp"
     },
     {
       "nick": "BO",
@@ -142,6 +142,12 @@
       "avatar": "avatars/Avatar_Starlight_-_Billy_Kid.webp"
     },
     {
+      "nick": "MH",
+      "points": "112962",
+      "id": "1b8aa508",
+      "avatar": "avatars/Avatar_Tempered_Crown.webp"
+    },
+    {
       "nick": "RF",
       "points": "111853",
       "id": "4b7676fd",
@@ -160,10 +166,22 @@
       "avatar": "avatars/Avatar_Hoshimi_Miyabi.webp"
     },
     {
+      "nick": "ZE",
+      "points": "110551",
+      "id": "bc96fd7c",
+      "avatar": "avatars/Avatar_Starlight_-_Billy_Kid.webp"
+    },
+    {
       "nick": "TN",
       "points": "110453",
       "id": "1fbb338b",
       "avatar": "avatars/Avatar_Luciana_de_Montefio.webp"
+    },
+    {
+      "nick": "NE",
+      "points": "110180",
+      "id": "4959b51f",
+      "avatar": "avatars/Avatar_Default_Anonymous.webp"
     },
     {
       "nick": "LA",
@@ -280,6 +298,12 @@
       "avatar": "avatars/Avatar_Sunna.webp"
     },
     {
+      "nick": "AS",
+      "points": "93237",
+      "id": "62ae6f90",
+      "avatar": "avatars/Avatar_Orphie_Magnusson_%2526_Magus.webp"
+    },
+    {
       "nick": "NX",
       "points": "92905",
       "id": "b076d064",
@@ -382,6 +406,6 @@
       "avatar": "avatars/Avatar_Burnice_White.webp"
     }
   ],
-  "savedAt": "2026-11-14T02:44:15.257Z",
+  "savedAt": "2026-11-14T11:54:59.082Z",
   "type": "defence"
 }

@@ -1,13 +1,13 @@
 {
-  "generatedAt": "2026-11-14T11:01:04.004Z",
+  "generatedAt": "2026-11-14T11:56:29.712Z",
   "assault": {
     "folder": "data/deadly_assault",
     "files": [
       {
         "file": "ОПАСНЫЙ_ШТУРМ_06_11_2026.json",
         "title": "ОПАСНЫЙ ШТУРМ 06 11 2026",
-        "savedAt": "2026-11-14T02:40:18.300Z",
-        "rows": 77
+        "savedAt": "2026-11-14T11:53:45.357Z",
+        "rows": 78
       },
       {
         "file": "ОПАСНЫЙ_ШТУРМ_23_10_2026.json",
@@ -35,8 +35,8 @@
       {
         "file": "ОБОРОНА_ШИЮЙ_13_11_2026.json",
         "title": "ОБОРОНА ШИЮЙ 13 11 2026",
-        "savedAt": "2026-11-14T02:44:15.257Z",
-        "rows": 63
+        "savedAt": "2026-11-14T11:54:59.082Z",
+        "rows": 67
       },
       {
         "file": "ОБОРОНА_ШИЮЙ_30_10_2026.json",
@@ -58,7 +58,6 @@
       }
     ]
   },
-  "nicks": "data/nicks/nicks.json",
   "avatars": {
     "Avatar_%22My_Love_For_You%22": "avatars/Avatar_%2522My_Love_For_You%2522.webp",
     "Avatar_Alexandrina_Sebastiane": "avatars/Avatar_Alexandrina_Sebastiane.webp",
