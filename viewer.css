@@ -1139,3 +1139,164 @@ body.index-page {
     accent-color: #f472b6;
     margin: 0;
 }
+/* ============================================================
+   Напоминание 19:00 МСК
+   ============================================================ */
+.msk-modal {
+    position: fixed;
+    inset: 0;
+    z-index: 3000;
+    background: rgba(0, 0, 0, 0.85);
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    padding: 20px;
+    animation: altarFadeIn 0.2s ease-out;
+}
+
+.msk-modal[hidden] { display: none; }
+
+.msk-modal-inner {
+    position: relative;
+    display: flex;
+    gap: 24px;
+    align-items: center;
+    max-width: 560px;
+    width: 100%;
+    padding: 28px 28px 28px 24px;
+    background: #0f0f0f;
+    border: 2px solid var(--accent);
+    box-shadow: 0 8px 40px rgba(0, 0, 0, 0.8);
+}
+
+.msk-modal-close {
+    position: absolute;
+    top: 8px;
+    right: 8px;
+    width: 32px;
+    height: 32px;
+    background: transparent;
+    color: var(--accent);
+    border: 1px solid var(--accent);
+    font-size: 1.4rem;
+    font-weight: 700;
+    line-height: 1;
+    cursor: pointer;
+    font-family: 'Segoe UI', sans-serif;
+    transition: 0.15s;
+    z-index: 1;
+}
+
+.msk-modal-close:hover {
+    background: var(--accent);
+    color: #0d0d0d;
+}
+
+.msk-modal-image {
+    flex-shrink: 0;
+    width: 174px;
+    max-height: 234px;
+    padding: 6px;
+    border-radius: 12px;
+    background: rgba(13, 13, 13, 0.6);
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    box-shadow: 0 4px 20px rgba(0, 0, 0, 0.6);
+    overflow: hidden;
+}
+
+.msk-modal-image img {
+    max-width: 100%;
+    max-height: 100%;
+    object-fit: contain;
+    display: block;
+    filter: drop-shadow(0 2px 8px rgba(0, 0, 0, 0.5));
+}
+
+.msk-modal-body {
+    display: flex;
+    flex-direction: column;
+    gap: 6px;
+    min-width: 0;
+    flex: 1;
+}
+
+.msk-modal-title {
+    color: var(--accent);
+    font-size: 1.25rem;
+    font-weight: 800;
+    text-transform: uppercase;
+    letter-spacing: 1.5px;
+    font-family: 'Segoe UI', sans-serif;
+    line-height: 1.2;
+}
+
+.msk-modal-time {
+    color: #6a6a6a;
+    font-size: 0.75rem;
+    font-weight: 600;
+    letter-spacing: 2px;
+    text-transform: uppercase;
+    font-family: 'Segoe UI', sans-serif;
+    font-variant-numeric: tabular-nums;
+}
+
+.msk-modal-divider {
+    height: 1px;
+    background: linear-gradient(
+        to right,
+        var(--accent) 0%,
+        color-mix(in srgb, var(--accent) 40%, transparent) 40%,
+        transparent 100%
+    );
+    margin: 8px 0 10px;
+}
+
+.msk-modal-text {
+    color: #b0b0b0;
+    font-size: 0.95rem;
+    line-height: 1.5;
+    font-family: 'Segoe UI', sans-serif;
+}
+
+.msk-modal-link {
+    color: var(--accent);
+    font-size: 1.05rem;
+    font-weight: 800;
+    text-transform: uppercase;
+    letter-spacing: 1.5px;
+    text-decoration: none;
+    border-bottom: 2px dashed var(--accent);
+    padding-bottom: 1px;
+    transition: 0.15s;
+    font-family: 'Segoe UI', sans-serif;
+}
+
+.msk-modal-link:hover {
+    background: var(--accent);
+    color: #0d0d0d;
+    border-bottom-color: transparent;
+}
+
+@media (max-width: 720px) {
+    .msk-modal-inner {
+        flex-direction: column;
+        text-align: center;
+        padding: 24px 20px 20px;
+        gap: 16px;
+    }
+    .msk-modal-image {
+        width: 180px;
+        height: 180px;
+    }
+    .msk-modal-body {
+        align-items: center;
+    }
+    .msk-modal-link {
+        font-size: 1rem;
+    }
+    .msk-modal-divider {
+        width: 100%;
+    }
+}

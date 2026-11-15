@@ -669,6 +669,62 @@ async function loadLinks() {
         }
     }
 }
+/* ============================================================
+   Напоминание 19:00 МСК
+   ============================================================ */
+const MSK_REMINDER_KEY = 'msk19_reminder_date';
+
+function getMskParts() {
+    const parts = new Intl.DateTimeFormat('en-GB', {
+        timeZone: 'Europe/Moscow',
+        year: 'numeric',
+        month: '2-digit',
+        day: '2-digit',
+        hour: '2-digit',
+        hour12: false
+    }).formatToParts(new Date());
+    const get = t => parts.find(p => p.type === t)?.value;
+    return {
+        date: `${get('year')}-${get('month')}-${get('day')}`,
+        hour: parseInt(get('hour'), 10)
+    };
+}
+
+function checkMskReminder() {
+    const { date, hour } = getMskParts();
+    if (hour !== 19) return;
+    try {
+        if (localStorage.getItem(MSK_REMINDER_KEY) === date) return;
+        localStorage.setItem(MSK_REMINDER_KEY, date);
+    } catch (e) {
+        // localStorage недоступен — показываем всё равно
+    }
+
+    const modal = document.getElementById('mskModal');
+    if (!modal) return;
+
+    // Ленивая загрузка картинки — только в момент показа
+    const img = modal.querySelector('img[data-src]');
+    if (img && !img.src) {
+        img.src = img.dataset.src;
+    }
+
+    modal.hidden = false;
+}
+
+function bindMskModal() {
+    const modal    = document.getElementById('mskModal');
+    const closeBtn = document.getElementById('mskModalClose');
+    if (!modal || !closeBtn) return;
+
+    closeBtn.addEventListener('click', () => { modal.hidden = true; });
+    modal.addEventListener('click', (e) => {
+        if (e.target === modal) modal.hidden = true;
+    });
+    document.addEventListener('keydown', (e) => {
+        if (e.key === 'Escape' && !modal.hidden) modal.hidden = true;
+    });
+}
 function bindAltars() {
     const modal    = document.getElementById('altarModal');
     const body     = document.getElementById('altarModalBody');
@@ -822,6 +878,9 @@ if (subTypeSelEl) {
    ============================================================ */
 (async function init() {
     bindAltars();
+    bindMskModal();
+    checkMskReminder();
+    setInterval(checkMskReminder, 60 * 1000);
 
     if (location.protocol === 'file:') {
         lastUpdEl.textContent = 'Открой через start_server.bat (localhost)';
