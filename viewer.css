@@ -451,7 +451,17 @@ body.index-page {
   width: 982px;
   max-width: 100%;
 }
-
+/* ============================================================
+   Общая база карточек (стикеры / алтари / ссылки)
+   ============================================================ */
+.sticker-card,
+.altar-card,
+.link-btn {
+    background: #0f0f0f;
+    border: 1px solid #2a2a2a;
+    font-family: 'Segoe UI', sans-serif;
+    transition: 0.15s;
+}
 /* ============================================================
    Сетка стикеров
    ============================================================ */
@@ -468,12 +478,8 @@ body.index-page {
   flex-direction: column;
   gap: 8px;
   padding: 16px 20px;
-  background: #0f0f0f;
-  border: 1px solid #2a2a2a;
   border-left: 2px solid rgba(74, 222, 128, 0.5);
   text-decoration: none;
-  font-family: 'Segoe UI', sans-serif;
-  transition: 0.15s;
 }
 
 .sticker-card:hover {
@@ -529,14 +535,10 @@ body.index-page {
   align-items: center;
   gap: 12px;
   padding: 14px 18px;
-  background: #0f0f0f;
-  border: 1px solid #2a2a2a;
   border-left: 2px solid rgba(244, 114, 182, 0.5);
   color: var(--accent);
-  font-family: 'Segoe UI', sans-serif;
   font-weight: 700;
   cursor: pointer;
-  transition: 0.15s;
   text-align: left;
 }
 
@@ -899,13 +901,9 @@ body.index-page {
   flex-direction: column;
   gap: 4px;
   padding: 14px 16px;
-  background: #0f0f0f;
-  border: 1px solid #2a2a2a;
   border-left: 2px solid rgba(192, 132, 252, 0.5);
   color: var(--accent);
   text-decoration: none;
-  font-family: 'Segoe UI', sans-serif;
-  transition: 0.15s;
   min-width: 0;
 }
 

@@ -145,20 +145,8 @@ function buildPrevIndex(prevRows) {
 }
 
 /* ============================================================
-   Рендер
+   Рендер ячеек
    ============================================================ */
-function buildHeader(cfg) {
-    headEl.innerHTML = '';
-    const tr = document.createElement('tr');
-    for (const col of cfg.columns) {
-        const th = document.createElement('th');
-        if (col.thClass) th.className = col.thClass;
-        th.textContent = col.label;
-        tr.appendChild(th);
-    }
-    headEl.appendChild(tr);
-}
-
 function renderAvatarCell(td, row) {
     const path = resolveAvatarPath(row);
 
@@ -192,25 +180,28 @@ function appendDiff(td, diff) {
     td.appendChild(span);
 }
 
-function render() {
-    const cfg = CONFIG[currentType];
+/* ============================================================
+   Универсальный рендер таблицы
+   ============================================================ */
+function buildTable(cfg, rows, prevIndex, headTarget, bodyTarget) {
+    headTarget.innerHTML = '';
+    const trh = document.createElement('tr');
+    for (const col of cfg.columns) {
+        const th = document.createElement('th');
+        if (col.thClass) th.className = col.thClass;
+        th.textContent = col.label;
+        trh.appendChild(th);
+    }
+    headTarget.appendChild(trh);
 
-    buildHeader(cfg);
-    bodyEl.innerHTML = '';
+    bodyTarget.innerHTML = '';
 
-    const rows = (currentData?.rows || []).slice();
     if (!rows.length) {
-        bodyEl.innerHTML = `<tr><td colspan="${cfg.columns.length}" style="text-align:center; padding:40px; color:#666;">Нет данных</td></tr>`;
-        countEl.textContent = '0';
-        lastUpdEl.textContent = '—';
-        renderStamina();
-        applySubtypeVisibility();
+        bodyTarget.innerHTML = `<tr><td colspan="${cfg.columns.length}" style="text-align:center;padding:40px;color:#666;">Нет данных</td></tr>`;
         return;
     }
 
-    rows.sort((a, b) => (num(b[cfg.sortField]) ?? -Infinity) - (num(a[cfg.sortField]) ?? -Infinity));
     const ranked = computeRanking(rows, cfg.sortField);
-    const prevIndex = buildPrevIndex(previousData?.rows);
 
     for (const row of rows) {
         const tr = document.createElement('tr');
@@ -240,7 +231,6 @@ function render() {
                         && v != null && v >= cfg.highScore.threshold) {
                         td.classList.add(cfg.highScore.className);
                     }
-
                     const prevRow = prevIndex.get(rowKey(row));
                     if (prevRow && v != null) {
                         const prevV = num(prevRow[col.key]);
@@ -259,9 +249,23 @@ function render() {
 
             tr.appendChild(td);
         }
-        bodyEl.appendChild(tr);
+        bodyTarget.appendChild(tr);
+    }
+}
+
+/* ============================================================
+   Рендер основной таблицы
+   ============================================================ */
+function render() {
+    const cfg = CONFIG[currentType];
+    const rows = (currentData?.rows || []).slice();
+    const prevIndex = buildPrevIndex(previousData?.rows);
+
+    if (rows.length > 0) {
+        rows.sort((a, b) => (num(b[cfg.sortField]) ?? -Infinity) - (num(a[cfg.sortField]) ?? -Infinity));
     }
 
+    buildTable(cfg, rows, prevIndex, headEl, bodyEl);
     countEl.textContent = rows.length;
 
     if (currentData?.savedAt) {
@@ -283,7 +287,7 @@ function render() {
 }
 
 /* ============================================================
-   СТОЙКОСТЬ
+   Рендер таблицы СТОЙКОСТИ
    ============================================================ */
 function renderStamina() {
     if (currentType !== 'assault') return;
@@ -292,80 +296,24 @@ function renderStamina() {
     const body = document.getElementById('staminaBody');
     if (!head || !body) return;
 
-    if (!currentData?.rows) {
-        head.innerHTML = '';
-        body.innerHTML = '';
-        return;
-    }
+    const cfg = {
+        sortField: 'stamina',
+        highScore: null,
+        columns: [
+            { key: 'rating',  label: 'ТОП',         tdClass: 'rating-cell num-cell', role: 'rating' },
+            { key: 'avatar',  label: 'АВАТАР',      tdClass: 'avatar-cell',          role: 'avatar' },
+            { key: 'nick',    label: 'НИК',         tdClass: 'nick-cell',            role: 'nick'   },
+            { key: 'stamina', label: 'СТОЙКОСТЬ',   tdClass: 'num-cell value-cell',  role: 'number' },
+            { key: 'avg',     label: 'ОТ СРЕДНЕГО', tdClass: 'avg-cell num-cell',    role: 'avg'    },
+        ],
+    };
 
-    const rows = currentData.rows
+    const rows = (currentData?.rows || [])
         .filter(r => num(r.stamina) != null)
         .sort((a, b) => num(b.stamina) - num(a.stamina));
 
-    head.innerHTML = '';
-    const trh = document.createElement('tr');
-    [
-        { cls: 'rating-col num-col',  label: 'ТОП' },
-        { cls: 'avatar-col',          label: 'АВАТАР' },
-        { cls: 'nick-col',            label: 'НИК' },
-        { cls: 'num-col value-col', label: 'СТОЙКОСТЬ' },
-        { cls: 'rating-col num-col',  label: 'ОТ СРЕДНЕГО' },
-    ].forEach(d => {
-        const th = document.createElement('th');
-        th.className = d.cls;
-        th.textContent = d.label;
-        trh.appendChild(th);
-    });
-    head.appendChild(trh);
-
-    body.innerHTML = '';
-
-    if (!rows.length) {
-        body.innerHTML = '<tr><td colspan="5" style="text-align:center;padding:40px;color:#666;">Нет данных по стойкости</td></tr>';
-        return;
-    }
-
-    const ranked = computeRanking(rows, 'stamina');
     const prevIndex = buildPrevIndex(previousData?.rows);
-
-    for (const row of rows) {
-        const tr = document.createElement('tr');
-        const stats = ranked.get(row) || { pct: null, avg: null };
-
-        const tdRating = document.createElement('td');
-        tdRating.className = 'rating-cell num-cell';
-        tdRating.textContent = formatPercent(stats.pct);
-        tr.appendChild(tdRating);
-
-        const tdAvatar = document.createElement('td');
-        tdAvatar.className = 'avatar-cell';
-        renderAvatarCell(tdAvatar, row);
-        tr.appendChild(tdAvatar);
-
-        const tdNick = document.createElement('td');
-        tdNick.className = 'nick-cell';
-        tdNick.textContent = maskNick(row.nick);
-        tr.appendChild(tdNick);
-
-        const tdSt = document.createElement('td');
-        tdSt.className = 'num-cell value-cell';
-        const v = num(row.stamina);
-        tdSt.textContent = fmtInt(v);
-
-        const prevRow = prevIndex.get(rowKey(row));
-        if (prevRow) {
-            const prevV = num(prevRow.stamina);
-            if (prevV != null) appendDiff(tdSt, v - prevV);
-        }
-        tr.appendChild(tdSt);
-
-        const tdAvg = document.createElement('td');
-        tdAvg.className = 'rating-cell num-cell';
-        tdAvg.textContent = formatPercent(stats.avg);
-        tr.appendChild(tdAvg);
-
-        body.appendChild(tr);
-    }
+    buildTable(cfg, rows, prevIndex, head, body);
 }
 
 /* ============================================================
@@ -505,6 +453,7 @@ async function loadStickers() {
         grid.appendChild(a);
     }
 }
+
 /* ============================================================
    Базы Зюзиков
    ============================================================ */
@@ -544,6 +493,7 @@ async function loadBases() {
         tbody.appendChild(tr);
     }
 }
+
 /* ============================================================
    Алтари
    ============================================================ */
@@ -618,6 +568,7 @@ async function loadAltars() {
         grid.appendChild(btn);
     }
 }
+
 /* ============================================================
    Полезные ссылки — плоский грид кнопок
    ============================================================ */
@@ -653,13 +604,11 @@ async function loadLinks() {
             a.target = '_blank';
             a.rel = 'noopener';
 
-            // Категория — крупно (что делает)
             const catEl = document.createElement('span');
             catEl.className = 'link-btn-cat';
             catEl.textContent = cat.category || '';
             a.appendChild(catEl);
 
-            // Название сайта — мелко (кто именно)
             const name = document.createElement('span');
             name.className = 'link-btn-name';
             name.textContent = link.name || href;
@@ -669,6 +618,7 @@ async function loadLinks() {
         }
     }
 }
+
 /* ============================================================
    Напоминание 19:00 МСК
    ============================================================ */
@@ -712,19 +662,41 @@ function checkMskReminder() {
     modal.hidden = false;
 }
 
+/* ============================================================
+   Хелпер закрытия модалок
+   clickTargets — элементы, клик по которым закрывает модалку
+   (по умолчанию только сама модалка)
+   ============================================================ */
+function attachModalDismiss(modalEl, closeBtn, clickTargets) {
+    if (!modalEl) return () => {};
+    const targets = clickTargets || [modalEl];
+
+    const close = () => {
+        modalEl.hidden = true;
+        modalEl.dispatchEvent(new CustomEvent('modal:closed'));
+    };
+
+    if (closeBtn) closeBtn.addEventListener('click', close);
+    modalEl.addEventListener('click', (e) => {
+        if (targets.includes(e.target)) close();
+    });
+    document.addEventListener('keydown', (e) => {
+        if (e.key === 'Escape' && !modalEl.hidden) close();
+    });
+
+    return close;
+}
+
 function bindMskModal() {
     const modal    = document.getElementById('mskModal');
     const closeBtn = document.getElementById('mskModalClose');
-    if (!modal || !closeBtn) return;
-
-    closeBtn.addEventListener('click', () => { modal.hidden = true; });
-    modal.addEventListener('click', (e) => {
-        if (e.target === modal) modal.hidden = true;
-    });
-    document.addEventListener('keydown', (e) => {
-        if (e.key === 'Escape' && !modal.hidden) modal.hidden = true;
-    });
+    if (!modal) return;
+    attachModalDismiss(modal, closeBtn);
 }
+
+/* ============================================================
+   Модалка алтаря
+   ============================================================ */
 function bindAltars() {
     const modal    = document.getElementById('altarModal');
     const body     = document.getElementById('altarModalBody');
@@ -733,17 +705,18 @@ function bindAltars() {
     const grid     = document.getElementById('altarGrid');
     if (!modal || !body || !grid) return;
 
+    attachModalDismiss(modal, closeBtn, [modal, body]);
+    modal.addEventListener('modal:closed', () => {
+        body.innerHTML = '';
+        nameEl.textContent = '';
+        grid.querySelectorAll('.altar-card').forEach(c => c.classList.remove('active'));
+    });
+
     const missingCb = document.getElementById('showMissing');
     if (missingCb) {
         missingCb.addEventListener('change', () => {
             grid.classList.toggle('show-missing', missingCb.checked);
         });
-    }
-    function closeModal() {
-        modal.hidden = true;
-        body.innerHTML = '';
-        nameEl.textContent = '';
-        grid.querySelectorAll('.altar-card').forEach(c => c.classList.remove('active'));
     }
 
     function openModal(card) {
@@ -780,16 +753,13 @@ function bindAltars() {
         const card = e.target.closest('.altar-card');
         if (!card) return;
         const isActive = card.classList.contains('active');
-        if (isActive) closeModal();
-        else openModal(card);
-    });
-
-    closeBtn.addEventListener('click', closeModal);
-    modal.addEventListener('click', (e) => {
-        if (e.target === modal || e.target === body) closeModal();
-    });
-    document.addEventListener('keydown', (e) => {
-        if (e.key === 'Escape' && !modal.hidden) closeModal();
+        if (isActive) {
+            // Повторный клик — закрыть. Используем тот же путь, что и хелпер.
+            modal.hidden = true;
+            modal.dispatchEvent(new CustomEvent('modal:closed'));
+        } else {
+            openModal(card);
+        }
     });
 }
 
@@ -829,7 +799,6 @@ function showSection(section) {
 
     currentType = section;
 
-    // Селектор подтипа — только для штурма
     if (section === 'assault') {
         subTypeSelEl.style.display = '';
         updateSubtypeSelector();
@@ -896,6 +865,6 @@ if (subTypeSelEl) {
         return;
     }
 
-        await Promise.all([loadBases(), loadStickers(), loadAltars(), loadLinks()]);
+    await Promise.all([loadBases(), loadStickers(), loadAltars(), loadLinks()]);
     showSection('bases');
 })();
