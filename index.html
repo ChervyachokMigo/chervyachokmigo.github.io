@@ -4,6 +4,19 @@
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>Двач /gacha/zzz — Добро пожаловать. Снова.</title>
+        <meta name="description" content="Таблички зюзиков — рейтинги Опасного Штурма и Обороны Шиюй, алтари персонажей, стикеры и полезные ссылки для Zenless Zone Zero.">
+    <meta property="og:type" content="website">
+    <meta property="og:title" content="Двач /gacha/zzz — таблички зюзиков">
+    <meta property="og:description" content="Рейтинги, алтари, стикеры и полезные ссылки по Zenless Zone Zero.">
+    <meta property="og:url" content="https://zenlesszone.ru/">
+    <meta property="og:locale" content="ru_RU">
+    <!-- og:image добавить, когда будет баннер: -->
+    <!-- <meta property="og:image" content="https://zenlesszone.ru/og-banner.png"> -->
+    <!-- <meta property="og:image:width" content="1200"> -->
+    <!-- <meta property="og:image:height" content="630"> -->
+    <meta name="twitter:card" content="summary">
+    <meta name="twitter:title" content="Двач /gacha/zzz">
+    <meta name="twitter:description" content="Таблички зюзиков — рейтинги, алтари, стикеры">
     <link rel="icon" type="image/svg+xml" href="favicon.svg">
     <link rel="stylesheet" href="viewer.css">
 </head>
@@ -54,6 +67,10 @@
             <div class="table-selector sub-selector" id="subTypeSelector" style="display:none;">
                 <button class="table-btn" data-subtype="test">Испытание</button>
                 <button class="table-btn" data-subtype="stamina">Стойкость</button>
+            </div>
+
+            <div class="nick-filter-wrap">
+                <input type="text" id="nickFilter" class="nick-filter" placeholder="Поиск по нику..." autocomplete="off">
             </div>
         </div>
 
@@ -115,7 +132,24 @@
     <div class="altar-modal" id="altarModal" hidden>
         <button class="altar-modal-close" id="altarModalClose" title="Закрыть (Esc)">×</button>
         <div class="altar-modal-name" id="altarModalName"></div>
+        <button class="altar-modal-nav altar-modal-prev" id="altarModalPrev" title="Предыдущий (←)">‹</button>
+        <button class="altar-modal-nav altar-modal-next" id="altarModalNext" title="Следующий (→)">›</button>
         <div class="altar-modal-body" id="altarModalBody"></div>
+    </div>
+        <!-- ==================== Статистика по нику ==================== -->
+    <div class="nick-modal" id="nickModal" hidden>
+        <div class="nick-modal-inner">
+            <button class="nick-modal-close" id="nickModalClose" title="Закрыть (Esc)">×</button>
+            <div class="nick-modal-header">
+                <div class="nick-modal-avatar" id="nickModalAvatar"></div>
+                <div class="nick-modal-info">
+                    <div class="nick-modal-name" id="nickModalName"></div>
+                    <div class="nick-modal-meta" id="nickModalMeta"></div>
+                </div>
+            </div>
+            <div class="nick-modal-summary" id="nickModalSummary"></div>
+            <div class="nick-modal-body" id="nickModalBody"></div>
+        </div>
     </div>
     <!-- ==================== Напоминание 19:00 МСК ==================== -->
     <div class="msk-modal" id="mskModal" hidden>
@@ -138,6 +172,8 @@
     </div>
     <div class="last-update" id="lastUpdate">—</div>
     <a class="site-footer-link" href="rights.html">© права</a>
+    <button class="share-fab" id="shareBtn" title="Скопировать ссылку">🔗</button>
+    <div class="toast" id="toast"></div>
     <script src="script.js"></script>
     <script>
     if ('serviceWorker' in navigator) {

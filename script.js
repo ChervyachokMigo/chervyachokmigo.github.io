@@ -31,18 +31,18 @@ const CONFIG = {
    ============================================================ */
 let manifest       = null;
 let currentType    = 'assault';
-let currentSubtype = 'test';   // 'test' | 'stamina' — только для assault
+let currentSubtype = 'test';
 let currentFile    = null;
 let currentData    = null;
 let previousData   = null;
+let nickFilter     = '';
 
 const selectedFiles = { assault: null, defence: null };
 
-/* Состояние сортировки для каждой таблицы */
 const sortState = {
-    assault: { key: 'test',     dir: 'desc' },
-    stamina: { key: 'stamina',  dir: 'desc' },
-    defence: { key: 'points',   dir: 'desc' },
+    assault: { key: 'test',    dir: 'desc' },
+    stamina: { key: 'stamina', dir: 'desc' },
+    defence: { key: 'points',  dir: 'desc' },
 };
 
 const headEl          = document.getElementById('tableHead');
@@ -51,6 +51,7 @@ const countEl         = document.getElementById('participantsCount');
 const lastUpdEl       = document.getElementById('lastUpdate');
 const tableSelectorEl = document.getElementById('tableSelector');
 const subTypeSelEl    = document.getElementById('subTypeSelector');
+const nickFilterEl    = document.getElementById('nickFilter');
 
 /* ============================================================
    Утилиты
@@ -91,9 +92,6 @@ async function fetchJSON(url) {
     return res.json();
 }
 
-/* ============================================================
-   Ключ строки для дельт
-   ============================================================ */
 function rowKey(row) {
     if (row.id) return String(row.id);
     const n = String(row.nick || '').trim().toLowerCase();
@@ -101,9 +99,6 @@ function rowKey(row) {
     return n + '|' + a;
 }
 
-/* ============================================================
-   Путь к аватарке
-   ============================================================ */
 function resolveAvatarPath(row) {
     const av = row.avatar;
     if (av && av.includes('/')) return av;
@@ -112,7 +107,46 @@ function resolveAvatarPath(row) {
 }
 
 /* ============================================================
-   Расчёт рейтингов
+   URL hash
+   ============================================================ */
+function updateHash(section) {
+    let hash;
+    if (section === 'assault' || section === 'defence') {
+        if (currentFile) {
+            const file = currentFile.replace(/\.json$/i, '');
+            const sub = section === 'assault' ? '/' + currentSubtype : '';
+            hash = `#${section}/${encodeURIComponent(file)}${sub}`;
+        } else {
+            hash = `#${section}`;
+        }
+    } else {
+        hash = `#${section}`;
+    }
+    if (location.hash !== hash) {
+        history.replaceState(null, '', hash);
+    }
+}
+
+function parseHash() {
+    try {
+        const h = decodeURIComponent(location.hash.slice(1) || '');
+        if (!h) return null;
+        const parts = h.split('/');
+        const section = parts[0];
+        const valid = ['bases', 'assault', 'defence', 'stickers', 'altars', 'links'];
+        if (!valid.includes(section)) return null;
+        return {
+            section,
+            file: parts[1] || null,
+            subtype: parts[2] || null,
+        };
+    } catch (e) {
+        return null;
+    }
+}
+
+/* ============================================================
+   Рейтинги и предыдущая таблица
    ============================================================ */
 function computeRanking(rows, field) {
     const entries = rows.map((r, i) => ({ r, v: num(r[field]), i }));
@@ -147,7 +181,6 @@ function buildPrevIndex(prevRows) {
    Сортировка
    ============================================================ */
 function defaultSortDir(col) {
-    // числа — desc (большие сверху), текст — asc (А→Я)
     return (col.role === 'rating' || col.role === 'number' || col.role === 'avg') ? 'desc' : 'asc';
 }
 
@@ -181,20 +214,53 @@ function sortRowsBy(rows, col, dir, statsMap) {
     rows.sort((a, b) => {
         const va = getVal(a);
         const vb = getVal(b);
-
-        // Пустые (null) — всегда в конце, независимо от направления
         if (va === null && vb === null) return 0;
         if (va === null) return 1;
         if (vb === null) return -1;
-
         let cmp;
-        if (typeof va === 'number' && typeof vb === 'number') {
-            cmp = va - vb;
-        } else {
-            cmp = String(va).localeCompare(String(vb), 'ru');
-        }
+        if (typeof va === 'number' && typeof vb === 'number') cmp = va - vb;
+        else cmp = String(va).localeCompare(String(vb), 'ru');
         return dir === 'asc' ? cmp : -cmp;
     });
+}
+
+/* ============================================================
+   Фильтр по нику (+±2 соседа, матчи выделены)
+   ============================================================ */
+function applyNickFilter(rows, query) {
+    const q = (query || '').trim().toLowerCase();
+    if (!q) return { filtered: rows, highlight: new Set() };
+
+    const matches = [];
+    const highlight = new Set();
+    rows.forEach((r, i) => {
+        if (String(r.nick || '').toLowerCase().includes(q)) {
+            matches.push(i);
+            highlight.add(r);
+        }
+    });
+
+    if (matches.length === 0) {
+        return { filtered: [], highlight };
+    }
+
+    const keep = new Set();
+    for (const idx of matches) {
+        for (let i = idx - 2; i <= idx + 2; i++) {
+            if (i >= 0 && i < rows.length) keep.add(i);
+        }
+    }
+
+    const keepArr = [...keep].sort((a, b) => a - b);
+    const filtered = [];
+    for (let i = 0; i < keepArr.length; i++) {
+        if (i > 0 && keepArr[i] - keepArr[i - 1] > 1) {
+            filtered.push({ __gap: true });
+        }
+        filtered.push(rows[keepArr[i]]);
+    }
+
+    return { filtered, highlight };
 }
 
 /* ============================================================
@@ -202,7 +268,6 @@ function sortRowsBy(rows, col, dir, statsMap) {
    ============================================================ */
 function renderAvatarCell(td, row) {
     const path = resolveAvatarPath(row);
-
     if (path) {
         const img = document.createElement('img');
         img.src = path;
@@ -236,7 +301,7 @@ function appendDiff(td, diff) {
 /* ============================================================
    Универсальный рендер таблицы
    ============================================================ */
-function buildTable(cfg, rows, prevIndex, statsMap, headTarget, bodyTarget, tableId, state) {
+function buildTable(cfg, rows, prevIndex, statsMap, headTarget, bodyTarget, tableId, state, highlight) {
     headTarget.innerHTML = '';
     const trh = document.createElement('tr');
     for (const col of cfg.columns) {
@@ -254,13 +319,34 @@ function buildTable(cfg, rows, prevIndex, statsMap, headTarget, bodyTarget, tabl
     bodyTarget.innerHTML = '';
 
     if (!rows.length) {
-        bodyTarget.innerHTML = `<tr><td colspan="${cfg.columns.length}" style="text-align:center;padding:40px;color:#666;">Нет данных</td></tr>`;
+        const msg = nickFilter.trim() ? 'Ничего не найдено' : 'Нет данных';
+        bodyTarget.innerHTML = `<tr><td colspan="${cfg.columns.length}" style="text-align:center;padding:40px;color:#666;">${msg}</td></tr>`;
         return;
     }
 
+    const top10Count = Math.max(1, Math.ceil(rows.filter(r => !r.__gap).length * 0.1));
+
     for (const row of rows) {
+        if (row.__gap) {
+            const tr = document.createElement('tr');
+            tr.className = 'gap-row';
+            const td = document.createElement('td');
+            td.colSpan = cfg.columns.length;
+            td.textContent = '· · ·';
+            tr.appendChild(td);
+            bodyTarget.appendChild(tr);
+            continue;
+        }
+
         const tr = document.createElement('tr');
         const stats = statsMap.get(row) || { pct: null, avg: null };
+
+        if (stats.rank != null && stats.rank <= top10Count) {
+            tr.classList.add('top-row');
+        }
+        if (highlight && highlight.has(row)) {
+            tr.classList.add('nick-match');
+        }
 
         for (const col of cfg.columns) {
             const td = document.createElement('td');
@@ -277,6 +363,7 @@ function buildTable(cfg, rows, prevIndex, statsMap, headTarget, bodyTarget, tabl
 
                 case 'nick':
                     td.textContent = maskNick(row.nick);
+                    td.addEventListener('click', () => openNickStats(row));
                     break;
 
                 case 'number': {
@@ -326,8 +413,10 @@ function render() {
         sortRowsBy(rows, sortCol, state.dir, statsMap);
     }
 
-    buildTable(cfg, rows, prevIndex, statsMap, headEl, bodyEl, currentType, state);
-    countEl.textContent = rows.length;
+    const { filtered, highlight } = applyNickFilter(rows, nickFilter);
+
+    buildTable(cfg, filtered, prevIndex, statsMap, headEl, bodyEl, currentType, state, highlight);
+    countEl.textContent = (currentData?.rows || []).length;
 
     if (currentData?.savedAt) {
         const d = new Date(currentData.savedAt);
@@ -382,7 +471,9 @@ function renderStamina() {
         sortRowsBy(rows, sortCol, state.dir, statsMap);
     }
 
-    buildTable(cfg, rows, prevIndex, statsMap, head, body, 'stamina', state);
+    const { filtered, highlight } = applyNickFilter(rows, nickFilter);
+
+    buildTable(cfg, filtered, prevIndex, statsMap, head, body, 'stamina', state, highlight);
 }
 
 /* ============================================================
@@ -391,7 +482,6 @@ function renderStamina() {
 function applySubtypeVisibility() {
     const mainArea    = document.getElementById('captureArea');
     const staminaArea = document.getElementById('staminaArea');
-
     if (currentType === 'assault' && currentSubtype === 'stamina') {
         mainArea.style.display    = 'none';
         staminaArea.style.display = '';
@@ -407,12 +497,10 @@ function applySubtypeVisibility() {
 function renderTableSelector() {
     const files = manifest?.[currentType]?.files || [];
     tableSelectorEl.innerHTML = '';
-
     if (files.length === 0) {
         tableSelectorEl.innerHTML = '<span class="empty-selector">Нет таблиц в папке</span>';
         return;
     }
-
     for (const f of files) {
         const btn = document.createElement('button');
         btn.className = 'table-btn';
@@ -463,6 +551,7 @@ async function loadTable(fileName) {
         }
 
         render();
+        updateHash(currentType);
     } catch (e) {
         console.error(e);
         currentData = null;
@@ -476,12 +565,164 @@ async function loadTable(fileName) {
 }
 
 /* ============================================================
+   Статистика по нику
+   ============================================================ */
+async function openNickStats(row) {
+    const modal = document.getElementById('nickModal');
+    if (!modal || !modal.hidden) return;
+
+    const avatarEl  = document.getElementById('nickModalAvatar');
+    const nameEl    = document.getElementById('nickModalName');
+    const metaEl    = document.getElementById('nickModalMeta');
+    const summaryEl = document.getElementById('nickModalSummary');
+    const bodyEl    = document.getElementById('nickModalBody');
+
+    const key = rowKey(row);
+
+    avatarEl.innerHTML = '';
+    const avPath = resolveAvatarPath(row);
+    if (avPath) {
+        const img = document.createElement('img');
+        img.src = avPath;
+        img.alt = '';
+        avatarEl.appendChild(img);
+    }
+    nameEl.textContent = maskNick(row.nick);
+    metaEl.textContent = currentType === 'assault' ? 'Опасный Штурм' : 'Оборона Шиюй';
+
+    summaryEl.innerHTML = '<div class="nick-stat nick-stat-wide">Загрузка…</div>';
+    bodyEl.innerHTML = '';
+    modal.hidden = false;
+
+    const files = manifest[currentType].files;
+    const folder = manifest[currentType].folder;
+    const field = currentType === 'assault' ? 'test' : 'points';
+    const fieldLabel = currentType === 'assault' ? 'Испытание' : 'Очки';
+
+    const history = [];
+    for (const f of files) {
+        try {
+            const data = await fetchJSON(`${folder}/${encodeURIComponent(f.file)}`);
+            const rows = data.rows || [];
+            const playerRow = rows.find(r => rowKey(r) === key);
+            if (!playerRow) continue;
+
+            const ranked = computeRanking(rows, field);
+            const stats = ranked.get(playerRow) || {};
+
+            let staminaRank = null;
+            let staminaPct = null;
+            if (currentType === 'assault' && num(playerRow.stamina) != null) {
+                const stRows = rows.filter(r => num(r.stamina) != null);
+                const stRanked = computeRanking(stRows, 'stamina');
+                const stStats = stRanked.get(playerRow) || {};
+                staminaRank = stStats.rank;
+                staminaPct = stStats.pct;
+            }
+
+            history.push({
+                title: f.title,
+                savedAt: f.savedAt,
+                value: num(playerRow[field]),
+                stamina: num(playerRow.stamina),
+                rank: stats.rank,
+                staminaRank,
+            });
+        } catch (e) {
+            console.warn('Не загружено:', f.file);
+        }
+    }
+
+    if (history.length === 0) {
+        summaryEl.innerHTML = '<div class="nick-stat nick-stat-wide">Нет данных по игроку</div>';
+        return;
+    }
+
+    history.sort((a, b) => (Date.parse(b.savedAt) || 0) - (Date.parse(a.savedAt) || 0));
+
+    const values = history.map(h => h.value).filter(v => v != null);
+    const ranks = history.map(h => h.rank).filter(r => r != null);
+    const bestValue = values.length ? Math.max(...values) : null;
+    const avgValue = values.length ? Math.round(values.reduce((s, v) => s + v, 0) / values.length) : null;
+    const bestRank = ranks.length ? Math.min(...ranks) : null;
+
+    summaryEl.innerHTML = `
+        <div class="nick-stat">
+            <div class="nick-stat-label">Таблиц</div>
+            <div class="nick-stat-value">${history.length}</div>
+        </div>
+        <div class="nick-stat">
+            <div class="nick-stat-label">Лучший</div>
+            <div class="nick-stat-value">${bestValue != null ? fmtInt(bestValue) : '—'}</div>
+        </div>
+        <div class="nick-stat">
+            <div class="nick-stat-label">Средний</div>
+            <div class="nick-stat-value">${avgValue != null ? fmtInt(avgValue) : '—'}</div>
+        </div>
+        <div class="nick-stat">
+            <div class="nick-stat-label">Лучший ранг</div>
+            <div class="nick-stat-value">${bestRank != null ? '#' + bestRank : '—'}</div>
+        </div>
+    `;
+
+    bodyEl.innerHTML = '';
+    for (let i = 0; i < history.length; i++) {
+        const h = history[i];
+        const prev = history[i + 1];
+        const rowEl = document.createElement('div');
+        rowEl.className = 'nick-history-row';
+
+        const dateEl = document.createElement('div');
+        dateEl.className = 'nick-history-date';
+        dateEl.textContent = shortDate(h.title, h.title);
+        rowEl.appendChild(dateEl);
+
+        // Основное поле
+        const line1 = document.createElement('div');
+        line1.className = 'nick-history-line';
+        line1.innerHTML = `
+            <span class="nick-history-label">${fieldLabel}</span>
+            <span class="nick-history-value">${h.value != null ? fmtInt(h.value) : '—'}</span>
+            <span class="nick-history-rank">${h.rank != null ? '#' + h.rank : '—'}</span>
+        `;
+        if (prev && prev.value != null && h.value != null && h.value !== prev.value) {
+            const diff = h.value - prev.value;
+            const span = document.createElement('span');
+            span.className = 'cell-diff ' + (diff > 0 ? 'positive' : 'negative');
+            span.textContent = (diff > 0 ? '+' : '−') + fmtInt(Math.abs(diff));
+            line1.appendChild(span);
+        }
+        rowEl.appendChild(line1);
+
+        // Стойкость (только assault)
+        if (currentType === 'assault' && h.stamina != null) {
+            const line2 = document.createElement('div');
+            line2.className = 'nick-history-line';
+            line2.innerHTML = `
+                <span class="nick-history-label">Стойкость</span>
+                <span class="nick-history-value">${fmtInt(h.stamina)}</span>
+                <span class="nick-history-rank">${h.staminaRank != null ? '#' + h.staminaRank : '—'}</span>
+            `;
+            if (prev && prev.stamina != null && prev.stamina !== h.stamina) {
+                const diff = h.stamina - prev.stamina;
+                const span = document.createElement('span');
+                span.className = 'cell-diff ' + (diff > 0 ? 'positive' : 'negative');
+                span.textContent = (diff > 0 ? '+' : '−') + fmtInt(Math.abs(diff));
+                line2.appendChild(span);
+            }
+            rowEl.appendChild(line2);
+        }
+
+        bodyEl.appendChild(rowEl);
+    }
+}
+
+/* ============================================================
    Стикеры
    ============================================================ */
 async function loadStickers() {
     const grid = document.getElementById('stickerGrid');
     if (!grid) return;
-
     let items;
     try {
         items = await fetchJSON('content/stickers.json');
@@ -490,35 +731,28 @@ async function loadStickers() {
         grid.innerHTML = '<span class="empty-selector">stickers.json не найден</span>';
         return;
     }
-
     if (!Array.isArray(items) || items.length === 0) {
         grid.innerHTML = '<span class="empty-selector">Список стикеров пуст</span>';
         return;
     }
-
     grid.innerHTML = '';
-
     for (const item of items) {
         const href    = String(item.href || '').trim();
         const deleted = item.deleted === true;
         if (!href) continue;
-
         const a = document.createElement('a');
         a.className = 'sticker-card' + (deleted ? ' deleted' : '');
         a.href = href;
         a.target = '_blank';
         a.rel = 'noopener';
-
         const n = document.createElement('span');
         n.className = 'sticker-name';
         n.textContent = item.name || '—';
         a.appendChild(n);
-
         const u = document.createElement('span');
         u.className = 'sticker-url';
         u.textContent = item.url || '';
         a.appendChild(u);
-
         grid.appendChild(a);
     }
 }
@@ -529,7 +763,6 @@ async function loadStickers() {
 async function loadBases() {
     const tbody = document.getElementById('basesBody');
     if (!tbody) return;
-
     let items;
     try {
         items = await fetchJSON('content/bases.json');
@@ -538,27 +771,21 @@ async function loadBases() {
         tbody.innerHTML = '<tr><td colspan="2" class="empty-cell">bases.json не найден</td></tr>';
         return;
     }
-
     if (!Array.isArray(items) || items.length === 0) {
         tbody.innerHTML = '<tr><td colspan="2" class="empty-cell">Список баз пуст</td></tr>';
         return;
     }
-
     tbody.innerHTML = '';
-
     for (const item of items) {
         const tr = document.createElement('tr');
-
         const tdName = document.createElement('td');
         tdName.className = 'bases-name-cell';
         tdName.textContent = item.name || '';
         tr.appendChild(tdName);
-
         const tdCode = document.createElement('td');
         tdCode.className = 'bases-code-cell';
         tdCode.textContent = item.code || '';
         tr.appendChild(tdCode);
-
         tbody.appendChild(tr);
     }
 }
@@ -569,7 +796,6 @@ async function loadBases() {
 async function loadAltars() {
     const grid = document.getElementById('altarGrid');
     if (!grid) return;
-
     let items;
     try {
         items = await fetchJSON('content/altars.json');
@@ -578,32 +804,24 @@ async function loadAltars() {
         grid.innerHTML = '<span class="empty-selector">altars.json не найден</span>';
         return;
     }
-
     if (!Array.isArray(items) || items.length === 0) {
         grid.innerHTML = '<span class="empty-selector">Список алтарей пуст</span>';
         return;
     }
-
     items = items.slice().sort((a, b) => {
         const av = parseFloat(a.version) || 0;
         const bv = parseFloat(b.version) || 0;
         return av - bv;
     });
-
     grid.innerHTML = '';
-
     for (const item of items) {
         const src     = String(item.src || '').trim();
         const name    = String(item.name || '').trim();
         const missing = item.missing === true;
-
         if (!missing && !src) continue;
-
         const video = !missing && isVideoUrl(src);
         const isPending = !missing && item.finalized === 0;
-
         const btn = document.createElement('button');
-
         if (missing) {
             btn.className = 'altar-card missing';
             btn.disabled = true;
@@ -612,27 +830,21 @@ async function loadAltars() {
             btn.dataset.src  = src;
             btn.dataset.type = video ? 'video' : 'image';
         }
-
         const info = document.createElement('span');
         info.className = 'altar-info';
-
         const v = document.createElement('span');
         v.className = 'altar-version';
         v.textContent = item.version || '';
         info.appendChild(v);
-
         const n = document.createElement('span');
         n.className = 'altar-name';
         n.textContent = name || '—';
         info.appendChild(n);
-
         btn.appendChild(info);
-
         const tag = document.createElement('span');
         tag.className = 'altar-tag';
         tag.textContent = missing ? '—' : (video ? 'MP4' : 'PNG');
         btn.appendChild(tag);
-
         grid.appendChild(btn);
     }
 }
@@ -643,7 +855,6 @@ async function loadAltars() {
 async function loadLinks() {
     const grid = document.getElementById('linksGrid');
     if (!grid) return;
-
     let items;
     try {
         items = await fetchJSON('content/links.json');
@@ -652,36 +863,29 @@ async function loadLinks() {
         grid.innerHTML = '<span class="empty-selector">links.json не найден</span>';
         return;
     }
-
     if (!Array.isArray(items) || items.length === 0) {
         grid.innerHTML = '<span class="empty-selector">Список ссылок пуст</span>';
         return;
     }
-
     grid.innerHTML = '';
-
     for (const cat of items) {
         const links = Array.isArray(cat.links) ? cat.links : [];
         for (const link of links) {
             const href = String(link.url || '').trim();
             if (!href) continue;
-
             const a = document.createElement('a');
             a.className = 'link-btn';
             a.href = href;
             a.target = '_blank';
             a.rel = 'noopener';
-
             const catEl = document.createElement('span');
             catEl.className = 'link-btn-cat';
             catEl.textContent = cat.category || '';
             a.appendChild(catEl);
-
             const name = document.createElement('span');
             name.className = 'link-btn-name';
             name.textContent = link.name || href;
             a.appendChild(name);
-
             grid.appendChild(a);
         }
     }
@@ -695,11 +899,8 @@ const MSK_REMINDER_KEY = 'msk19_reminder_date';
 function getMskParts() {
     const parts = new Intl.DateTimeFormat('en-GB', {
         timeZone: 'Europe/Moscow',
-        year: 'numeric',
-        month: '2-digit',
-        day: '2-digit',
-        hour: '2-digit',
-        hour12: false
+        year: 'numeric', month: '2-digit', day: '2-digit',
+        hour: '2-digit', hour12: false
     }).formatToParts(new Date());
     const get = t => parts.find(p => p.type === t)?.value;
     return {
@@ -715,15 +916,10 @@ function checkMskReminder() {
         if (localStorage.getItem(MSK_REMINDER_KEY) === date) return;
         localStorage.setItem(MSK_REMINDER_KEY, date);
     } catch (e) {}
-
     const modal = document.getElementById('mskModal');
     if (!modal) return;
-
     const img = modal.querySelector('img[data-src]');
-    if (img && !img.src) {
-        img.src = img.dataset.src;
-    }
-
+    if (img && !img.src) img.src = img.dataset.src;
     modal.hidden = false;
 }
 
@@ -733,12 +929,10 @@ function checkMskReminder() {
 function attachModalDismiss(modalEl, closeBtn, clickTargets) {
     if (!modalEl) return () => {};
     const targets = clickTargets || [modalEl];
-
     const close = () => {
         modalEl.hidden = true;
         modalEl.dispatchEvent(new CustomEvent('modal:closed'));
     };
-
     if (closeBtn) closeBtn.addEventListener('click', close);
     modalEl.addEventListener('click', (e) => {
         if (targets.includes(e.target)) close();
@@ -746,7 +940,6 @@ function attachModalDismiss(modalEl, closeBtn, clickTargets) {
     document.addEventListener('keydown', (e) => {
         if (e.key === 'Escape' && !modalEl.hidden) close();
     });
-
     return close;
 }
 
@@ -757,22 +950,33 @@ function bindMskModal() {
     attachModalDismiss(modal, closeBtn);
 }
 
-/* ============================================================
-   Модалка алтаря
-   ============================================================ */
+function bindNickModal() {
+    const modal    = document.getElementById('nickModal');
+    const closeBtn = document.getElementById('nickModalClose');
+    if (!modal) return;
+    attachModalDismiss(modal, closeBtn);
+}
+
 function bindAltars() {
     const modal    = document.getElementById('altarModal');
     const body     = document.getElementById('altarModalBody');
     const nameEl   = document.getElementById('altarModalName');
     const closeBtn = document.getElementById('altarModalClose');
+    const prevBtn  = document.getElementById('altarModalPrev');
+    const nextBtn  = document.getElementById('altarModalNext');
     const grid     = document.getElementById('altarGrid');
     if (!modal || !body || !grid) return;
+
+    let cardsList = [];
+    let currentIdx = -1;
 
     attachModalDismiss(modal, closeBtn, [modal, body]);
     modal.addEventListener('modal:closed', () => {
         body.innerHTML = '';
         nameEl.textContent = '';
         grid.querySelectorAll('.altar-card').forEach(c => c.classList.remove('active'));
+        cardsList = [];
+        currentIdx = -1;
     });
 
     const missingCb = document.getElementById('showMissing');
@@ -783,8 +987,14 @@ function bindAltars() {
     }
 
     function openModal(card) {
+        if (!card || !card.dataset.src) return;
         grid.querySelectorAll('.altar-card').forEach(c => c.classList.remove('active'));
         card.classList.add('active');
+
+        cardsList = Array.from(grid.querySelectorAll('.altar-card')).filter(c => {
+            return c.offsetParent !== null && c.dataset.src;
+        });
+        currentIdx = cardsList.indexOf(card);
 
         const src  = card.dataset.src;
         const type = card.dataset.type || 'image';
@@ -812,16 +1022,50 @@ function bindAltars() {
         modal.hidden = false;
     }
 
+    function goToNext(dir) {
+        if (cardsList.length < 2 || currentIdx < 0) return;
+        const nextIdx = (currentIdx + dir + cardsList.length) % cardsList.length;
+        openModal(cardsList[nextIdx]);
+    }
+
+    // Обновить видимость стрелок (скрыть, если карточек < 2)
+    function updateNavVisibility() {
+        const show = cardsList.length >= 2;
+        if (prevBtn) prevBtn.style.display = show ? '' : 'none';
+        if (nextBtn) nextBtn.style.display = show ? '' : 'none';
+    }
+
+    // Клик на карточку
     grid.addEventListener('click', (e) => {
         const card = e.target.closest('.altar-card');
         if (!card) return;
-        const isActive = card.classList.contains('active');
-        if (isActive) {
+        if (card.classList.contains('active')) {
             modal.hidden = true;
             modal.dispatchEvent(new CustomEvent('modal:closed'));
         } else {
             openModal(card);
+            updateNavVisibility();
         }
+    });
+
+    // Клик по стрелкам
+    if (prevBtn) prevBtn.addEventListener('click', (e) => {
+        e.stopPropagation();
+        goToNext(-1);
+    });
+    if (nextBtn) nextBtn.addEventListener('click', (e) => {
+        e.stopPropagation();
+        goToNext(1);
+    });
+
+    // Клавиши ← →
+    document.addEventListener('keydown', (e) => {
+        if (modal.hidden) return;
+        if (e.target.tagName === 'INPUT' || e.target.isContentEditable) return;
+        if (e.key !== 'ArrowLeft' && e.key !== 'ArrowRight') return;
+        if (cardsList.length < 2) return;
+        e.preventDefault();
+        goToNext(e.key === 'ArrowLeft' ? -1 : 1);
     });
 }
 
@@ -839,21 +1083,25 @@ function showSection(section) {
     if (section === 'bases') {
         document.getElementById('viewBases').classList.add('active');
         lastUpdEl.textContent = '—';
+        updateHash(section);
         return;
     }
     if (section === 'stickers') {
         document.getElementById('viewStickers').classList.add('active');
         lastUpdEl.textContent = '—';
+        updateHash(section);
         return;
     }
     if (section === 'altars') {
         document.getElementById('viewAltars').classList.add('active');
         lastUpdEl.textContent = '—';
+        updateHash(section);
         return;
     }
     if (section === 'links') {
         document.getElementById('viewLinks').classList.add('active');
         lastUpdEl.textContent = '—';
+        updateHash(section);
         return;
     }
 
@@ -868,7 +1116,6 @@ function showSection(section) {
     }
 
     document.getElementById('viewTables').classList.add('active');
-
     renderTableSelector();
 
     const files = manifest?.[currentType]?.files || [];
@@ -881,6 +1128,28 @@ function showSection(section) {
         countEl.textContent = '0';
         lastUpdEl.textContent = '—';
         document.getElementById('staminaArea').style.display = 'none';
+    }
+}
+
+/* ============================================================
+   Share + Toast
+   ============================================================ */
+function showToast(msg) {
+    const toast = document.getElementById('toast');
+    if (!toast) return;
+    toast.textContent = msg;
+    toast.classList.add('show');
+    clearTimeout(toast._timer);
+    toast._timer = setTimeout(() => toast.classList.remove('show'), 2200);
+}
+
+async function copyShareLink() {
+    const url = location.href;
+    try {
+        await navigator.clipboard.writeText(url);
+        showToast('Ссылка скопирована');
+    } catch (e) {
+        prompt('Скопируйте ссылку:', url);
     }
 }
 
@@ -898,9 +1167,20 @@ if (subTypeSelEl) {
             currentSubtype = btn.dataset.subtype;
             updateSubtypeSelector();
             render();
+            updateHash(currentType);
         });
     });
 }
+
+if (nickFilterEl) {
+    nickFilterEl.addEventListener('input', (e) => {
+        nickFilter = e.target.value;
+        render();
+    });
+}
+
+const shareBtn = document.getElementById('shareBtn');
+if (shareBtn) shareBtn.addEventListener('click', copyShareLink);
 
 /* ============================================================
    Старт
@@ -908,6 +1188,7 @@ if (subTypeSelEl) {
 (async function init() {
     bindAltars();
     bindMskModal();
+    bindNickModal();
     checkMskReminder();
     setInterval(checkMskReminder, 60 * 1000);
 
@@ -926,5 +1207,23 @@ if (subTypeSelEl) {
     }
 
     await Promise.all([loadBases(), loadStickers(), loadAltars(), loadLinks()]);
-    showSection('bases');
+
+    // Восстановление из hash
+    const initial = parseHash();
+    if (initial) {
+        if (initial.section === 'assault' || initial.section === 'defence') {
+            if (initial.subtype) currentSubtype = initial.subtype;
+            const files = manifest[initial.section].files || [];
+            if (initial.file) {
+                const match = files.find(f =>
+                    f.file.replace(/\.json$/i, '') === initial.file
+                    || f.file === initial.file
+                );
+                if (match) selectedFiles[initial.section] = match.file;
+            }
+        }
+        showSection(initial.section);
+    } else {
+        showSection('bases');
+    }
 })();
