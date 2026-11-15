@@ -2,9 +2,9 @@ const fs   = require('fs').promises;
 const path = require('path');
 
 const ROOT            = __dirname;
+const CONTENT_FOLDER  = 'content';
 const ASSAULT_FOLDER  = 'data/deadly_assault';
 const DEFENCE_FOLDER  = 'data/shiyui_defence';
-const NICKS_FILE      = 'data/nicks/nicks.json';
 const AVATARS_FOLDER  = 'avatars';
 const IMAGE_EXT       = ['.png', '.jpg', '.jpeg', '.webp', '.gif'];
 
@@ -44,8 +44,8 @@ async function scanAvatars() {
     const map = {};
     for (const f of files) {
         if (!IMAGE_EXT.includes(path.extname(f).toLowerCase())) continue;
-        const name = path.basename(f, path.extname(f));       // ключ для nicks.json — как есть
-        map[name] = `${AVATARS_FOLDER}/${encodeURIComponent(f)}`;  // URL — безопасный
+        const name = path.basename(f, path.extname(f));
+        map[name] = `${AVATARS_FOLDER}/${encodeURIComponent(f)}`;
     }
     return map;
 }
@@ -64,10 +64,13 @@ async function scanAvatars() {
         avatars,
     };
 
-    await fs.writeFile(path.join(ROOT, 'manifest.json'),
+    const outDir = path.join(ROOT, CONTENT_FOLDER);
+    await fs.mkdir(outDir, { recursive: true });
+
+    await fs.writeFile(path.join(outDir, 'manifest.json'),
         JSON.stringify(manifest, null, 2), 'utf8');
 
-    console.log('✅ manifest.json обновлён');
+    console.log('✅ content/manifest.json обновлён');
     console.log(`   Штурм:   ${assault.length} шт.` + (assault[0] ? `  →  ${assault[0].file}` : ''));
     console.log(`   Оборона: ${defence.length} шт.` + (defence[0] ? `  →  ${defence[0].file}` : ''));
     console.log(`   Аватары: ${Object.keys(avatars).length} шт.`);

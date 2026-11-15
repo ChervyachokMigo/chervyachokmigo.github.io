@@ -467,7 +467,7 @@ async function loadStickers() {
 
     let items;
     try {
-        items = await fetchJSON('stickers.json');
+        items = await fetchJSON('content/stickers.json');
     } catch (e) {
         console.warn('Не удалось загрузить stickers.json:', e.message);
         grid.innerHTML = '<span class="empty-selector">stickers.json не найден</span>';
@@ -514,7 +514,7 @@ async function loadBases() {
 
     let items;
     try {
-        items = await fetchJSON('bases.json');
+        items = await fetchJSON('content/bases.json');
     } catch (e) {
         console.warn('Не удалось загрузить bases.json:', e.message);
         tbody.innerHTML = '<tr><td colspan="2" class="empty-cell">bases.json не найден</td></tr>';
@@ -553,7 +553,7 @@ async function loadAltars() {
 
     let items;
     try {
-        items = await fetchJSON('altars.json');
+        items = await fetchJSON('content/altars.json');
     } catch (e) {
         console.warn('Не удалось загрузить altars.json:', e.message);
         grid.innerHTML = '<span class="empty-selector">altars.json не найден</span>';
@@ -627,7 +627,7 @@ async function loadLinks() {
 
     let items;
     try {
-        items = await fetchJSON('links.json');
+        items = await fetchJSON('content/links.json');
     } catch (e) {
         console.warn('Не удалось загрузить links.json:', e.message);
         grid.innerHTML = '<span class="empty-selector">links.json не найден</span>';
@@ -830,7 +830,7 @@ if (subTypeSelEl) {
     }
 
     try {
-        manifest = await fetchJSON('manifest.json');
+        manifest = await fetchJSON('content/manifest.json');
     } catch (e) {
         console.error(e);
         lastUpdEl.textContent = 'Ошибка manifest.json: ' + e.message;
