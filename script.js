@@ -38,6 +38,13 @@ let previousData   = null;
 
 const selectedFiles = { assault: null, defence: null };
 
+/* Состояние сортировки для каждой таблицы */
+const sortState = {
+    assault: { key: 'test',     dir: 'desc' },
+    stamina: { key: 'stamina',  dir: 'desc' },
+    defence: { key: 'points',   dir: 'desc' },
+};
+
 const headEl          = document.getElementById('tableHead');
 const bodyEl          = document.getElementById('tableBody');
 const countEl         = document.getElementById('participantsCount');
@@ -137,6 +144,60 @@ function buildPrevIndex(prevRows) {
 }
 
 /* ============================================================
+   Сортировка
+   ============================================================ */
+function defaultSortDir(col) {
+    // числа — desc (большие сверху), текст — asc (А→Я)
+    return (col.role === 'rating' || col.role === 'number' || col.role === 'avg') ? 'desc' : 'asc';
+}
+
+function onSortClick(tableId, col) {
+    const state = sortState[tableId];
+    if (state.key === col.key) {
+        state.dir = state.dir === 'asc' ? 'desc' : 'asc';
+    } else {
+        state.key = col.key;
+        state.dir = defaultSortDir(col);
+    }
+    if (tableId === 'stamina') renderStamina();
+    else render();
+}
+
+function sortRowsBy(rows, col, dir, statsMap) {
+    const getVal = (row) => {
+        switch (col.role) {
+            case 'rating': return statsMap.get(row)?.pct ?? null;
+            case 'avg':    return statsMap.get(row)?.avg ?? null;
+            case 'nick':   return String(row.nick || '').toLowerCase();
+            case 'avatar': {
+                const av = (resolveAvatarPath(row) || '').toLowerCase();
+                const nick = String(row.nick || '').toLowerCase();
+                return av + '|' + nick;
+            }
+            default:       return num(row[col.key]);
+        }
+    };
+
+    rows.sort((a, b) => {
+        const va = getVal(a);
+        const vb = getVal(b);
+
+        // Пустые (null) — всегда в конце, независимо от направления
+        if (va === null && vb === null) return 0;
+        if (va === null) return 1;
+        if (vb === null) return -1;
+
+        let cmp;
+        if (typeof va === 'number' && typeof vb === 'number') {
+            cmp = va - vb;
+        } else {
+            cmp = String(va).localeCompare(String(vb), 'ru');
+        }
+        return dir === 'asc' ? cmp : -cmp;
+    });
+}
+
+/* ============================================================
    Рендер ячеек
    ============================================================ */
 function renderAvatarCell(td, row) {
@@ -175,13 +236,17 @@ function appendDiff(td, diff) {
 /* ============================================================
    Универсальный рендер таблицы
    ============================================================ */
-function buildTable(cfg, rows, prevIndex, headTarget, bodyTarget) {
+function buildTable(cfg, rows, prevIndex, statsMap, headTarget, bodyTarget, tableId, state) {
     headTarget.innerHTML = '';
     const trh = document.createElement('tr');
     for (const col of cfg.columns) {
         const th = document.createElement('th');
         if (col.thClass) th.className = col.thClass;
         th.textContent = col.label;
+        if (state && state.key === col.key) {
+            th.classList.add('sorted', state.dir === 'asc' ? 'sort-asc' : 'sort-desc');
+        }
+        th.addEventListener('click', () => onSortClick(tableId, col));
         trh.appendChild(th);
     }
     headTarget.appendChild(trh);
@@ -193,11 +258,9 @@ function buildTable(cfg, rows, prevIndex, headTarget, bodyTarget) {
         return;
     }
 
-    const ranked = computeRanking(rows, cfg.sortField);
-
     for (const row of rows) {
         const tr = document.createElement('tr');
-        const stats = ranked.get(row) || { pct: null, avg: null };
+        const stats = statsMap.get(row) || { pct: null, avg: null };
 
         for (const col of cfg.columns) {
             const td = document.createElement('td');
@@ -252,12 +315,18 @@ function render() {
     const cfg = CONFIG[currentType];
     const rows = (currentData?.rows || []).slice();
     const prevIndex = buildPrevIndex(previousData?.rows);
+    const state = sortState[currentType];
 
-    if (rows.length > 0) {
-        rows.sort((a, b) => (num(b[cfg.sortField]) ?? -Infinity) - (num(a[cfg.sortField]) ?? -Infinity));
+    const statsMap = computeRanking(rows, cfg.sortField);
+    const sortCol = cfg.columns.find(c => c.key === state.key)
+        || cfg.columns.find(c => c.key === cfg.sortField)
+        || cfg.columns[0];
+
+    if (rows.length > 0 && sortCol) {
+        sortRowsBy(rows, sortCol, state.dir, statsMap);
     }
 
-    buildTable(cfg, rows, prevIndex, headEl, bodyEl);
+    buildTable(cfg, rows, prevIndex, statsMap, headEl, bodyEl, currentType, state);
     countEl.textContent = rows.length;
 
     if (currentData?.savedAt) {
@@ -300,12 +369,20 @@ function renderStamina() {
         ],
     };
 
-    const rows = (currentData?.rows || [])
-        .filter(r => num(r.stamina) != null)
-        .sort((a, b) => num(b.stamina) - num(a.stamina));
-
+    const rows = (currentData?.rows || []).filter(r => num(r.stamina) != null);
     const prevIndex = buildPrevIndex(previousData?.rows);
-    buildTable(cfg, rows, prevIndex, head, body);
+    const state = sortState.stamina;
+
+    const statsMap = computeRanking(rows, 'stamina');
+    const sortCol = cfg.columns.find(c => c.key === state.key)
+        || cfg.columns.find(c => c.key === 'stamina')
+        || cfg.columns[0];
+
+    if (rows.length > 0 && sortCol) {
+        sortRowsBy(rows, sortCol, state.dir, statsMap);
+    }
+
+    buildTable(cfg, rows, prevIndex, statsMap, head, body, 'stamina', state);
 }
 
 /* ============================================================
@@ -507,7 +584,6 @@ async function loadAltars() {
         return;
     }
 
-    // Сортировка по версии (stable — same-version сохраняет порядок)
     items = items.slice().sort((a, b) => {
         const av = parseFloat(a.version) || 0;
         const bv = parseFloat(b.version) || 0;
@@ -562,7 +638,7 @@ async function loadAltars() {
 }
 
 /* ============================================================
-   Полезные ссылки — плоский грид кнопок
+   Полезные ссылки
    ============================================================ */
 async function loadLinks() {
     const grid = document.getElementById('linksGrid');
@@ -638,14 +714,11 @@ function checkMskReminder() {
     try {
         if (localStorage.getItem(MSK_REMINDER_KEY) === date) return;
         localStorage.setItem(MSK_REMINDER_KEY, date);
-    } catch (e) {
-        // localStorage недоступен — показываем всё равно
-    }
+    } catch (e) {}
 
     const modal = document.getElementById('mskModal');
     if (!modal) return;
 
-    // Ленивая загрузка картинки — только в момент показа
     const img = modal.querySelector('img[data-src]');
     if (img && !img.src) {
         img.src = img.dataset.src;
@@ -656,8 +729,6 @@ function checkMskReminder() {
 
 /* ============================================================
    Хелпер закрытия модалок
-   clickTargets — элементы, клик по которым закрывает модалку
-   (по умолчанию только сама модалка)
    ============================================================ */
 function attachModalDismiss(modalEl, closeBtn, clickTargets) {
     if (!modalEl) return () => {};
@@ -746,7 +817,6 @@ function bindAltars() {
         if (!card) return;
         const isActive = card.classList.contains('active');
         if (isActive) {
-            // Повторный клик — закрыть. Используем тот же путь, что и хелпер.
             modal.hidden = true;
             modal.dispatchEvent(new CustomEvent('modal:closed'));
         } else {

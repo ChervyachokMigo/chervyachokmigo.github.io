@@ -39,6 +39,6 @@
     { "name": "Sigrid",           "version": "3.1", "src": "https://storage.yandexcloud.net/2chzzz/3_1_Sigrid.mp4",            "finalized": 1 },
     { "name": "Claret Flint",     "version": "3.2", "src": "https://storage.yandexcloud.net/2chzzz/3_2_Claret_Flint.png",      "finalized": 1 },
     { "name": "Roxy",             "version": "3.2", "src": "https://storage.yandexcloud.net/2chzzz/3_2_Roxy.png",              "finalized": 1 },
-    { "name": "Phoenix",          "version": "3.3", "missing": true },
+    { "name": "Phoenix",          "version": "3.3", "src": "https://storage.yandexcloud.net/2chzzz/3_3_Phoenix.jpg",            "finalized": 1 },
     { "name": "Severian Lowell",  "version": "3.3", "missing": true }
 ]

@@ -290,9 +290,16 @@ body.index-page {
   white-space: nowrap;
   overflow: hidden;
   text-overflow: ellipsis;
+    cursor: pointer;
+  user-select: none;
+  transition: background-color 0.12s;
 }
 .edit-table th:last-child { border-right: none; }
+.edit-table th:hover  { background: #1c1c1c; }
+.edit-table th.sorted { background: #1a1a1a; }
 
+.edit-table th.sort-asc::after  { content: ' ▲'; font-size: 0.65em; opacity: 0.6; margin-left: 4px; }
+.edit-table th.sort-desc::after { content: ' ▼'; font-size: 0.65em; opacity: 0.6; margin-left: 4px; }
 .edit-table td {
   background: #111111; color: var(--accent);
   padding: 14px 8px 14px 4px;
