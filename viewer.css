@@ -258,22 +258,6 @@ body.index-page {
 }
 
 /* ============================================================
-   Заглушка раздела
-   ============================================================ */
-.empty-msg {
-  color: #666;
-  font-size: 1.2rem;
-  text-transform: uppercase;
-  letter-spacing: 3px;
-  padding: 60px 20px;
-  text-align: center;
-  border: 1px dashed #333;
-  width: 100%;
-  max-width: 982px;
-  background: rgba(13, 13, 13, 0.5);
-}
-
-/* ============================================================
    Контейнер таблицы — без рамки и фона, только таблица
    ============================================================ */
 .capture-area {
@@ -440,17 +424,6 @@ body.index-page {
 }
 .participants-line span { font-size: 1.6rem; font-weight: 800; }
 
-/* ============================================================
-   Дополнительная таблица СТОЙКОСТИ
-   ============================================================ */
-.stamina-area {
-  margin-bottom: 0;
-}
-
-.edit-table.stamina-table {
-  width: 982px;
-  max-width: 100%;
-}
 /* ============================================================
    Общая база карточек (стикеры / алтари / ссылки)
    ============================================================ */
@@ -762,8 +735,6 @@ body.index-page {
 .table-btn  { font-size: 0.72rem; padding: 6px 10px; }
   .sticker-grid { grid-template-columns: 1fr; }
   .altar-grid   { grid-template-columns: 1fr; }
-  .sub-title { font-size: 1.2rem; letter-spacing: 2px; }
-  .stamina-area { margin-bottom: 30px; }
   .avatar-cell img { width: 32px; height: 32px; }
   .edit-table th { padding: 6px 6px 6px 3px; font-size: 0.7rem; }
   .edit-table th.value-col,

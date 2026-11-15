@@ -300,11 +300,11 @@ function renderStamina() {
         sortField: 'stamina',
         highScore: null,
         columns: [
-            { key: 'rating',  label: 'ТОП',         tdClass: 'rating-cell num-cell', role: 'rating' },
-            { key: 'avatar',  label: 'АВАТАР',      tdClass: 'avatar-cell',          role: 'avatar' },
-            { key: 'nick',    label: 'НИК',         tdClass: 'nick-cell',            role: 'nick'   },
-            { key: 'stamina', label: 'СТОЙКОСТЬ',   tdClass: 'num-cell value-cell',  role: 'number' },
-            { key: 'avg',     label: 'ОТ СРЕДНЕГО', tdClass: 'avg-cell num-cell',    role: 'avg'    },
+            { key: 'rating',  label: 'ТОП',         thClass: 'rating-col num-col',  tdClass: 'rating-cell num-cell', role: 'rating' },
+            { key: 'avatar',  label: 'АВАТАР',      thClass: 'avatar-col',          tdClass: 'avatar-cell',          role: 'avatar' },
+            { key: 'nick',    label: 'НИК',         thClass: 'nick-col',            tdClass: 'nick-cell',            role: 'nick'   },
+            { key: 'stamina', label: 'СТОЙКОСТЬ',   thClass: 'num-col value-col',   tdClass: 'num-cell value-cell',  role: 'number' },
+            { key: 'avg',     label: 'ОТ СРЕДНЕГО', thClass: 'avg-col num-col',     tdClass: 'avg-cell num-cell',    role: 'avg'    },
         ],
     };
 
