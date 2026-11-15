@@ -1065,3 +1065,77 @@ body.index-page {
 .sticker-card.deleted:hover .sticker-url {
   color: #777;
 }
+/* ============================================================
+   Отсутствующие алтари — серые, скрыты по умолчанию
+   ============================================================ */
+.altar-card.missing {
+    display: none;
+    border-left-color: rgba(120, 120, 120, 0.4);
+    background: #0c0c0c;
+    opacity: 0.7;
+    cursor: default;
+}
+
+.altar-grid.show-missing .altar-card.missing {
+    display: flex;
+}
+
+.altar-card.missing .altar-name {
+    color: #777;
+    opacity: 1;
+}
+
+.altar-card.missing .altar-version {
+    color: #555;
+    border-color: #222;
+}
+
+.altar-card.missing .altar-tag {
+    color: #444;
+    border-color: #222;
+}
+
+/* Отключаем любой hover на отсутствующих */
+.altar-card.missing:hover {
+    background: #0c0c0c;
+    border-color: #2a2a2a;
+    border-left-color: rgba(120, 120, 120, 0.4);
+}
+
+.altar-card.missing:hover .altar-name {
+    color: #777;
+    opacity: 1;
+}
+
+.altar-card.missing:disabled {
+    opacity: 0.7;
+}
+
+/* ============================================================
+   Чекбокс «Показать отсутствующие»
+   ============================================================ */
+.legend-toggle {
+    display: inline-flex;
+    align-items: center;
+    gap: 8px;
+    color: #888;
+    font-size: 0.8rem;
+    text-transform: uppercase;
+    letter-spacing: 1.5px;
+    font-family: 'Segoe UI', sans-serif;
+    font-weight: 600;
+    cursor: pointer;
+    padding: 6px 0;
+    transition: 0.15s;
+    user-select: none;
+}
+
+.legend-toggle:hover {
+    color: #aaa;
+}
+
+.legend-toggle input[type="checkbox"] {
+    cursor: pointer;
+    accent-color: #f472b6;
+    margin: 0;
+}

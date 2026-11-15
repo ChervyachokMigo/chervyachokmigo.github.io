@@ -565,20 +565,35 @@ async function loadAltars() {
         return;
     }
 
+    // Сортировка по версии (stable — same-version сохраняет порядок)
+    items = items.slice().sort((a, b) => {
+        const av = parseFloat(a.version) || 0;
+        const bv = parseFloat(b.version) || 0;
+        return av - bv;
+    });
+
     grid.innerHTML = '';
 
     for (const item of items) {
-        const src  = String(item.src || '').trim();
-        const name = String(item.name || '').trim();
-        if (!src) continue;
+        const src     = String(item.src || '').trim();
+        const name    = String(item.name || '').trim();
+        const missing = item.missing === true;
 
-        const video    = isVideoUrl(src);
-        const isPending = item.finalized === 0;
+        if (!missing && !src) continue;
+
+        const video = !missing && isVideoUrl(src);
+        const isPending = !missing && item.finalized === 0;
 
         const btn = document.createElement('button');
-        btn.className = 'altar-card ' + (isPending ? 'pending' : 'finalized');
-        btn.dataset.src  = src;
-        btn.dataset.type = video ? 'video' : 'image';
+
+        if (missing) {
+            btn.className = 'altar-card missing';
+            btn.disabled = true;
+        } else {
+            btn.className = 'altar-card ' + (isPending ? 'pending' : 'finalized');
+            btn.dataset.src  = src;
+            btn.dataset.type = video ? 'video' : 'image';
+        }
 
         const info = document.createElement('span');
         info.className = 'altar-info';
@@ -597,7 +612,7 @@ async function loadAltars() {
 
         const tag = document.createElement('span');
         tag.className = 'altar-tag';
-        tag.textContent = video ? 'MP4' : 'PNG';
+        tag.textContent = missing ? '—' : (video ? 'MP4' : 'PNG');
         btn.appendChild(tag);
 
         grid.appendChild(btn);
@@ -662,6 +677,12 @@ function bindAltars() {
     const grid     = document.getElementById('altarGrid');
     if (!modal || !body || !grid) return;
 
+    const missingCb = document.getElementById('showMissing');
+    if (missingCb) {
+        missingCb.addEventListener('change', () => {
+            grid.classList.toggle('show-missing', missingCb.checked);
+        });
+    }
     function closeModal() {
         modal.hidden = true;
         body.innerHTML = '';
