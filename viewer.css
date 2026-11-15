@@ -865,7 +865,16 @@ body.index-page {
   border-color: #ff9500;
   background: rgba(255, 149, 0, 0.25);
 }
+/* Легенда стикеров — активные/удалённые */
+.legend-active {
+  border-color: #4ade80;
+  background: rgba(74, 222, 128, 0.25);
+}
 
+.legend-deleted {
+  border-color: #666;
+  background: rgba(102, 102, 102, 0.25);
+}
 /* ============================================================
    Неизвестные алтари — оранжевый акцент
    ============================================================ */
@@ -1026,4 +1035,33 @@ body.index-page {
     height: 20px;
     font-size: 0.65rem;
   }
+}
+/* ============================================================
+   Удалённые стикеры — серые, но кликабельные
+   ============================================================ */
+.sticker-card.deleted {
+  border-left-color: rgba(120, 120, 120, 0.5);
+  background: #0d0d0d;
+}
+
+.sticker-card.deleted .sticker-name {
+  color: #888;
+}
+
+.sticker-card.deleted .sticker-url {
+  color: #555;
+}
+
+.sticker-card.deleted:hover {
+  background: rgba(120, 120, 120, 0.08);
+  border-color: rgba(120, 120, 120, 0.55);
+  border-left-color: #888;
+}
+
+.sticker-card.deleted:hover .sticker-name {
+  color: #aaa;
+}
+
+.sticker-card.deleted:hover .sticker-url {
+  color: #777;
 }

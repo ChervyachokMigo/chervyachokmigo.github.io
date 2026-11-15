@@ -482,11 +482,12 @@ async function loadStickers() {
     grid.innerHTML = '';
 
     for (const item of items) {
-        const href = String(item.href || '').trim();
+        const href    = String(item.href || '').trim();
+        const deleted = item.deleted === true;
         if (!href) continue;
 
         const a = document.createElement('a');
-        a.className = 'sticker-card';
+        a.className = 'sticker-card' + (deleted ? ' deleted' : '');
         a.href = href;
         a.target = '_blank';
         a.rel = 'noopener';
