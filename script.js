@@ -3,9 +3,7 @@
    ============================================================ */
 const CONFIG = {
     assault: {
-        title: 'ОПАСНЫЙ ШТУРМ',
         sortField: 'test',
-        avgField:  'test',
         highScore: null,
         columns: [
             { key: 'rating',  label: 'ТОП',         thClass: 'rating-col num-col',  tdClass: 'rating-cell num-cell',  role: 'rating' },
@@ -16,9 +14,7 @@ const CONFIG = {
         ],
     },
     defence: {
-        title: 'ОБОРОНА ШИЮЙ',
         sortField: 'points',
-        avgField:  'points',
         highScore: { fieldKey: 'points', threshold: 100000, className: 'high-score' },
         columns: [
             { key: 'rating', label: 'ТОП',         thClass: 'rating-col num-col', tdClass: 'rating-cell num-cell',  role: 'rating' },
@@ -34,8 +30,6 @@ const CONFIG = {
    Состояние
    ============================================================ */
 let manifest       = null;
-let nicks          = {};
-let currentSection = 'bases';
 let currentType    = 'assault';
 let currentSubtype = 'test';   // 'test' | 'stamina' — только для assault
 let currentFile    = null;
@@ -107,8 +101,6 @@ function resolveAvatarPath(row) {
     const av = row.avatar;
     if (av && av.includes('/')) return av;
     if (av && manifest.avatars?.[av]) return manifest.avatars[av];
-    const fromNicks = nicks[row.nick];
-    if (fromNicks && manifest.avatars?.[fromNicks]) return manifest.avatars[fromNicks];
     return null;
 }
 
@@ -767,8 +759,6 @@ function bindAltars() {
    Навигация
    ============================================================ */
 function showSection(section) {
-    currentSection = section;
-
     document.querySelectorAll('.nav-btn').forEach(b => {
         b.classList.toggle('active', b.dataset.section === section);
     });

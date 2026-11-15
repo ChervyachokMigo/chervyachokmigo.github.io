@@ -137,14 +137,12 @@ body.index-page {
 
 .bases-table thead th.bases-code-col {
   text-align: right;
-  border-left: 0px dashed #222;
 }
 
 .bases-table tbody td {
   padding: 18px 22px;
   color: #c4c4c4;
   font-size: 1.1rem;
-  border-bottom: 0px dashed #222;
   word-break: break-word;
 }
 
@@ -170,7 +168,6 @@ body.index-page {
   color: var(--accent);
   letter-spacing: 0.5px;
   white-space: nowrap;
-  border-left: 0px dashed #222;
   font-size: 1.15rem;
 }
 
@@ -1062,18 +1059,6 @@ body.index-page {
 .altar-card.missing .altar-tag {
     color: #444;
     border-color: #222;
-}
-
-/* Отключаем любой hover на отсутствующих */
-.altar-card.missing:hover {
-    background: #0c0c0c;
-    border-color: #2a2a2a;
-    border-left-color: rgba(120, 120, 120, 0.4);
-}
-
-.altar-card.missing:hover .altar-name {
-    color: #777;
-    opacity: 1;
 }
 
 .altar-card.missing:disabled {
