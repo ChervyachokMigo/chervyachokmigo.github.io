@@ -4,8 +4,9 @@ const path = require('path');
 // ⚠️ Поменяй на путь к папке редактора таблиц
 const SOURCE_DATA_DIR = 'C:\\node_js\\zzz_da_2ch\\data';
 
-const TARGET_DATA_DIR = path.join(__dirname, 'data');
-const FOLDERS = ['deadly_assault', 'shiyui_defence', 'nicks'];
+const ROOT            = path.join(__dirname, '..');
+const TARGET_DATA_DIR = path.join(ROOT, 'data');
+const FOLDERS         = ['deadly_assault', 'shiyui_defence', 'nicks'];
 
 function isBackup(name) {
     return /backup/i.test(name);

@@ -1,7 +1,7 @@
 const fs   = require('fs').promises;
 const path = require('path');
 
-const ROOT            = __dirname;
+const ROOT            = path.join(__dirname, '..');
 const CONTENT_FOLDER  = 'content';
 const ASSAULT_FOLDER  = 'data/deadly_assault';
 const DEFENCE_FOLDER  = 'data/shiyui_defence';
@@ -30,7 +30,6 @@ async function scanJsonFolder(folder) {
             console.warn(`[!] Не прочитан ${f}: ${e.message}`);
         }
     }
-    // новые первыми
     items.sort((a, b) => (Date.parse(b.savedAt) || 0) - (Date.parse(a.savedAt) || 0));
     return items;
 }

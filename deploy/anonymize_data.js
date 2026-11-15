@@ -2,9 +2,10 @@ const fs     = require('fs').promises;
 const path   = require('path');
 const crypto = require('crypto');
 
-const DATA_DIR    = path.join(__dirname, 'data');
+const ROOT        = path.join(__dirname, '..');
+const DATA_DIR    = path.join(ROOT, 'data');
 const NICKS_FILE  = path.join(DATA_DIR, 'nicks', 'nicks.json');
-const AVATARS_DIR = path.join(__dirname, 'avatars');
+const AVATARS_DIR = path.join(ROOT, 'avatars');
 const FOLDERS     = ['deadly_assault', 'shiyui_defence'];
 const IMAGE_EXT   = ['.png', '.jpg', '.jpeg', '.webp', '.gif'];
 
@@ -16,7 +17,6 @@ function maskNick(nick) {
     return s[0].toUpperCase() + s[s.length - 1].toUpperCase();
 }
 
-// Стабильный необратимый ID от полного ника
 function makeId(fullNick) {
     return crypto.createHash('sha256')
         .update(String(fullNick).trim().toLowerCase())
