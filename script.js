@@ -295,6 +295,11 @@ function parseHash() {
         if (!h) return null;
         const parts = h.split('/');
         const section = parts[0];
+
+        if (section === 'stats' && parts[1]) {
+            return { section: 'stats', id: parts[1] };
+        }
+
         const valid = ['bases', 'assault', 'defence', 'stickers', 'altars', 'links'];
         if (!valid.includes(section)) return null;
         return {
@@ -1040,6 +1045,14 @@ async function openNickStats(row) {
     bodyEl.innerHTML = '';
     modal.hidden = false;
 
+    const statsId = key;
+    if (statsId && statsId !== '|') {
+        const newHash = `#stats/${encodeURIComponent(statsId)}`;
+        if (location.hash !== newHash) {
+            history.replaceState(null, '', newHash);
+        }
+    }
+
     await preloadAllTables();
     const all = allTablesCache || [];
 
@@ -1418,6 +1431,10 @@ function bindNickModal() {
     const closeBtn = document.getElementById('nickModalClose');
     if (!modal) return;
     attachModalDismiss(modal, closeBtn);
+    modal.addEventListener('modal:closed', () => {
+        const section = (document.body.className || '').replace('index-page', '').trim() || 'bases';
+        updateHash(section);
+    });
 }
 async function refreshCurrent() {
     const btn = document.getElementById('refreshBtn');
@@ -1499,6 +1516,25 @@ function bindScrollTop() {
     });
     toggle();
 }
+/* ============================================================
+   Поиск игрока по ID среди всех загруженных таблиц
+   Возвращает самую свежую таблицу, где игрок есть
+   ============================================================ */
+function findRowById(id) {
+    if (!allTablesCache || !id) return null;
+    let best = null;
+    for (const item of allTablesCache) {
+        const rows = item.data.rows || [];
+        const found = rows.find(r => rowKey(r) === id);
+        if (!found) continue;
+        const itemDate = titleDateVal(item.meta.title);
+        if (!best || itemDate > best.date) {
+            best = { row: found, item, date: itemDate };
+        }
+    }
+    return best;
+}
+
 function bindAltars() {
     const modal    = document.getElementById('altarModal');
     const body     = document.getElementById('altarModalBody');
@@ -1641,7 +1677,7 @@ function bindAltars() {
 /* ============================================================
    Навигация
    ============================================================ */
-function showSection(section) {
+async function showSection(section) {
     document.querySelectorAll('.nav-btn').forEach(b => {
         b.classList.toggle('active', b.dataset.section === section);
     });
@@ -1688,7 +1724,7 @@ function showSection(section) {
     const files = manifest?.[currentType]?.files || [];
     if (files.length > 0) {
         const targetFile = selectedFiles[currentType] || files[0].file;
-        loadTable(targetFile);
+        await loadTable(targetFile);
     } else {
         headEl.innerHTML = '';
         bodyEl.innerHTML = '';
@@ -1791,6 +1827,30 @@ document.querySelectorAll('.delta-btn').forEach(btn => {
 const shareBtn = document.getElementById('shareBtn');
 if (shareBtn) shareBtn.addEventListener('click', copyShareLink);
 
+const nickShareBtn = document.getElementById('nickShareBtn');
+if (nickShareBtn) {
+    nickShareBtn.addEventListener('click', async () => {
+        const hash = location.hash;
+        if (!hash.startsWith('#stats/')) {
+            showToast('Сначала откройте игрока');
+            return;
+        }
+        const url = location.origin + location.pathname + hash;
+        try {
+            await navigator.clipboard.writeText(url);
+            showToast('Ссылка на игрока скопирована');
+            nickShareBtn.classList.add('copied');
+            nickShareBtn.textContent = '✓';
+            setTimeout(() => {
+                nickShareBtn.classList.remove('copied');
+                nickShareBtn.textContent = '🔗';
+            }, 1500);
+        } catch (e) {
+            prompt('Скопируйте ссылку:', url);
+        }
+    });
+}
+
 /* ============================================================
    Старт
    ============================================================ */
@@ -1828,7 +1888,20 @@ if (shareBtn) shareBtn.addEventListener('click', copyShareLink);
     // Восстановление из hash
     const initial = parseHash();
     if (initial) {
-        if (initial.section === 'assault' || initial.section === 'defence') {
+        if (initial.section === 'stats' && initial.id) {
+            const found = findRowById(initial.id);
+            if (found) {
+                const fileMeta = manifest[found.item.type]?.files.find(f => f.file === found.item.meta.file);
+                if (fileMeta) {
+                    selectedFiles[found.item.type] = fileMeta.file;
+                }
+                await showSection(found.item.type);
+                openNickStats(found.row);
+            } else {
+                await showSection('bases');
+                showToast('Игрок не найден');
+            }
+        } else if (initial.section === 'assault' || initial.section === 'defence') {
             if (initial.subtype) currentSubtype = initial.subtype;
             const files = manifest[initial.section].files || [];
             if (initial.file) {
@@ -1838,9 +1911,11 @@ if (shareBtn) shareBtn.addEventListener('click', copyShareLink);
                 );
                 if (match) selectedFiles[initial.section] = match.file;
             }
+            await showSection(initial.section);
+        } else {
+            await showSection(initial.section);
         }
-        showSection(initial.section);
     } else {
-        showSection('bases');
+        await showSection('bases');
     }
 })();

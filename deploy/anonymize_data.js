@@ -42,6 +42,7 @@ async function processFile(filePath, nicks, avatars) {
 
     let masked = 0;
     for (const row of data.rows) {
+        if (row.id) continue;   // ← уже анонимизировано, не трогаем
         const full = row.nick;
         if (!full) continue;
         const avatarName = nicks[full] || '';

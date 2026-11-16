@@ -2204,3 +2204,49 @@ body.index-page {
     .delta-btn { padding: 5px 8px; font-size: 0.65rem; letter-spacing: 0.5px; }
     .delta-status { font-size: 0.62rem; padding: 4px 8px; margin-left: 0; }
 }
+/* ============================================================
+   Кнопка «Поделиться» в модалке игрока (рядом с крестиком)
+   ============================================================ */
+.nick-modal-share {
+    position: absolute;
+    top: 8px;
+    right: 48px;
+    width: 32px;
+    height: 32px;
+    background: transparent;
+    color: var(--accent);
+    border: 1px solid #444;
+    font-size: 0.85rem;
+    font-weight: 700;
+    line-height: 1;
+    cursor: pointer;
+    font-family: 'Segoe UI', sans-serif;
+    transition: 0.15s;
+    z-index: 1;
+    padding: 0;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    opacity: 0.75;
+}
+
+.nick-modal-share:hover {
+    background: var(--accent);
+    color: #0d0d0d;
+    border-color: var(--accent);
+    opacity: 1;
+}
+
+.nick-modal-share.copied {
+    color: #43d17a;
+    border-color: #43d17a;
+}
+
+@media (max-width: 600px) {
+    .nick-modal-share {
+        width: 28px;
+        height: 28px;
+        font-size: 0.75rem;
+        right: 44px;
+    }
+}
