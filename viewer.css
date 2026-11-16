@@ -337,11 +337,13 @@ body.index-page {
   padding-left: 6px;
   padding-right: 6px;
   white-space: nowrap;
+  
 }
 .edit-table td.rating-cell {
   font-size: 1.35rem;
   letter-spacing: 0.3px;
   color: var(--accent);
+  cursor: help;
 }
 
 /* ОТ СРЕДНЕГО */
@@ -352,11 +354,13 @@ body.index-page {
   padding-left: 6px;
   padding-right: 6px;
   white-space: nowrap;
+
 }
 .edit-table td.avg-cell {
   font-size: 1.35rem;
   letter-spacing: 0.3px;
   color: var(--accent);
+    cursor: help;
 }
 /* Числовые данные — единая колонка для всех таблиц */
 .edit-table th.value-col,
@@ -419,7 +423,11 @@ body.index-page {
   color: #ff4b3e;
   text-shadow: 0 0 6px rgba(255, 75, 62, 0.35);
 }
-
+.edit-table td .cell-diff.same {
+    color: #555;
+    text-shadow: none;
+    font-weight: 500;
+}
 /* ============================================================
    Участники
    ============================================================ */
@@ -1449,7 +1457,7 @@ body.index-page {
 }
 
 /* ============================================================
-   Топ-10% подсветка
+   Подсветка строк: значение выше среднего (avg > 100%)
    ============================================================ */
 .edit-table tbody tr.top-row td {
     background: color-mix(in srgb, var(--accent) 6%, #111111);
@@ -2016,4 +2024,107 @@ body.index-page {
     text-transform: uppercase;
     letter-spacing: 2px;
     color: #888;
+}
+/* ============================================================
+   Сводка изменений над таблицей
+   ============================================================ */
+.table-summary {
+    width: 100%;
+    max-width: 982px;
+    margin-bottom: 16px;
+    padding: 10px 14px;
+    background: rgba(13, 13, 13, 0.92);
+    border: 1px solid #2a2a2a;
+    border-left: 3px solid var(--accent);
+    display: flex;
+    flex-wrap: wrap;
+    align-items: center;
+    gap: 10px 14px;
+    font-family: 'Segoe UI', sans-serif;
+    font-size: 0.82rem;
+    font-weight: 600;
+    color: #888;
+}
+
+.table-summary[hidden] { display: none; }
+
+.sum-item {
+    display: inline-flex;
+    align-items: center;
+    white-space: nowrap;
+    font-variant-numeric: tabular-nums;
+    cursor: help;
+}
+
+.sum-prev-date {
+    color: var(--accent);
+    text-transform: uppercase;
+    letter-spacing: 1.5px;
+    font-size: 0.72rem;
+    padding-right: 12px;
+    border-right: 1px dashed #333;
+}
+
+.sum-up { color: #43d17a; }
+.sum-down { color: #ff4b3e; }
+.sum-same { color: #555; }
+.sum-new { color: var(--accent); }
+.sum-back { color: #888; }
+.sum-left { color: #555; }
+
+.sum-avg {
+    margin-left: auto;
+    padding-left: 14px;
+    border-left: 1px dashed #333;
+}
+.sum-avg.positive { color: #43d17a; }
+.sum-avg.negative { color: #ff4b3e; }
+
+@media (max-width: 600px) {
+    .table-summary { font-size: 0.75rem; gap: 8px 10px; }
+    .sum-prev-date { font-size: 0.68rem; padding-right: 8px; }
+    .sum-avg { margin-left: 0; padding-left: 0; border-left: none; }
+}
+
+/* ============================================================
+   Ранговые дельты и NEW/BACK в колонке ТОП
+   ============================================================ */
+.edit-table td.rating-cell .rank-diff {
+    display: block;
+    font-size: 0.72rem;
+    font-weight: 700;
+    letter-spacing: 0.3px;
+    line-height: 1.05;
+    margin-top: 2px;
+    white-space: nowrap;
+    cursor: help;
+}
+.edit-table td.rating-cell .rank-diff.positive { color: #43d17a; }
+.edit-table td.rating-cell .rank-diff.negative { color: #ff4b3e; }
+.edit-table td.rating-cell .rank-diff.same {
+    color: #555;
+    font-weight: 500;
+}
+.edit-table td.rating-cell .rank-badge {
+    display: block;
+    width: fit-content;
+    margin: 3px auto 0;
+    font-size: 0.58rem;
+    font-weight: 700;
+    letter-spacing: 1px;
+    padding: 1px 5px;
+    border-radius: 2px;
+    line-height: 1.1;
+    text-transform: uppercase;
+    cursor: help;
+}
+
+.edit-table td.rating-cell .rank-badge.new {
+    color: var(--accent);
+    background: color-mix(in srgb, var(--accent) 10%, transparent);
+}
+
+.edit-table td.rating-cell .rank-badge.back {
+    color: #777;
+    background: rgba(255, 255, 255, 0.04);
 }

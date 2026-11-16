@@ -149,7 +149,124 @@ function resolveAvatarPath(row) {
     if (av && manifest.avatars?.[av]) return manifest.avatars[av];
     return null;
 }
+/* ============================================================
+   Полный кеш всех таблиц (для истории: NEW/BACK, сводка, статистика)
+   ============================================================ */
+let allTablesCache = null;
 
+async function preloadAllTables(bust = false) {
+    if (allTablesCache && !bust) return allTablesCache;
+    const items = [];
+    if (manifest.assault?.files) {
+        for (const f of manifest.assault.files) {
+            items.push({ type: 'assault', meta: f, folder: manifest.assault.folder });
+        }
+    }
+    if (manifest.defence?.files) {
+        for (const f of manifest.defence.files) {
+            items.push({ type: 'defence', meta: f, folder: manifest.defence.folder });
+        }
+    }
+    const opts = bust
+        ? { ttl: CACHE_TTL_MS, bustCache: true, noFallback: true }
+        : { ttl: CACHE_TTL_MS };
+    const results = await Promise.all(items.map(async (item) => {
+        try {
+            const data = await fetchJSON(
+                `${item.folder}/${encodeURIComponent(item.meta.file)}`,
+                opts
+            );
+            return { type: item.type, meta: item.meta, data };
+        } catch (e) {
+            console.warn('Не загружено:', item.meta.file, e.message);
+            return null;
+        }
+    }));
+    allTablesCache = results.filter(Boolean);
+    return allTablesCache;
+}
+
+function getHistoryKeysForFile(type, fileName) {
+    const prevKeys = new Set();
+    const olderKeys = new Set();
+    if (!allTablesCache || !fileName) return { prevKeys, olderKeys };
+    const files = manifest?.[type]?.files || [];
+    const idx = files.findIndex(f => f.file === fileName);
+    if (idx < 0) return { prevKeys, olderKeys };
+
+    const findTable = (file) =>
+        allTablesCache.find(t => t.type === type && t.meta.file === file);
+
+    const prevFile = files[idx + 1]?.file;
+    if (prevFile) {
+        const item = findTable(prevFile);
+        if (item?.data?.rows) {
+            for (const r of item.data.rows) prevKeys.add(rowKey(r));
+        }
+    }
+    for (let i = idx + 2; i < files.length; i++) {
+        const item = findTable(files[i].file);
+        if (item?.data?.rows) {
+            for (const r of item.data.rows) olderKeys.add(rowKey(r));
+        }
+    }
+    return { prevKeys, olderKeys };
+}
+
+function computeSummary(currentRows, prevRows, field, olderKeys) {
+    // Ранги: в текущей и предыдущей
+    const curRanking  = computeRanking(currentRows, field);
+    const prevRanking = computeRanking(prevRows, field);
+
+    const prevValueByKey = new Map();
+    for (const r of prevRows) {
+        const v = num(r[field]);
+        if (v != null) prevValueByKey.set(rowKey(r), v);
+    }
+
+    const prevRankByKey = new Map();
+    for (const [r, s] of prevRanking) {
+        if (s.rank != null) prevRankByKey.set(rowKey(r), s.rank);
+    }
+
+    let grew = 0, fell = 0, same = 0, newCount = 0, backCount = 0;
+    const pointDeltas = [];
+    const curKeys = new Set();
+
+    for (const r of currentRows) {
+        const v = num(r[field]);
+        if (v == null) continue;
+        const key = rowKey(r);
+        curKeys.add(key);
+
+        const curRank  = curRanking.get(r)?.rank;
+        const prevRank = prevRankByKey.get(key);
+
+        // Классификация по ИЗМЕНЕНИЮ МЕСТА
+        if (prevRank != null && curRank != null) {
+            if (curRank < prevRank)      grew++;   // поднялся (место стало меньше)
+            else if (curRank > prevRank) fell++;   // опустился
+            else                          same++;  // место не изменилось
+        } else if (olderKeys && olderKeys.has(key)) {
+            backCount++;
+        } else {
+            newCount++;
+        }
+
+        // Для среднего — изменение ОЧКОВ (не места)
+        const prevV = prevValueByKey.get(key);
+        if (prevV != null) pointDeltas.push(v - prevV);
+    }
+
+    let leftCount = 0;
+    for (const k of prevRankByKey.keys()) if (!curKeys.has(k)) leftCount++;
+
+    let avg = null;
+    if (pointDeltas.length) {
+        avg = Math.round(pointDeltas.reduce((a, b) => a + b, 0) / pointDeltas.length);
+    }
+    return { grew, fell, same, newCount, backCount, leftCount, avg };
+}
 /* ============================================================
    URL hash
    ============================================================ */
@@ -335,7 +452,14 @@ function renderAvatarCell(td, row) {
 }
 
 function appendDiff(td, diff) {
-    if (diff === 0) return;
+    if (diff === 0) {
+        const span = document.createElement('span');
+        span.className = 'cell-diff same';
+        span.textContent = '±0';
+        span.title = 'Значение не изменилось';
+        td.appendChild(span);
+        return;
+    }
     const span = document.createElement('span');
     span.className = 'cell-diff ' + (diff > 0 ? 'positive' : 'negative');
     span.textContent = (diff > 0 ? '+' : '−') + fmtInt(Math.abs(diff));
@@ -345,13 +469,23 @@ function appendDiff(td, diff) {
 /* ============================================================
    Универсальный рендер таблицы
    ============================================================ */
-function buildTable(cfg, rows, prevIndex, statsMap, headTarget, bodyTarget, tableId, state, highlight) {
+function buildTable(cfg, rows, prevIndex, prevRankMap, statsMap, headTarget, bodyTarget, tableId, state, highlight, olderKeys) {
     headTarget.innerHTML = '';
     const trh = document.createElement('tr');
+    const HEAD_TIPS = {
+        rating: 'ТОП: процент игроков, которых ты обгоняешь. Под значением — изменение позиции',
+        nick:   'Ник в таблице (маска из первой и последней букв). Клик — статистика игрока',
+        test:   'ИСПЫТАНИЕ: очки за Опасный Штурм - Испытание. Под значением — разница с прошлой таблицей',
+        stamina:'СТОЙКОСТЬ: очки за Опасный Штурм - Стойкость. Под значением — разница с прошлой таблицей',
+        points: 'ОЧКИ: набрано за Оборону Шиюй. Под значением — разница с прошлой таблицей',
+        avg:    'ОТ СРЕДНЕГО: отношение значения к среднему по таблице.',
+    };
+
     for (const col of cfg.columns) {
         const th = document.createElement('th');
         if (col.thClass) th.className = col.thClass;
         th.textContent = col.label;
+        if (HEAD_TIPS[col.key]) th.title = HEAD_TIPS[col.key];
         if (state && state.key === col.key) {
             th.classList.add('sorted', state.dir === 'asc' ? 'sort-asc' : 'sort-desc');
         }
@@ -385,7 +519,7 @@ function buildTable(cfg, rows, prevIndex, statsMap, headTarget, bodyTarget, tabl
         const tr = document.createElement('tr');
         const stats = statsMap.get(row) || { pct: null, avg: null };
 
-        if (stats.rank != null && stats.rank <= top10Count) {
+        if (stats.avg != null && stats.avg > 100) {
             tr.classList.add('top-row');
         }
         if (highlight && highlight.has(row)) {
@@ -397,9 +531,45 @@ function buildTable(cfg, rows, prevIndex, statsMap, headTarget, bodyTarget, tabl
             if (col.tdClass) td.className = col.tdClass;
 
             switch (col.role) {
-                case 'rating':
+                case 'rating': {
                     td.textContent = formatPercent(stats.pct);
+                    if (stats.rank != null) {
+                        td.title = `Место #${stats.rank} (топ-${formatPercent(stats.pct)})`;
+
+                        const key = rowKey(row);
+                        const curRank = stats.rank;
+                        const prevRank = prevRankMap ? prevRankMap.get(key) : null;
+
+                        if (prevRank != null) {
+                            const delta = prevRank - curRank;
+                            if (delta !== 0) {
+                                const span = document.createElement('span');
+                                span.className = 'rank-diff ' + (delta > 0 ? 'positive' : 'negative');
+                                span.textContent = (delta > 0 ? '↑' : '↓') + Math.abs(delta);
+                                span.title = delta > 0
+                                    ? `Место улучшилось: было #${prevRank}, стало #${curRank} (+${delta})`
+                                    : `Место ухудшилось: было #${prevRank}, стало #${curRank} (−${Math.abs(delta)})`;
+                                td.appendChild(span);
+                            } else {
+                                const span = document.createElement('span');
+                                span.className = 'rank-diff same';
+                                span.textContent = '=';
+                                span.title = `Место не изменилось (#${curRank})`;
+                                td.appendChild(span);
+                            }
+                        } else {
+                            const isBack = olderKeys && olderKeys.has(key);
+                            const badge = document.createElement('span');
+                            badge.className = 'rank-badge ' + (isBack ? 'back' : 'new');
+                            badge.textContent = isBack ? 'BACK' : 'NEW';
+                            badge.title = isBack
+                                ? 'Вернулся — был в более старых таблицах, но отсутствовал в прошлой'
+                                : 'Новый — не было ни в одной прошлой таблице';
+                            td.appendChild(badge);
+                        }
+                    }
                     break;
+                }
 
                 case 'avatar':
                     renderAvatarCell(td, row);
@@ -407,6 +577,7 @@ function buildTable(cfg, rows, prevIndex, statsMap, headTarget, bodyTarget, tabl
 
                 case 'nick':
                     td.textContent = maskNick(row.nick);
+                    td.title = 'Посмотреть статистику игрока (все таблицы, история)';
                     td.addEventListener('click', () => openNickStats(row));
                     break;
 
@@ -425,9 +596,18 @@ function buildTable(cfg, rows, prevIndex, statsMap, headTarget, bodyTarget, tabl
                     break;
                 }
 
-                case 'avg':
+                case 'avg': {
                     td.textContent = formatPercent(stats.avg);
+                    if (stats.avg != null) {
+                        const delta = Math.round(stats.avg - 100);
+                        td.title = delta > 0
+                            ? `На ${delta}% выше среднего по таблице`
+                            : delta < 0
+                                ? `На ${Math.abs(delta)}% ниже среднего по таблице`
+                                : 'Ровно среднее значение';
+                    }
                     break;
+                }
 
                 default:
                     td.textContent = row[col.key] ?? '';
@@ -436,8 +616,8 @@ function buildTable(cfg, rows, prevIndex, statsMap, headTarget, bodyTarget, tabl
             tr.appendChild(td);
         }
         bodyTarget.appendChild(tr);
-
     }
+
     bodyTarget.classList.remove('table-anim');
     void bodyTarget.offsetWidth;
     bodyTarget.classList.add('table-anim');
@@ -470,7 +650,63 @@ function updateFilterUI() {
         statusEl.textContent = '';
     }
 }
+/* ============================================================
+   Сводка изменений над таблицей
+   ============================================================ */
+function updateSummary() {
+    const el = document.getElementById('tableSummary');
+    if (!el) return;
 
+    if (!currentData || !previousData || nickFilter.trim()) {
+        el.hidden = true;
+        return;
+    }
+
+    let field;
+    if (currentType === 'assault') {
+        field = currentSubtype === 'stamina' ? 'stamina' : 'test';
+    } else {
+        field = 'points';
+    }
+
+    const { olderKeys } = getHistoryKeysForFile(currentType, currentFile);
+    const s = computeSummary(currentData.rows || [], previousData.rows || [], field, olderKeys);
+
+    const total = s.grew + s.fell + s.same + s.newCount + s.backCount + s.leftCount;
+    if (total === 0) { el.hidden = true; return; }
+
+    const prevDate = previousData.title ? shortDate(previousData.title, '') : '—';
+
+    el.innerHTML = '';
+
+    const mk = (cls, text, title) => {
+        const sp = document.createElement('span');
+        sp.className = 'sum-item ' + cls;
+        sp.textContent = text;
+        if (title) sp.title = title;
+        return sp;
+    };
+
+    const dateItem = mk('sum-prev-date', prevDate);
+    dateItem.title = 'Сравнение с таблицей от ' + prevDate;
+    el.appendChild(dateItem);
+    if (s.grew > 0) el.appendChild(mk('sum-up', s.grew + ' ↑', 'Поднялись в рейтинге (место улучшилось)'));
+    if (s.fell > 0) el.appendChild(mk('sum-down', s.fell + ' ↓', 'Опустились в рейтинге (место ухудшилось)'));
+    if (s.same > 0) el.appendChild(mk('sum-same', s.same + ' =', 'Место не изменилось'));
+    if (s.newCount > 0) el.appendChild(mk('sum-new', s.newCount + ' новых', 'Новые игроки'));
+    if (s.backCount > 0) el.appendChild(mk('sum-back', s.backCount + ' верн.', 'Вернулись после пропуска'));
+    if (s.leftCount > 0) el.appendChild(mk('sum-left', s.leftCount + ' ушли', 'Пропали из таблицы'));
+
+    if (s.avg != null && s.avg !== 0) {
+        el.appendChild(mk(
+            'sum-avg ' + (s.avg > 0 ? 'positive' : 'negative'),
+            (s.avg > 0 ? '+' : '') + fmtInt(s.avg) + ' очк. ср.',
+            'Среднее изменение очков'
+        ));
+    }
+
+    el.hidden = false;
+}
 /* ============================================================
    Рендер основной таблицы
    ============================================================ */
@@ -481,6 +717,19 @@ function render() {
     const state = sortState[currentType];
 
     const statsMap = computeRanking(rows, cfg.sortField);
+
+    // Ранги из предыдущей таблицы
+    const prevRankMap = new Map();
+    if (previousData?.rows?.length) {
+        const prevStats = computeRanking(previousData.rows, cfg.sortField);
+        for (const [r, s] of prevStats) {
+            if (s.rank != null) prevRankMap.set(rowKey(r), s.rank);
+        }
+    }
+
+    // Игроки, которые были в таблицах старше предыдущей
+    const { olderKeys } = getHistoryKeysForFile(currentType, currentFile);
+
     const sortCol = cfg.columns.find(c => c.key === state.key)
         || cfg.columns.find(c => c.key === cfg.sortField)
         || cfg.columns[0];
@@ -491,7 +740,7 @@ function render() {
 
     const { filtered, highlight } = applyNickFilter(rows, nickFilter);
 
-    buildTable(cfg, filtered, prevIndex, statsMap, headEl, bodyEl, currentType, state, highlight);
+    buildTable(cfg, filtered, prevIndex, prevRankMap, statsMap, headEl, bodyEl, currentType, state, highlight, olderKeys);
     countEl.textContent = (currentData?.rows || []).length;
 
     const participantsLine = document.querySelector('.participants-line');
@@ -514,6 +763,7 @@ function render() {
     renderStamina();
     applySubtypeVisibility();
     updateFilterUI();
+    updateSummary();
 }
 
 /* ============================================================
@@ -543,6 +793,18 @@ function renderStamina() {
     const state = sortState.stamina;
 
     const statsMap = computeRanking(rows, 'stamina');
+
+    const prevRankMap = new Map();
+    if (previousData?.rows?.length) {
+        const prevRows = previousData.rows.filter(r => num(r.stamina) != null);
+        const prevStats = computeRanking(prevRows, 'stamina');
+        for (const [r, s] of prevStats) {
+            if (s.rank != null) prevRankMap.set(rowKey(r), s.rank);
+        }
+    }
+
+    const { olderKeys } = getHistoryKeysForFile(currentType, currentFile);
+
     const sortCol = cfg.columns.find(c => c.key === state.key)
         || cfg.columns.find(c => c.key === 'stamina')
         || cfg.columns[0];
@@ -553,7 +815,7 @@ function renderStamina() {
 
     const { filtered, highlight } = applyNickFilter(rows, nickFilter);
 
-    buildTable(cfg, filtered, prevIndex, statsMap, head, body, 'stamina', state, highlight);
+    buildTable(cfg, filtered, prevIndex, prevRankMap, statsMap, head, body, 'stamina', state, highlight, olderKeys);
 }
 
 /* ============================================================
@@ -650,6 +912,9 @@ async function loadTable(fileName) {
             }
         }
 
+        // Загружаем полную историю для NEW/BACK и сводки (если ещё не в кеше)
+        await preloadAllTables();
+
         render();
         updateHash(currentType);
 
@@ -725,21 +990,8 @@ async function openNickStats(row) {
     bodyEl.innerHTML = '';
     modal.hidden = false;
 
-    const assaultFiles  = manifest.assault?.files || [];
-    const defenceFiles  = manifest.defence?.files || [];
-    const assaultFolder = manifest.assault?.folder || '';
-    const defenceFolder = manifest.defence?.folder || '';
-
-    const tasks = [
-        ...assaultFiles.map(f => fetchJSON(`${assaultFolder}/${encodeURIComponent(f.file)}`, { ttl: CACHE_TTL_MS })
-            .then(d => ({ type: 'assault', meta: f, data: d }))
-            .catch(() => null)),
-        ...defenceFiles.map(f => fetchJSON(`${defenceFolder}/${encodeURIComponent(f.file)}`, { ttl: CACHE_TTL_MS })
-            .then(d => ({ type: 'defence', meta: f, data: d }))
-            .catch(() => null)),
-    ];
-
-    const all = (await Promise.all(tasks)).filter(Boolean);
+    await preloadAllTables();
+    const all = allTablesCache || [];
 
     const timeline = [];
     const statsTest = [];
@@ -1131,6 +1383,9 @@ async function refreshCurrent() {
         manifest = await fetchJSON('content/manifest.json', { ttl: CACHE_TTL_MS, bustCache: true, noFallback: true });
         renderTableSelector();
 
+        allTablesCache = null;
+        await preloadAllTables(true);
+
         if (currentFile) {
             const folder = manifest[currentType].folder;
             const url = `${folder}/${encodeURIComponent(currentFile)}`;
@@ -1495,7 +1750,13 @@ if (shareBtn) shareBtn.addEventListener('click', copyShareLink);
         return;
     }
 
-    await Promise.all([loadBases(), loadStickers(), loadAltars(), loadLinks()]);
+    await Promise.all([
+        preloadAllTables(),
+        loadBases(),
+        loadStickers(),
+        loadAltars(),
+        loadLinks(),
+    ]);
 
     // Восстановление из hash
     const initial = parseHash();
