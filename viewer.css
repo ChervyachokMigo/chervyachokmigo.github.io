@@ -2491,12 +2491,14 @@ body.index-page {
 /* ============================================================
    Ссылка на каталог /gacha/zzz в заголовке
    ============================================================ */
-.title-link {
+.title-link,
+.title-link:link,
+.title-link:visited,
+.title-link:active {
     color: var(--accent);
     text-decoration: none;
-   
     padding-bottom: 1px;
-    transition: border-color 0.12s ease, background-color 0.12s ease;
+    transition: border-color 0.12s ease, background-color 0.12s ease, color 0.12s ease;
 }
 
 .title-link:hover {
