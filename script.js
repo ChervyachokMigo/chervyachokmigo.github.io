@@ -1268,7 +1268,6 @@ function bindAltars() {
             v.loop = true;
             v.muted = true;
             v.playsInline = true;
-            v.crossOrigin = 'anonymous';
             v.addEventListener('error', () => {
                 showAltarStub(navigator.onLine ? 'Видео недоступно' : 'Нет соединения');
             });

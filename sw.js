@@ -1,15 +1,5 @@
 // sw.js
 importScripts('https://storage.googleapis.com/workbox-cdn/releases/7.0.0/workbox-sw.js');
-workbox.routing.registerRoute(
-  /^https:\/\/storage\.yandexcloud\.net\/2chzzz\/.*\.(mp4|webm)$/,
-  new workbox.strategies.CacheFirst({
-    cacheName: 'video-cache',
-    plugins: [
-      new workbox.cacheableResponse.CacheableResponsePlugin({ statuses: [200] }),
-      new workbox.rangeRequests.RangeRequestsPlugin(),
-    ],
-  })
-);
 
 // Аватарки (локальные файлы)
 workbox.routing.registerRoute(
@@ -28,21 +18,19 @@ workbox.routing.registerRoute(
   })
 );
 
-// Алтари с yandex cloud (кросс-домен, но SW в области видимости страницы
-// может их перехватывать и кешировать как opaque)
+// Алтари — только картинки, без видео
 workbox.routing.registerRoute(
-  /^https:\/\/storage\.yandexcloud\.net\/2chzzz\//,
+  /^https:\/\/storage\.yandexcloud\.net\/2chzzz\/.*\.(?:png|jpg|jpeg|webp|gif|svg)$/i,
   new workbox.strategies.CacheFirst({
     cacheName: 'altars-cache',
     plugins: [
       new workbox.expiration.ExpirationPlugin({
         maxEntries: 120,
-        maxAgeSeconds: 90 * 24 * 60 * 60,   // 90 дней
+        maxAgeSeconds: 90 * 24 * 60 * 60,
       }),
       new workbox.cacheableResponse.CacheableResponsePlugin({
-        statuses: [0, 200],                  // 0 = opaque (кросс-домен)
+        statuses: [0, 200],
       }),
     ],
   })
 );
-
