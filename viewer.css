@@ -2488,3 +2488,19 @@ body.index-page {
     color: #aaa;
     border-color: #444;
 }
+/* ============================================================
+   Ссылка на каталог /gacha/zzz в заголовке
+   ============================================================ */
+.title-link {
+    color: var(--accent);
+    text-decoration: none;
+   
+    padding-bottom: 1px;
+    transition: border-color 0.12s ease, background-color 0.12s ease;
+}
+
+.title-link:hover {
+    background: var(--accent);
+    color: #0d0d0d;
+    border-bottom-color: transparent;
+}
