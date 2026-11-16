@@ -1460,12 +1460,11 @@ body.index-page {
    Подсветка строк: значение выше среднего (avg > 100%)
    ============================================================ */
 .edit-table tbody tr.top-row td {
-    background: color-mix(in srgb, var(--accent) 6%, #111111);
+    background: color-mix(in srgb, var(--accent) 2%, #111111);
 }
 .edit-table tbody tr.top-row:nth-child(even) td {
-    background: color-mix(in srgb, var(--accent) 6%, #181818);
+    background: color-mix(in srgb, var(--accent) 2%, #181818);
 }
-
 /* Матч фильтра — сильнее топ-строки */
 .edit-table tbody tr.nick-match td {
     background: color-mix(in srgb, var(--accent) 18%, #111111) !important;
