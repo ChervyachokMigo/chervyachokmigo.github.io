@@ -1,5 +1,15 @@
 // sw.js
 importScripts('https://storage.googleapis.com/workbox-cdn/releases/7.0.0/workbox-sw.js');
+workbox.routing.registerRoute(
+  /^https:\/\/storage\.yandexcloud\.net\/2chzzz\/.*\.(mp4|webm)$/,
+  new workbox.strategies.CacheFirst({
+    cacheName: 'video-cache',
+    plugins: [
+      new workbox.cacheableResponse.CacheableResponsePlugin({ statuses: [200] }),
+      new workbox.rangeRequests.RangeRequestsPlugin(),
+    ],
+  })
+);
 
 // Аватарки (локальные файлы)
 workbox.routing.registerRoute(
@@ -35,3 +45,4 @@ workbox.routing.registerRoute(
     ],
   })
 );
+
