@@ -160,6 +160,12 @@
       "avatar": "avatars/Avatar_Tempered_Crown.webp"
     },
     {
+      "nick": "ED",
+      "points": "113212",
+      "id": "cceac96c",
+      "avatar": "avatars/Avatar_Qingyi.webp"
+    },
+    {
       "nick": "MH",
       "points": "112962",
       "id": "1b8aa508",
@@ -176,12 +182,6 @@
       "points": "111699",
       "id": "02f35ac4",
       "avatar": "avatars/Avatar_Tempered_Crown.webp"
-    },
-    {
-      "nick": "ED",
-      "points": "111498",
-      "id": "cceac96c",
-      "avatar": "avatars/Avatar_Qingyi.webp"
     },
     {
       "nick": "KU",
@@ -460,12 +460,18 @@
       "avatar": "avatars/Avatar_Fragrant_Infusion.webp"
     },
     {
+      "nick": "LN",
+      "points": "80916",
+      "id": "0951caa8",
+      "avatar": "avatars/Avatar_Ukinami_Yuzuha.webp"
+    },
+    {
       "nick": "YO",
       "points": "79976",
       "id": "347b5412",
       "avatar": "avatars/Avatar_Burnice_White.webp"
     }
   ],
-  "savedAt": "2026-11-16T02:21:04.566Z",
+  "savedAt": "2026-11-16T16:47:19.515Z",
   "type": "defence"
 }
