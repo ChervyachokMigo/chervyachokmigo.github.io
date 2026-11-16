@@ -2127,3 +2127,80 @@ body.index-page {
     color: #777;
     background: rgba(255, 255, 255, 0.04);
 }
+/* ============================================================
+   Быстрые фильтры по дельтам
+   ============================================================ */
+.delta-filters {
+    display: flex;
+    gap: 6px;
+    flex-wrap: wrap;
+    align-items: center;
+    padding-top: 10px;
+    border-top: 1px dashed #2a2a2a;
+}
+
+.delta-btn {
+    background: #0f0f0f;
+    color: #888;
+    border: 1px solid #2a2a2a;
+    padding: 6px 12px;
+    font-size: 0.72rem;
+    font-weight: 700;
+    text-transform: uppercase;
+    letter-spacing: 1px;
+    cursor: pointer;
+    font-family: 'Segoe UI', sans-serif;
+    transition: 0.15s;
+    white-space: nowrap;
+}
+
+.delta-btn:hover {
+    color: var(--accent);
+    border-color: color-mix(in srgb, var(--accent) 55%, transparent);
+}
+
+.delta-btn.active {
+    background: color-mix(in srgb, var(--accent) 14%, transparent);
+    color: var(--accent);
+    border-color: color-mix(in srgb, var(--accent) 75%, transparent);
+}
+
+.delta-btn[data-delta="grew"].active {
+    color: #43d17a;
+    border-color: #43d17a;
+    background: rgba(67, 209, 122, 0.10);
+}
+
+.delta-btn[data-delta="fell"].active {
+    color: #ff4b3e;
+    border-color: #ff4b3e;
+    background: rgba(255, 75, 62, 0.10);
+}
+
+.delta-btn[data-delta="back"].active {
+    color: #a0a0a0;
+    border-color: #888;
+    background: rgba(255, 255, 255, 0.05);
+}
+
+.delta-status {
+    color: var(--accent);
+    font-size: 0.7rem;
+    font-weight: 700;
+    text-transform: uppercase;
+    letter-spacing: 1px;
+    padding: 5px 10px;
+    border: 1px solid color-mix(in srgb, var(--accent) 40%, transparent);
+    background: color-mix(in srgb, var(--accent) 8%, transparent);
+    font-variant-numeric: tabular-nums;
+    font-family: 'Segoe UI', sans-serif;
+    white-space: nowrap;
+    margin-left: auto;
+}
+
+.delta-status[hidden] { display: none; }
+
+@media (max-width: 600px) {
+    .delta-btn { padding: 5px 8px; font-size: 0.65rem; letter-spacing: 0.5px; }
+    .delta-status { font-size: 0.62rem; padding: 4px 8px; margin-left: 0; }
+}

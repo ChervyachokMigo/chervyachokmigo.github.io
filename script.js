@@ -36,6 +36,7 @@ let currentFile    = null;
 let currentData    = null;
 let previousData   = null;
 let nickFilter     = '';
+let deltaFilter    = null;   // null | 'grew' | 'fell' | 'new' | 'back'
 
 const selectedFiles = { assault: null, defence: null };
 
@@ -388,27 +389,53 @@ function sortRowsBy(rows, col, dir, statsMap) {
 /* ============================================================
    Фильтр по нику (+±2 соседа, матчи выделены)
    ============================================================ */
-function applyNickFilter(rows, query) {
-    const q = (query || '').trim().toLowerCase();
-    if (!q) return { filtered: rows, highlight: new Set() };
-
-    const matches = [];
-    const highlight = new Set();
-    rows.forEach((r, i) => {
-        if (String(r.nick || '').toLowerCase().includes(q)) {
-            matches.push(i);
-            highlight.add(r);
+function applyFilters(rows, statsMap, prevRankMap, olderKeys) {
+    function deltaType(row) {
+        const key = rowKey(row);
+        const curRank = statsMap.get(row)?.rank;
+        const prevRank = prevRankMap ? prevRankMap.get(key) : null;
+        if (prevRank != null && curRank != null) {
+            if (curRank < prevRank) return 'grew';
+            if (curRank > prevRank) return 'fell';
+            return 'same';
         }
-    });
+        if (olderKeys && olderKeys.has(key)) return 'back';
+        return 'new';
+    }
 
+    // Шаг 1: фильтр по типу дельты
+    const base = deltaFilter
+        ? rows.filter(r => deltaType(r) === deltaFilter)
+        : rows;
+
+    // Шаг 2: фильтр по нику
+    const q = nickFilter.trim().toLowerCase();
+    if (!q) {
+        return { filtered: base, highlight: new Set() };
+    }
+
+    const matches = base.filter(r => String(r.nick || '').toLowerCase().includes(q));
+    const highlight = new Set(matches);
+
+    // Если активен ещё и delta-фильтр — без соседей
+    if (deltaFilter) {
+        return { filtered: matches, highlight };
+    }
+
+    // Только ник — с ±2 соседями и разделителями
     if (matches.length === 0) {
         return { filtered: [], highlight };
     }
 
+    const matchIndices = new Set();
+    base.forEach((r, i) => {
+        if (String(r.nick || '').toLowerCase().includes(q)) matchIndices.add(i);
+    });
+
     const keep = new Set();
-    for (const idx of matches) {
+    for (const idx of matchIndices) {
         for (let i = idx - 2; i <= idx + 2; i++) {
-            if (i >= 0 && i < rows.length) keep.add(i);
+            if (i >= 0 && i < base.length) keep.add(i);
         }
     }
 
@@ -418,7 +445,7 @@ function applyNickFilter(rows, query) {
         if (i > 0 && keepArr[i] - keepArr[i - 1] > 1) {
             filtered.push({ __gap: true });
         }
-        filtered.push(rows[keepArr[i]]);
+        filtered.push(base[keepArr[i]]);
     }
 
     return { filtered, highlight };
@@ -649,6 +676,25 @@ function updateFilterUI() {
         statusEl.hidden = true;
         statusEl.textContent = '';
     }
+
+    // Delta-status
+    const deltaStatusEl = document.getElementById('deltaStatus');
+    if (deltaStatusEl) {
+        if (deltaFilter) {
+            let bodyToCheck = bodyEl;
+            if (currentType === 'assault' && currentSubtype === 'stamina') {
+                bodyToCheck = document.getElementById('staminaBody') || bodyEl;
+            }
+            const cnt = bodyToCheck.querySelectorAll(
+                'tr:not(.gap-row):not(.loading-row):not(.error-row)'
+            ).length;
+            deltaStatusEl.textContent = cnt > 0 ? `${cnt} шт.` : 'пусто';
+            deltaStatusEl.hidden = false;
+        } else {
+            deltaStatusEl.hidden = true;
+            deltaStatusEl.textContent = '';
+        }
+    }
 }
 /* ============================================================
    Сводка изменений над таблицей
@@ -657,7 +703,7 @@ function updateSummary() {
     const el = document.getElementById('tableSummary');
     if (!el) return;
 
-    if (!currentData || !previousData || nickFilter.trim()) {
+    if (!currentData || !previousData || nickFilter.trim() || deltaFilter) {
         el.hidden = true;
         return;
     }
@@ -738,7 +784,7 @@ function render() {
         sortRowsBy(rows, sortCol, state.dir, statsMap);
     }
 
-    const { filtered, highlight } = applyNickFilter(rows, nickFilter);
+    const { filtered, highlight } = applyFilters(rows, statsMap, prevRankMap, olderKeys);
 
     buildTable(cfg, filtered, prevIndex, prevRankMap, statsMap, headEl, bodyEl, currentType, state, highlight, olderKeys);
     countEl.textContent = (currentData?.rows || []).length;
@@ -813,7 +859,7 @@ function renderStamina() {
         sortRowsBy(rows, sortCol, state.dir, statsMap);
     }
 
-    const { filtered, highlight } = applyNickFilter(rows, nickFilter);
+    const { filtered, highlight } = applyFilters(rows, statsMap, prevRankMap, olderKeys);
 
     buildTable(cfg, filtered, prevIndex, prevRankMap, statsMap, head, body, 'stamina', state, highlight, olderKeys);
 }
@@ -918,9 +964,13 @@ async function loadTable(fileName) {
         render();
         updateHash(currentType);
 
-        if (nickFilter.trim()) {
-            showToast('Фильтр: ' + nickFilter.trim());
+        const filterMsg = [];
+        if (nickFilter.trim()) filterMsg.push('ник: ' + nickFilter.trim());
+        if (deltaFilter) {
+            const labels = { grew: '↑ рост', fell: '↓ падение', new: 'NEW', back: 'BACK' };
+            filterMsg.push(labels[deltaFilter]);
         }
+        if (filterMsg.length) showToast('Фильтр: ' + filterMsg.join(' · '));
     } catch (e) {
         console.error(e);
         currentData = null;
@@ -1686,9 +1736,13 @@ if (subTypeSelEl) {
             render();
             updateHash(currentType);
 
-            if (nickFilter.trim()) {
-                showToast('Фильтр: ' + nickFilter.trim());
+            const filterMsg = [];
+            if (nickFilter.trim()) filterMsg.push('ник: ' + nickFilter.trim());
+            if (deltaFilter) {
+                const labels = { grew: '↑ рост', fell: '↓ падение', new: 'NEW', back: 'BACK' };
+                filterMsg.push(labels[deltaFilter]);
             }
+            if (filterMsg.length) showToast('Фильтр: ' + filterMsg.join(' · '));
         });
     });
 }
@@ -1720,6 +1774,19 @@ if (nickFilterClearEl) {
         render();
     });
 }
+
+// Delta filters
+document.querySelectorAll('.delta-btn').forEach(btn => {
+    btn.addEventListener('click', () => {
+        const val = btn.dataset.delta || null;
+        if (deltaFilter === val) return;
+        deltaFilter = val;
+        document.querySelectorAll('.delta-btn').forEach(b => {
+            b.classList.toggle('active', (b.dataset.delta || null) === deltaFilter);
+        });
+        render();
+    });
+});
 
 const shareBtn = document.getElementById('shareBtn');
 if (shareBtn) shareBtn.addEventListener('click', copyShareLink);

@@ -74,6 +74,15 @@
                 <span class="nick-filter-status" id="nickFilterStatus" hidden></span>
                 <button type="button" class="nick-filter-clear" id="nickFilterClear" title="Сбросить фильтр" hidden>×</button>
             </div>
+
+            <div class="delta-filters" id="deltaFilters">
+                <button type="button" class="delta-btn active" data-delta="">Все</button>
+                <button type="button" class="delta-btn" data-delta="grew">↑ Рост</button>
+                <button type="button" class="delta-btn" data-delta="fell">↓ Падение</button>
+                <button type="button" class="delta-btn" data-delta="new">NEW</button>
+                <button type="button" class="delta-btn" data-delta="back">BACK</button>
+                <span class="delta-status" id="deltaStatus" hidden></span>
+            </div>
         </div>
         <div class="table-summary" id="tableSummary" hidden></div>
         <div id="staminaArea" class="capture-area stamina-area" style="display:none;">
