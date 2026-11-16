@@ -10,6 +10,12 @@
       "avatar": "avatars/Avatar_Sunna.webp"
     },
     {
+      "nick": "SD",
+      "points": "138223",
+      "id": "f300adf2",
+      "avatar": "avatars/belle_wise_b_p_2.png"
+    },
+    {
       "nick": "MW",
       "points": "137314",
       "id": "404cdd7b",
@@ -20,12 +26,6 @@
       "points": "135881",
       "id": "edbf4a3e",
       "avatar": "avatars/avatar_severian.png"
-    },
-    {
-      "nick": "SD",
-      "points": "135723",
-      "id": "f300adf2",
-      "avatar": "avatars/belle_wise_b_p_2.png"
     },
     {
       "nick": "MK",
@@ -46,6 +46,12 @@
       "avatar": "avatars/Avatar_Tempered_Crown.webp"
     },
     {
+      "nick": "ЦУ",
+      "points": "125592",
+      "id": "4043ac45",
+      "avatar": "avatars/Avatar_Norma_Hollowell.webp"
+    },
+    {
       "nick": "BR",
       "points": "124046",
       "id": "5d790795",
@@ -53,7 +59,7 @@
     },
     {
       "nick": "НУ",
-      "points": "122876",
+      "points": "124031",
       "id": "b19cb5d9",
       "avatar": "avatars/Avatar_Tempered_Crown.webp"
     },
@@ -70,6 +76,12 @@
       "avatar": "avatars/Avatar_Hoshimi_Miyabi.webp"
     },
     {
+      "nick": "BO",
+      "points": "121321",
+      "id": "3286b2f3",
+      "avatar": "avatars/Avatar_Starlight_-_Billy_Kid.webp"
+    },
+    {
       "nick": "RN",
       "points": "121316",
       "id": "c0efc449",
@@ -82,28 +94,28 @@
       "avatar": "avatars/Avatar_Ju_Fufu.webp"
     },
     {
+      "nick": "SC",
+      "points": "118526",
+      "id": "0fc702d4",
+      "avatar": "avatars/Avatar_Hoshimi_Miyabi.webp"
+    },
+    {
+      "nick": "AM",
+      "points": "118505",
+      "id": "384f85ed",
+      "avatar": "avatars/Avatar_Velina_Airgid.webp"
+    },
+    {
       "nick": "ML",
       "points": "118488",
       "id": "07916b53",
       "avatar": "avatars/Avatar_Blessed_by_Glory_The_Crown.webp"
     },
     {
-      "nick": "BO",
-      "points": "118193",
-      "id": "3286b2f3",
-      "avatar": "avatars/Avatar_Starlight_-_Billy_Kid.webp"
-    },
-    {
       "nick": "СЫ",
-      "points": "117386",
+      "points": "117773",
       "id": "371c77f6",
       "avatar": "avatars/Avatar_Banyue.webp"
-    },
-    {
-      "nick": "AM",
-      "points": "116828",
-      "id": "384f85ed",
-      "avatar": "avatars/Avatar_Velina_Airgid.webp"
     },
     {
       "nick": "WM",
@@ -116,6 +128,12 @@
       "points": "115109",
       "id": "ef669066",
       "avatar": "avatars/Avatar_Zhu_Yuan.webp"
+    },
+    {
+      "nick": "DO",
+      "points": "114609",
+      "id": "e4f461c2",
+      "avatar": "avatars/Avatar_%2522My_Love_For_You%2522.webp"
     },
     {
       "nick": "BY",
@@ -239,7 +257,7 @@
     },
     {
       "nick": "АТ",
-      "points": "102843",
+      "points": "102861",
       "id": "c0b6877f",
       "avatar": "avatars/Avatar_Cissia.webp"
     },
@@ -266,6 +284,12 @@
       "points": "101741",
       "id": "896c39cc",
       "avatar": "avatars/Avatar_Jane_Doe.webp"
+    },
+    {
+      "nick": "KP",
+      "points": "101734",
+      "id": "fd20d6c3",
+      "avatar": "avatars/Avatar_Zhu_Yuan.webp"
     },
     {
       "nick": "DI",
@@ -298,10 +322,22 @@
       "avatar": "avatars/Avatar_Default_Pig.webp"
     },
     {
+      "nick": "DL",
+      "points": "97761",
+      "id": "2e6c7a60",
+      "avatar": "avatars/Avatar_Zhu_Yuan.webp"
+    },
+    {
       "nick": "PE",
       "points": "97226",
       "id": "716ac6f0",
       "avatar": "avatars/Avatar_Sunna.webp"
+    },
+    {
+      "nick": "ТЛ",
+      "points": "96414",
+      "id": "38f0d092",
+      "avatar": "avatars/Avatar_Hoshimi_Miyabi.webp"
     },
     {
       "nick": "AN",
@@ -334,6 +370,12 @@
       "avatar": "avatars/avatar_phoenix.png"
     },
     {
+      "nick": "SN",
+      "points": "91588",
+      "id": "242870a1",
+      "avatar": "avatars/Avatar_Nangong_Yu.webp"
+    },
+    {
       "nick": "FK",
       "points": "90291",
       "id": "b3cd578d",
@@ -344,12 +386,6 @@
       "points": "89866",
       "id": "124ab232",
       "avatar": "avatars/Avatar_Ben_Bigger.webp"
-    },
-    {
-      "nick": "KP",
-      "points": "89474",
-      "id": "fd20d6c3",
-      "avatar": "avatars/Avatar_Zhu_Yuan.webp"
     },
     {
       "nick": "TS",
@@ -374,6 +410,12 @@
       "points": "86748",
       "id": "9fd21aa6",
       "avatar": "avatars/Avatar_Grace_Howard.webp"
+    },
+    {
+      "nick": "JA",
+      "points": "85958",
+      "id": "c92295fe",
+      "avatar": "avatars/Avatar_Pulchra_Fellini.webp"
     },
     {
       "nick": "KA",
@@ -424,6 +466,6 @@
       "avatar": "avatars/Avatar_Burnice_White.webp"
     }
   ],
-  "savedAt": "2026-11-15T02:57:56.206Z",
+  "savedAt": "2026-11-16T02:21:04.566Z",
   "type": "defence"
 }

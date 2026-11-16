@@ -123,6 +123,13 @@
       "avatar": "avatars/Avatar_Default_Anonymous.webp"
     },
     {
+      "nick": "AM",
+      "test": "119984",
+      "stamina": "",
+      "id": "384f85ed",
+      "avatar": "avatars/Avatar_Velina_Airgid.webp"
+    },
+    {
       "nick": "АТ",
       "test": "118981",
       "stamina": "",
@@ -151,18 +158,18 @@
       "avatar": "avatars/Avatar_Hoshimi_Miyabi.webp"
     },
     {
-      "nick": "AM",
-      "test": "116934",
-      "stamina": "",
-      "id": "384f85ed",
-      "avatar": "avatars/Avatar_Velina_Airgid.webp"
-    },
-    {
       "nick": "RN",
       "test": "116186",
       "stamina": "32881",
       "id": "c0efc449",
       "avatar": "avatars/Avatar_Remielle_Dan.webp"
+    },
+    {
+      "nick": "HA",
+      "test": "115241",
+      "stamina": "30211",
+      "id": "ef669066",
+      "avatar": "avatars/Avatar_Zhu_Yuan.webp"
     },
     {
       "nick": "AS",
@@ -191,13 +198,6 @@
       "stamina": "",
       "id": "4b7676fd",
       "avatar": "avatars/Avatar_A_Flavorful_Journey_Home.webp"
-    },
-    {
-      "nick": "HA",
-      "test": "110446",
-      "stamina": "",
-      "id": "ef669066",
-      "avatar": "avatars/Avatar_Zhu_Yuan.webp"
     },
     {
       "nick": "BO",
@@ -389,6 +389,13 @@
       "avatar": "avatars/Avatar_Ju_Fufu.webp"
     },
     {
+      "nick": "NX",
+      "test": "88529",
+      "stamina": "",
+      "id": "b076d064",
+      "avatar": "avatars/Avatar_Von_Lycaon.webp"
+    },
+    {
       "nick": "A0",
       "test": "87228",
       "stamina": "34908",
@@ -429,6 +436,13 @@
       "stamina": "",
       "id": "c7d53ee6",
       "avatar": "avatars/Avatar_Aria.webp"
+    },
+    {
+      "nick": "TE",
+      "test": "84032",
+      "stamina": "",
+      "id": "35c60b86",
+      "avatar": "avatars/Avatar_Default_Anonymous.webp"
     },
     {
       "nick": "BN",
@@ -508,11 +522,25 @@
       "avatar": "avatars/Avatar_Jane_Doe.webp"
     },
     {
+      "nick": "KA",
+      "test": "75346",
+      "stamina": "",
+      "id": "852700f8",
+      "avatar": "avatars/Avatar_Promeia.webp"
+    },
+    {
       "nick": "TS",
       "test": "75009",
       "stamina": "",
       "id": "b745bc18",
       "avatar": "avatars/Avatar_Zhao.webp"
+    },
+    {
+      "nick": "JA",
+      "test": "74426",
+      "stamina": "",
+      "id": "c92295fe",
+      "avatar": "avatars/Avatar_Pulchra_Fellini.webp"
     },
     {
       "nick": "NI",
@@ -550,6 +578,6 @@
       "avatar": "avatars/Avatar_Deadly_Assault_Line_Breaker.webp"
     }
   ],
-  "savedAt": "2026-11-14T11:53:45.357Z",
+  "savedAt": "2026-11-16T02:20:36.698Z",
   "type": "assault"
 }
