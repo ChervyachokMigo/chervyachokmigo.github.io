@@ -87,7 +87,7 @@ body.index-page {
   text-transform: uppercase;
   letter-spacing: 0.8px;
   font-family: 'Segoe UI', sans-serif;
-  transition: 0.15s;
+  transition: background-color 0.12s ease, border-color 0.12s ease, color 0.12s ease;
   white-space: nowrap;
   overflow: hidden;
   text-overflow: ellipsis;
@@ -240,7 +240,7 @@ body.index-page {
   text-transform: uppercase;
   letter-spacing: 1px;
   font-family: 'Segoe UI', sans-serif;
-  transition: 0.15s;
+  transition: background-color 0.12s ease, border-color 0.12s ease, color 0.12s ease, opacity 0.12s ease;
   white-space: nowrap;
   max-width: 100%;
   overflow: hidden;
@@ -467,7 +467,7 @@ body.index-page {
     background: #0f0f0f;
     border: 1px solid #2a2a2a;
     font-family: 'Segoe UI', sans-serif;
-    transition: 0.15s;
+    transition: background-color 0.12s ease, border-color 0.12s ease;
 }
 /* ============================================================
    Сетка стикеров
@@ -681,7 +681,7 @@ body.index-page {
   line-height: 1;
   cursor: pointer;
   font-family: 'Segoe UI', sans-serif;
-  transition: 0.15s;
+  transition: background-color 0.12s ease, color 0.12s ease;
   z-index: 2001;
 }
 
@@ -821,30 +821,7 @@ body.index-page {
   border-bottom-color: transparent;
 }
 
-/* ============================================================
-   Футер — маленькая ссылка на права
-   ============================================================ */
-.site-footer-link {
-  position: fixed;
-  right: 12px;
-  bottom: 6px;
-  color: #666;
-  background: rgba(13, 13, 13, 0.75);
-  padding: 4px 10px;
-  border: 1px solid #2a2a2a;
-  font-size: 0.68rem;
-  letter-spacing: 1px;
-  text-transform: uppercase;
-  text-decoration: none;
-  font-family: 'Segoe UI', sans-serif;
-  z-index: 90;
-  transition: 0.15s;
-}
 
-.site-footer-link:hover {
-  color: var(--accent);
-  border-color: var(--accent);
-}
 /* ============================================================
    Легенда алтарей (финальные / неизвестные)
    ============================================================ */
@@ -1132,7 +1109,7 @@ body.index-page {
     font-weight: 600;
     cursor: pointer;
     padding: 6px 0;
-    transition: 0.15s;
+    transition: background-color 0.12s ease, border-color 0.12s ease, color 0.12s ease;
     user-select: none;
 }
 
@@ -1189,7 +1166,7 @@ body.index-page {
     line-height: 1;
     cursor: pointer;
     font-family: 'Segoe UI', sans-serif;
-    transition: 0.15s;
+    transition: background-color 0.12s ease, color 0.12s ease;
     z-index: 1;
 }
 
@@ -1275,7 +1252,7 @@ body.index-page {
     text-decoration: none;
     border-bottom: 2px dashed var(--accent);
     padding-bottom: 1px;
-    transition: 0.15s;
+    transition: background-color 0.12s ease, border-color 0.12s ease, color 0.12s ease;
     font-family: 'Segoe UI', sans-serif;
 }
 
@@ -1309,29 +1286,6 @@ body.index-page {
 /* ============================================================
    URL hash — share-кнопка + toast
    ============================================================ */
-.share-fab {
-    position: fixed;
-    right: 12px;
-    bottom: 36px;
-    background: rgba(13, 13, 13, 0.9);
-    color: var(--accent);
-    border: 1px solid var(--accent);
-    width: 32px;
-    height: 32px;
-    font-size: 0.95rem;
-    cursor: pointer;
-    z-index: 90;
-    transition: 0.15s;
-    display: flex;
-    align-items: center;
-    justify-content: center;
-    font-family: 'Segoe UI', sans-serif;
-    padding: 0;
-}
-.share-fab:hover {
-    background: var(--accent);
-    color: #0d0d0d;
-}
 
 .toast {
     position: fixed;
@@ -1357,32 +1311,7 @@ body.index-page {
     opacity: 1;
     transform: translateX(-50%) translateY(0);
 }
-.refresh-fab {
-    position: fixed;
-    right: 52px;
-    bottom: 36px;
-    background: rgba(13, 13, 13, 0.9);
-    color: var(--accent);
-    border: 1px solid var(--accent);
-    width: 32px;
-    height: 32px;
-    font-size: 0.95rem;
-    cursor: pointer;
-    z-index: 90;
-    transition: 0.15s;
-    display: flex;
-    align-items: center;
-    justify-content: center;
-    font-family: 'Segoe UI', sans-serif;
-    padding: 0;
-}
-.refresh-fab:hover {
-    background: var(--accent);
-    color: #0d0d0d;
-}
-.refresh-fab.spinning {
-    animation: refresh-spin 0.8s linear infinite;
-}
+
 @keyframes refresh-spin {
     to { transform: rotate(360deg); }
 }
@@ -1461,7 +1390,7 @@ body.index-page {
     display: flex;
     align-items: center;
     justify-content: center;
-    transition: 0.15s;
+    transition: background-color 0.12s ease, border-color 0.12s ease, color 0.12s ease;
 }
 
 .nick-filter-clear:hover {
@@ -1569,7 +1498,7 @@ body.index-page {
     line-height: 1;
     cursor: pointer;
     font-family: 'Segoe UI', sans-serif;
-    transition: 0.15s;
+    transition: background-color 0.12s ease, color 0.12s ease;
     z-index: 1;
 }
 .nick-modal-close:hover {
@@ -1745,7 +1674,7 @@ body.index-page {
     line-height: 1;
     cursor: pointer;
     font-family: 'Segoe UI', sans-serif;
-    transition: 0.15s;
+    transition: background-color 0.12s ease, border-color 0.12s ease, color 0.12s ease, opacity 0.12s ease;
     z-index: 2001;
     display: flex;
     align-items: center;
@@ -1753,16 +1682,13 @@ body.index-page {
     padding-bottom: 4px;
     user-select: none;
     opacity: 0.7;
-    backdrop-filter: blur(4px);
 }
 
 .altar-modal-nav:hover {
     background: var(--accent);
     color: #0d0d0d;
     border-color: var(--accent);
-    transform: translateY(-50%) scale(1.06);
     opacity: 1;
-    backdrop-filter: none;
 }
 
 .altar-modal-nav:active {
@@ -1973,7 +1899,7 @@ body.index-page {
     letter-spacing: 1.5px;
     font-weight: 700;
     cursor: pointer;
-    transition: 0.15s;
+    transition: background-color 0.12s ease, border-color 0.12s ease, color 0.12s ease;
     font-family: 'Segoe UI', sans-serif;
 }
 .error-retry:hover {
@@ -2187,7 +2113,7 @@ body.index-page {
     letter-spacing: 1px;
     cursor: pointer;
     font-family: 'Segoe UI', sans-serif;
-    transition: 0.15s;
+    transition: background-color 0.12s ease, border-color 0.12s ease, color 0.12s ease;
     white-space: nowrap;
 }
 
@@ -2258,7 +2184,7 @@ body.index-page {
     line-height: 1;
     cursor: pointer;
     font-family: 'Segoe UI', sans-serif;
-    transition: 0.15s;
+    transition: background-color 0.12s ease, border-color 0.12s ease, color 0.12s ease;
     z-index: 1;
     padding: 0;
     display: flex;
@@ -2494,4 +2420,71 @@ body.index-page {
         font-size: 0.72rem;
         right: 42px;
     }
+}
+/* ============================================================
+   Кнопки в правом нижнем углу (нейтральные)
+   ============================================================ */
+.share-fab,
+.refresh-fab,
+.about-fab {
+    position: fixed;
+    right: 12px;
+    bottom: 36px;
+    background: rgba(13, 13, 13, 0.75);
+    color: #666;
+    border: 1px solid #2a2a2a;
+    width: 32px;
+    height: 32px;
+    font-size: 0.85rem;
+    font-weight: 700;
+    cursor: pointer;
+    z-index: 90;
+    transition: background-color 0.12s ease, border-color 0.12s ease, color 0.12s ease;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    font-family: 'Segoe UI', sans-serif;
+    padding: 0;
+    text-decoration: none;
+    line-height: 1;
+}
+
+.share-fab:hover,
+.refresh-fab:hover,
+.about-fab:hover {
+    color: #aaa;
+    border-color: #444;
+    background: rgba(13, 13, 13, 0.9);
+}
+
+.refresh-fab.spinning {
+    animation: refresh-spin 0.8s linear infinite;
+}
+
+/* Обновление — крайняя слева, при скрытии не оставляет пустоты */
+.refresh-fab { right: 92px; }
+.share-fab   { right: 52px; }
+.about-fab   { right: 12px; }
+
+/* «© права» — нижняя полоска */
+.site-footer-link {
+    position: fixed;
+    right: 12px;
+    bottom: 6px;
+    color: #666;
+    background: rgba(13, 13, 13, 0.75);
+    padding: 4px 10px;
+    border: 1px solid #2a2a2a;
+    font-size: 0.68rem;
+    letter-spacing: 1px;
+    text-transform: uppercase;
+    text-decoration: none;
+    font-family: 'Segoe UI', sans-serif;
+    z-index: 90;
+    transition: background-color 0.12s ease, border-color 0.12s ease, color 0.12s ease;
+}
+
+.site-footer-link:hover {
+    color: #aaa;
+    border-color: #444;
 }
