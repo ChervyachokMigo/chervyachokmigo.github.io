@@ -2250,3 +2250,201 @@ body.index-page {
         right: 44px;
     }
 }
+/* ============================================================
+   МОБИЛЬНАЯ АДАПТАЦИЯ v2 — компактный режим
+   ============================================================ */
+@media (max-width: 700px) {
+
+    /* ---------- Верхнее меню: меньше шрифт и padding ---------- */
+    .top-nav {
+        gap: 8px;
+        margin-bottom: 20px;
+    }
+    .nav-btn {
+        flex: 1 1 100px;
+        padding: 10px 6px;
+        font-size: 0.68rem;
+        letter-spacing: 0.3px;
+    }
+
+    /* ---------- Таблица — супер-компактная ---------- */
+    .edit-table th {
+        font-size: 0.6rem;
+        padding: 5px 2px;
+        letter-spacing: 0.2px;
+    }
+    .edit-table td {
+        font-size: 0.9rem;
+        padding: 4px 2px;
+        height: 34px;
+    }
+
+    /* ТОП */
+    .edit-table th.rating-col,
+    .edit-table td.rating-cell {
+        width: 55px;
+        padding-left: 2px;
+        padding-right: 2px;
+    }
+    .edit-table td.rating-cell { font-size: 0.85rem; }
+
+    /* Аватар */
+    .edit-table th.avatar-col,
+    .edit-table td.avatar-cell {
+        width: 38px;
+        padding: 2px;
+    }
+    .avatar-cell img {
+        width: 24px;
+        height: 24px;
+    }
+    .avatar-cell .no-avatar { font-size: 0.85rem; }
+
+    /* Ник */
+    .edit-table th.nick-col,
+    .edit-table td.nick-cell {
+        width: 48px;
+    }
+    .edit-table td.nick-cell { font-size: 0.9rem; }
+
+    /* Числовая (Испытание / Стойкость / Очки) */
+    .edit-table th.value-col,
+    .edit-table td.value-cell {
+        width: 115px;
+        padding-left: 2px;
+        padding-right: 2px;
+    }
+    .edit-table td.value-cell { font-size: 0.9rem; }
+    .edit-table td.value-cell.high-score { font-size: 0.9rem; }
+
+    /* От среднего */
+    .edit-table th.avg-col,
+    .edit-table td.avg-cell {
+        width: 55px;
+        padding-left: 2px;
+        padding-right: 2px;
+    }
+    .edit-table td.avg-cell { font-size: 0.85rem; }
+
+    /* Дельты и бейджи — меньше */
+    .edit-table td .cell-diff {
+        font-size: 0.6rem;
+        margin-top: 0;
+        line-height: 1;
+    }
+    .edit-table td.rating-cell .rank-diff {
+        font-size: 0.6rem;
+        margin-top: 1px;
+    }
+    .edit-table td.rating-cell .rank-badge {
+        font-size: 0.5rem;
+        padding: 1px 3px;
+        margin-top: 2px;
+    }
+
+    /* ---------- Сводка и участники ---------- */
+    .table-summary {
+        font-size: 0.72rem;
+        padding: 8px 10px;
+        gap: 6px 10px;
+    }
+    .participants-line {
+        font-size: 1.1rem;
+        letter-spacing: 2px;
+        margin-top: 16px;
+        padding-top: 10px;
+    }
+    .participants-line span { font-size: 1.25rem; }
+
+    /* ---------- Модалка игрока ---------- */
+    .nick-modal {
+        padding: 8px;
+    }
+    .nick-modal-inner {
+        max-height: 94vh;
+    }
+    .nick-modal-header {
+        padding: 14px 14px 12px;
+        gap: 10px;
+    }
+    .nick-modal-avatar { width: 44px; height: 44px; }
+    .nick-modal-name {
+        font-size: 1.05rem;
+        letter-spacing: 0.5px;
+    }
+    .nick-modal-meta {
+        font-size: 0.6rem;
+        letter-spacing: 1px;
+    }
+
+    /* Summary — одна колонка блоков, но статы горизонтально */
+    .nick-modal-summary {
+        grid-template-columns: 1fr;
+    }
+    .nick-summary-block {
+        padding: 8px 12px;
+    }
+    .nick-summary-title {
+        font-size: 0.65rem;
+        margin-bottom: 6px;
+        padding-bottom: 4px;
+        letter-spacing: 1px;
+    }
+    .nick-summary-stats {
+        flex-direction: row;
+        justify-content: space-between;
+        gap: 6px;
+    }
+    .nick-summary-stats > div {
+        flex-direction: column;
+        align-items: center;
+        text-align: center;
+        gap: 2px;
+        flex: 1;
+        min-width: 0;
+    }
+    .nick-summary-stats > div span {
+        font-size: 0.58rem;
+        letter-spacing: 0;
+    }
+    .nick-summary-stats > div b {
+        font-size: 0.78rem;
+    }
+
+    .nick-modal-body {
+        padding: 10px 12px 14px;
+    }
+
+    /* Timeline — компактнее */
+    .nick-timeline-row {
+        grid-template-columns: 62px 60px 1fr 52px 34px;
+        gap: 4px;
+        padding: 6px 0;
+    }
+    .nick-timeline-date {
+        font-size: 0.6rem;
+        letter-spacing: 0;
+    }
+    .nick-timeline-type {
+        font-size: 0.55rem;
+        letter-spacing: 0;
+    }
+    .nick-timeline-value { font-size: 0.8rem; }
+    .nick-timeline-diff {
+        font-size: 0.68rem;
+        letter-spacing: 0;
+    }
+    .nick-timeline-rank { font-size: 0.68rem; }
+
+    /* Кнопки закрыть/поделиться */
+    .nick-modal-close,
+    .nick-modal-share {
+        width: 28px;
+        height: 28px;
+    }
+    .nick-modal-close { font-size: 1.2rem; }
+    .nick-modal-share {
+        font-size: 0.72rem;
+        right: 42px;
+    }
+}
