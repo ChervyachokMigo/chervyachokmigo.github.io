@@ -69,8 +69,10 @@
                 <button class="table-btn" data-subtype="stamina">Стойкость</button>
             </div>
 
-            <div class="nick-filter-wrap">
+            <div class="nick-filter-wrap" id="nickFilterWrap">
                 <input type="text" id="nickFilter" class="nick-filter" placeholder="Поиск по нику..." autocomplete="off">
+                <span class="nick-filter-status" id="nickFilterStatus" hidden></span>
+                <button type="button" class="nick-filter-clear" id="nickFilterClear" title="Сбросить фильтр" hidden>×</button>
             </div>
         </div>
 
@@ -173,6 +175,8 @@
     <div class="last-update" id="lastUpdate">—</div>
     <a class="site-footer-link" href="rights.html">© права</a>
     <button class="share-fab" id="shareBtn" title="Скопировать ссылку">🔗</button>
+    <button class="refresh-fab" id="refreshBtn" title="Обновить данные (обход кеша)">🔄</button>
+    <button class="scroll-top" id="scrollTopBtn" title="Наверх">↑</button>
     <div class="toast" id="toast"></div>
     <script src="script.js"></script>
     <script>

@@ -83,13 +83,57 @@ function shortDate(title, file) {
     if (m) return `${m[1]} ${m[2]} ${m[3]}`;
     return (title || file || '').replace(/\.json$/i, '');
 }
+function titleDateVal(title) {
+    const m = String(title || '').match(/(\d{1,2})[\s_\-]+(\d{1,2})[\s_\-]+(\d{4})/);
+    if (!m) return 0;
+    return Date.UTC(parseInt(m[3], 10), parseInt(m[2], 10) - 1, parseInt(m[1], 10));
+}
 function isVideoUrl(url) {
     return /\.(mp4|webm|mov|mkv)(\?.*)?$/i.test(String(url || ''));
 }
-async function fetchJSON(url) {
-    const res = await fetch(url, { cache: 'no-store' });
-    if (!res.ok) throw new Error(`${url}: HTTP ${res.status}`);
-    return res.json();
+/* ============================================================
+   Кеш JSON (localStorage, TTL)
+   ============================================================ */
+const CACHE_TTL_MS = 60 * 60 * 1000;   // 1 час
+const CACHE_PREFIX = 'cache_v1:';
+
+async function fetchJSON(url, opts = {}) {
+    const { ttl = 0, bustCache = false, noFallback = false } = opts;
+    const cacheKey = CACHE_PREFIX + url;
+    let cached = null;
+
+    if (ttl > 0) {
+        try {
+            const raw = localStorage.getItem(cacheKey);
+            if (raw) {
+                const parsed = JSON.parse(raw);
+                if (parsed && parsed.ts && parsed.data) {
+                    cached = parsed;
+                    if (!bustCache && Date.now() - parsed.ts < ttl) {
+                        return parsed.data;
+                    }
+                }
+            }
+        } catch (e) {}
+    }
+
+    try {
+        const res = await fetch(url, { cache: 'no-store' });
+        if (!res.ok) throw new Error(`${url}: HTTP ${res.status}`);
+        const data = await res.json();
+        if (ttl > 0) {
+            try {
+                localStorage.setItem(cacheKey, JSON.stringify({ ts: Date.now(), data }));
+            } catch (e) {}
+        }
+        return data;
+    } catch (e) {
+        if (cached && !noFallback) {
+            console.warn('Fetch failed, using stale cache:', url);
+            return cached.data;
+        }
+        throw e;
+    }
 }
 
 function rowKey(row) {
@@ -392,6 +436,38 @@ function buildTable(cfg, rows, prevIndex, statsMap, headTarget, bodyTarget, tabl
             tr.appendChild(td);
         }
         bodyTarget.appendChild(tr);
+
+    }
+    bodyTarget.classList.remove('table-anim');
+    void bodyTarget.offsetWidth;
+    bodyTarget.classList.add('table-anim');
+}
+
+/* ============================================================
+   Обновление UI фильтра (рамка, счётчик, кнопка сброса)
+   ============================================================ */
+function updateFilterUI() {
+    const wrap     = document.getElementById('nickFilterWrap');
+    const clearBtn = document.getElementById('nickFilterClear');
+    const statusEl = document.getElementById('nickFilterStatus');
+    if (!wrap || !clearBtn || !statusEl) return;
+
+    const q = nickFilter.trim();
+    const active = q.length > 0;
+
+    wrap.classList.toggle('filter-active', active);
+    clearBtn.hidden = !active;
+
+    if (active) {
+        const rows = (currentData?.rows || []);
+        const matches = rows.filter(r =>
+            String(r.nick || '').toLowerCase().includes(q.toLowerCase())
+        ).length;
+        statusEl.textContent = matches > 0 ? `${matches} найдено` : 'нет совпадений';
+        statusEl.hidden = false;
+    } else {
+        statusEl.hidden = true;
+        statusEl.textContent = '';
     }
 }
 
@@ -418,6 +494,9 @@ function render() {
     buildTable(cfg, filtered, prevIndex, statsMap, headEl, bodyEl, currentType, state, highlight);
     countEl.textContent = (currentData?.rows || []).length;
 
+    const participantsLine = document.querySelector('.participants-line');
+    if (participantsLine) participantsLine.classList.remove('is-loading');
+
     if (currentData?.savedAt) {
         const d = new Date(currentData.savedAt);
         if (!isNaN(d)) {
@@ -434,6 +513,7 @@ function render() {
 
     renderStamina();
     applySubtypeVisibility();
+    updateFilterUI();
 }
 
 /* ============================================================
@@ -531,11 +611,31 @@ async function loadTable(fileName) {
     selectedFiles[currentType] = fileName;
     updateTableSelector();
 
+    // Скрыть строку участников на время загрузки
+    const participantsLine = document.querySelector('.participants-line');
+    if (participantsLine) participantsLine.classList.add('is-loading');
+
+    // Показать индикатор загрузки
+    const loadingRow = `<tr class="loading-row"><td colspan="${CONFIG[currentType].columns.length}">
+        <span class="loading-spinner"></span>Загрузка…
+    </td></tr>`;
+    headEl.innerHTML = '';
+    bodyEl.innerHTML = loadingRow;
+
+    const stHead = document.getElementById('staminaHead');
+    const stBody = document.getElementById('staminaBody');
+    if (stHead) stHead.innerHTML = '';
+    if (stBody) {
+        stBody.innerHTML = `<tr class="loading-row"><td colspan="5">
+            <span class="loading-spinner"></span>Загрузка…
+        </td></tr>`;
+    }
+
     const folder = manifest[currentType].folder;
     const url = `${folder}/${encodeURIComponent(fileName)}`;
 
     try {
-        currentData = await fetchJSON(url);
+        currentData = await fetchJSON(url, { ttl: CACHE_TTL_MS });
 
         const files = manifest[currentType].files;
         const idx = files.findIndex(f => f.file === fileName);
@@ -544,7 +644,7 @@ async function loadTable(fileName) {
         previousData = null;
         if (prevFile) {
             try {
-                previousData = await fetchJSON(`${folder}/${encodeURIComponent(prevFile)}`);
+                previousData = await fetchJSON(`${folder}/${encodeURIComponent(prevFile)}`, { ttl: CACHE_TTL_MS });
             } catch (e) {
                 console.warn('Не удалось загрузить предыдущую таблицу:', e.message);
             }
@@ -552,12 +652,43 @@ async function loadTable(fileName) {
 
         render();
         updateHash(currentType);
+
+        if (nickFilter.trim()) {
+            showToast('Фильтр: ' + nickFilter.trim());
+        }
     } catch (e) {
         console.error(e);
         currentData = null;
         previousData = null;
         headEl.innerHTML = '';
         bodyEl.innerHTML = '';
+
+        const participantsLine = document.querySelector('.participants-line');
+        if (participantsLine) participantsLine.classList.remove('is-loading');
+
+        const tr = document.createElement('tr');
+        tr.className = 'error-row';
+        const td = document.createElement('td');
+        td.colSpan = CONFIG[currentType].columns.length;
+
+        const wrap = document.createElement('div');
+        wrap.className = 'error-cell';
+
+        const msg = document.createElement('div');
+        msg.className = 'error-text';
+        msg.textContent = 'Не удалось загрузить: ' + e.message;
+        wrap.appendChild(msg);
+
+        const retry = document.createElement('button');
+        retry.className = 'error-retry';
+        retry.textContent = 'Повторить';
+        retry.addEventListener('click', () => loadTable(fileName));
+        wrap.appendChild(retry);
+
+        td.appendChild(wrap);
+        tr.appendChild(td);
+        bodyEl.appendChild(tr);
+
         countEl.textContent = '0';
         lastUpdEl.textContent = e.message;
         document.getElementById('staminaArea').style.display = 'none';
@@ -588,130 +719,160 @@ async function openNickStats(row) {
         avatarEl.appendChild(img);
     }
     nameEl.textContent = maskNick(row.nick);
-    metaEl.textContent = currentType === 'assault' ? 'Опасный Штурм' : 'Оборона Шиюй';
+    metaEl.textContent = 'Все таблицы';
 
     summaryEl.innerHTML = '<div class="nick-stat nick-stat-wide">Загрузка…</div>';
     bodyEl.innerHTML = '';
     modal.hidden = false;
 
-    const files = manifest[currentType].files;
-    const folder = manifest[currentType].folder;
-    const field = currentType === 'assault' ? 'test' : 'points';
-    const fieldLabel = currentType === 'assault' ? 'Испытание' : 'Очки';
+    const assaultFiles  = manifest.assault?.files || [];
+    const defenceFiles  = manifest.defence?.files || [];
+    const assaultFolder = manifest.assault?.folder || '';
+    const defenceFolder = manifest.defence?.folder || '';
 
-    const history = [];
-    for (const f of files) {
-        try {
-            const data = await fetchJSON(`${folder}/${encodeURIComponent(f.file)}`);
-            const rows = data.rows || [];
-            const playerRow = rows.find(r => rowKey(r) === key);
-            if (!playerRow) continue;
+    const tasks = [
+        ...assaultFiles.map(f => fetchJSON(`${assaultFolder}/${encodeURIComponent(f.file)}`, { ttl: CACHE_TTL_MS })
+            .then(d => ({ type: 'assault', meta: f, data: d }))
+            .catch(() => null)),
+        ...defenceFiles.map(f => fetchJSON(`${defenceFolder}/${encodeURIComponent(f.file)}`, { ttl: CACHE_TTL_MS })
+            .then(d => ({ type: 'defence', meta: f, data: d }))
+            .catch(() => null)),
+    ];
 
-            const ranked = computeRanking(rows, field);
-            const stats = ranked.get(playerRow) || {};
+    const all = (await Promise.all(tasks)).filter(Boolean);
 
-            let staminaRank = null;
-            let staminaPct = null;
-            if (currentType === 'assault' && num(playerRow.stamina) != null) {
-                const stRows = rows.filter(r => num(r.stamina) != null);
-                const stRanked = computeRanking(stRows, 'stamina');
-                const stStats = stRanked.get(playerRow) || {};
-                staminaRank = stStats.rank;
-                staminaPct = stStats.pct;
+    const timeline = [];
+    const statsTest = [];
+    const statsStamina = [];
+    const statsPoints = [];
+
+    for (const item of all) {
+        const rows = item.data.rows || [];
+        const playerRow = rows.find(r => rowKey(r) === key);
+        if (!playerRow) continue;
+
+        if (item.type === 'assault') {
+            const testVal = num(playerRow.test);
+            if (testVal != null) {
+                const ranked = computeRanking(rows, 'test');
+                const s = ranked.get(playerRow) || {};
+                timeline.push({ title: item.meta.title, savedAt: item.meta.savedAt, type: 'test', value: testVal, rank: s.rank });
+                statsTest.push(testVal);
             }
-
-            history.push({
-                title: f.title,
-                savedAt: f.savedAt,
-                value: num(playerRow[field]),
-                stamina: num(playerRow.stamina),
-                rank: stats.rank,
-                staminaRank,
-            });
-        } catch (e) {
-            console.warn('Не загружено:', f.file);
+            const staminaVal = num(playerRow.stamina);
+            if (staminaVal != null) {
+                const stRows = rows.filter(r => num(r.stamina) != null);
+                const ranked = computeRanking(stRows, 'stamina');
+                const s = ranked.get(playerRow) || {};
+                timeline.push({ title: item.meta.title, savedAt: item.meta.savedAt, type: 'stamina', value: staminaVal, rank: s.rank });
+                statsStamina.push(staminaVal);
+            }
+        } else {
+            const pointsVal = num(playerRow.points);
+            if (pointsVal != null) {
+                const ranked = computeRanking(rows, 'points');
+                const s = ranked.get(playerRow) || {};
+                timeline.push({ title: item.meta.title, savedAt: item.meta.savedAt, type: 'points', value: pointsVal, rank: s.rank });
+                statsPoints.push(pointsVal);
+            }
         }
     }
 
-    if (history.length === 0) {
-        summaryEl.innerHTML = '<div class="nick-stat nick-stat-wide">Нет данных по игроку</div>';
+    if (!timeline.length) {
+        summaryEl.innerHTML = '<div class="nick-stat nick-stat-wide">Игрок не найден ни в одной таблице</div>';
         return;
     }
 
-    history.sort((a, b) => (Date.parse(b.savedAt) || 0) - (Date.parse(a.savedAt) || 0));
+    // Сортировка по ДАТЕ ИЗ НАЗВАНИЯ (не по savedAt), новые сверху.
+    // Тай-брейк для одинаковой даты: Испытание → Стойкость → Оборона.
+    timeline.sort((a, b) => {
+        const da = titleDateVal(a.title);
+        const db = titleDateVal(b.title);
+        if (da !== db) return db - da;
+        const order = { stamina: 0, test: 1, points: 2 };
+        return (order[a.type] || 0) - (order[b.type] || 0);
+    });
 
-    const values = history.map(h => h.value).filter(v => v != null);
-    const ranks = history.map(h => h.rank).filter(r => r != null);
-    const bestValue = values.length ? Math.max(...values) : null;
-    const avgValue = values.length ? Math.round(values.reduce((s, v) => s + v, 0) / values.length) : null;
-    const bestRank = ranks.length ? Math.min(...ranks) : null;
+    // Для дельты — предыдущее значение того же типа (следующая по хронологии)
+    const prevByType = {};
+    for (let i = timeline.length - 1; i >= 0; i--) {
+        const t = timeline[i];
+        t.prevValue = prevByType[t.type] ?? null;
+        prevByType[t.type] = t.value;
+    }
 
-    summaryEl.innerHTML = `
-        <div class="nick-stat">
-            <div class="nick-stat-label">Таблиц</div>
-            <div class="nick-stat-value">${history.length}</div>
-        </div>
-        <div class="nick-stat">
-            <div class="nick-stat-label">Лучший</div>
-            <div class="nick-stat-value">${bestValue != null ? fmtInt(bestValue) : '—'}</div>
-        </div>
-        <div class="nick-stat">
-            <div class="nick-stat-label">Средний</div>
-            <div class="nick-stat-value">${avgValue != null ? fmtInt(avgValue) : '—'}</div>
-        </div>
-        <div class="nick-stat">
-            <div class="nick-stat-label">Лучший ранг</div>
-            <div class="nick-stat-value">${bestRank != null ? '#' + bestRank : '—'}</div>
-        </div>
-    `;
+    function buildSummaryBlock(label, type, values) {
+        if (!values.length) {
+            return `<div class="nick-summary-block">
+                <div class="nick-summary-title nick-type-${type}">${label}</div>
+                <div class="nick-summary-empty">—</div>
+            </div>`;
+        }
+        const best = Math.max(...values);
+        const avg = Math.round(values.reduce((s, v) => s + v, 0) / values.length);
+        return `<div class="nick-summary-block">
+            <div class="nick-summary-title nick-type-${type}">${label}</div>
+            <div class="nick-summary-stats">
+                <div><span>Лучший</span><b>${fmtInt(best)}</b></div>
+                <div><span>Средний</span><b>${fmtInt(avg)}</b></div>
+                <div><span>Таблиц</span><b>${values.length}</b></div>
+            </div>
+        </div>`;
+    }
+
+    summaryEl.innerHTML =
+        buildSummaryBlock('Стойкость', 'stamina', statsStamina) +
+        buildSummaryBlock('Испытание', 'test', statsTest) +
+        buildSummaryBlock('Оборона Шиюй', 'points', statsPoints);
 
     bodyEl.innerHTML = '';
-    for (let i = 0; i < history.length; i++) {
-        const h = history[i];
-        const prev = history[i + 1];
+
+    const typeLabels = {
+        test: 'Испытание',
+        stamina: 'Стойкость',
+        points: 'Оборона',
+    };
+
+    for (const t of timeline) {
         const rowEl = document.createElement('div');
-        rowEl.className = 'nick-history-row';
+        rowEl.className = 'nick-timeline-row';
 
         const dateEl = document.createElement('div');
-        dateEl.className = 'nick-history-date';
-        dateEl.textContent = shortDate(h.title, h.title);
+        dateEl.className = 'nick-timeline-date';
+        dateEl.textContent = shortDate(t.title, t.title);
         rowEl.appendChild(dateEl);
 
-        // Основное поле
-        const line1 = document.createElement('div');
-        line1.className = 'nick-history-line';
-        line1.innerHTML = `
-            <span class="nick-history-label">${fieldLabel}</span>
-            <span class="nick-history-value">${h.value != null ? fmtInt(h.value) : '—'}</span>
-            <span class="nick-history-rank">${h.rank != null ? '#' + h.rank : '—'}</span>
-        `;
-        if (prev && prev.value != null && h.value != null && h.value !== prev.value) {
-            const diff = h.value - prev.value;
-            const span = document.createElement('span');
-            span.className = 'cell-diff ' + (diff > 0 ? 'positive' : 'negative');
-            span.textContent = (diff > 0 ? '+' : '−') + fmtInt(Math.abs(diff));
-            line1.appendChild(span);
-        }
-        rowEl.appendChild(line1);
+        const typeEl = document.createElement('div');
+        typeEl.className = 'nick-timeline-type nick-type-' + t.type;
+        typeEl.textContent = typeLabels[t.type];
+        rowEl.appendChild(typeEl);
 
-        // Стойкость (только assault)
-        if (currentType === 'assault' && h.stamina != null) {
-            const line2 = document.createElement('div');
-            line2.className = 'nick-history-line';
-            line2.innerHTML = `
-                <span class="nick-history-label">Стойкость</span>
-                <span class="nick-history-value">${fmtInt(h.stamina)}</span>
-                <span class="nick-history-rank">${h.staminaRank != null ? '#' + h.staminaRank : '—'}</span>
-            `;
-            if (prev && prev.stamina != null && prev.stamina !== h.stamina) {
-                const diff = h.stamina - prev.stamina;
-                const span = document.createElement('span');
-                span.className = 'cell-diff ' + (diff > 0 ? 'positive' : 'negative');
-                span.textContent = (diff > 0 ? '+' : '−') + fmtInt(Math.abs(diff));
-                line2.appendChild(span);
+        const valEl = document.createElement('div');
+        valEl.className = 'nick-timeline-value';
+        valEl.textContent = fmtInt(t.value);
+        rowEl.appendChild(valEl);
+
+        const diffEl = document.createElement('div');
+        diffEl.className = 'nick-timeline-diff';
+        if (t.prevValue == null) {
+            diffEl.textContent = '—';
+            diffEl.classList.add('muted');
+        } else {
+            const d = t.value - t.prevValue;
+            if (d === 0) {
+                diffEl.textContent = '±0';
+                diffEl.classList.add('positive');
+            } else {
+                diffEl.textContent = (d > 0 ? '+' : '−') + fmtInt(Math.abs(d));
+                diffEl.classList.add(d > 0 ? 'positive' : 'negative');
             }
-            rowEl.appendChild(line2);
         }
+        rowEl.appendChild(diffEl);
+
+        const rankEl = document.createElement('div');
+        rankEl.className = 'nick-timeline-rank';
+        rankEl.textContent = t.rank != null ? '#' + t.rank : '—';
+        rowEl.appendChild(rankEl);
 
         bodyEl.appendChild(rowEl);
     }
@@ -725,7 +886,7 @@ async function loadStickers() {
     if (!grid) return;
     let items;
     try {
-        items = await fetchJSON('content/stickers.json');
+        items = await fetchJSON('content/stickers.json', { ttl: CACHE_TTL_MS });
     } catch (e) {
         console.warn('Не удалось загрузить stickers.json:', e.message);
         grid.innerHTML = '<span class="empty-selector">stickers.json не найден</span>';
@@ -765,7 +926,7 @@ async function loadBases() {
     if (!tbody) return;
     let items;
     try {
-        items = await fetchJSON('content/bases.json');
+        items = await fetchJSON('content/bases.json', { ttl: CACHE_TTL_MS });
     } catch (e) {
         console.warn('Не удалось загрузить bases.json:', e.message);
         tbody.innerHTML = '<tr><td colspan="2" class="empty-cell">bases.json не найден</td></tr>';
@@ -798,7 +959,7 @@ async function loadAltars() {
     if (!grid) return;
     let items;
     try {
-        items = await fetchJSON('content/altars.json');
+        items = await fetchJSON('content/altars.json', { ttl: CACHE_TTL_MS });
     } catch (e) {
         console.warn('Не удалось загрузить altars.json:', e.message);
         grid.innerHTML = '<span class="empty-selector">altars.json не найден</span>';
@@ -857,7 +1018,7 @@ async function loadLinks() {
     if (!grid) return;
     let items;
     try {
-        items = await fetchJSON('content/links.json');
+        items = await fetchJSON('content/links.json', { ttl: CACHE_TTL_MS });
     } catch (e) {
         console.warn('Не удалось загрузить links.json:', e.message);
         grid.innerHTML = '<span class="empty-selector">links.json не найден</span>';
@@ -956,7 +1117,83 @@ function bindNickModal() {
     if (!modal) return;
     attachModalDismiss(modal, closeBtn);
 }
+async function refreshCurrent() {
+    const btn = document.getElementById('refreshBtn');
+    if (btn) btn.classList.add('spinning');
 
+    if (!navigator.onLine) {
+        showToast('Нет соединения');
+        if (btn) btn.classList.remove('spinning');
+        return;
+    }
+
+    try {
+        manifest = await fetchJSON('content/manifest.json', { ttl: CACHE_TTL_MS, bustCache: true, noFallback: true });
+        renderTableSelector();
+
+        if (currentFile) {
+            const folder = manifest[currentType].folder;
+            const url = `${folder}/${encodeURIComponent(currentFile)}`;
+
+            const fresh = await fetchJSON(url, { ttl: CACHE_TTL_MS, bustCache: true, noFallback: true });
+
+            const files = manifest[currentType].files;
+            const idx = files.findIndex(f => f.file === currentFile);
+            const prevFile = files[idx + 1]?.file;
+            let prevFresh = null;
+            if (prevFile) {
+                try {
+                    prevFresh = await fetchJSON(`${folder}/${encodeURIComponent(prevFile)}`, { ttl: CACHE_TTL_MS, bustCache: true, noFallback: true });
+                } catch (e) {
+                    prevFresh = null;
+                }
+            }
+
+            currentData = fresh;
+            previousData = prevFresh;
+            render();
+        }
+
+        if (!currentFile) {
+            showToast('Нет таблиц для обновления');
+        } else if (nickFilter.trim()) {
+            showToast('Данные обновлены · Фильтр: ' + nickFilter.trim());
+        } else {
+            showToast('Данные обновлены');
+        }
+    } catch (e) {
+        console.error('Refresh failed:', e);
+        showToast(navigator.onLine ? 'Ошибка обновления' : 'Соединение прервано');
+    } finally {
+        if (btn) btn.classList.remove('spinning');
+    }
+}
+
+function updateRefreshVisibility() {
+    const btn = document.getElementById('refreshBtn');
+    if (!btn) return;
+    const section = (document.body.className || '').replace('index-page', '').trim();
+    btn.style.display = (section === 'assault' || section === 'defence') ? '' : 'none';
+}
+
+function bindRefresh() {
+    const btn = document.getElementById('refreshBtn');
+    if (btn) btn.addEventListener('click', refreshCurrent);
+    updateRefreshVisibility();
+}
+function bindScrollTop() {
+    const btn = document.getElementById('scrollTopBtn');
+    if (!btn) return;
+
+    const toggle = () => {
+        btn.classList.toggle('visible', window.scrollY > 400);
+    };
+    window.addEventListener('scroll', toggle, { passive: true });
+    btn.addEventListener('click', () => {
+        window.scrollTo({ top: 0, behavior: 'smooth' });
+    });
+    toggle();
+}
 function bindAltars() {
     const modal    = document.getElementById('altarModal');
     const body     = document.getElementById('altarModalBody');
@@ -986,6 +1223,24 @@ function bindAltars() {
         });
     }
 
+    function showAltarStub(label) {
+        body.innerHTML = '';
+        const stub = document.createElement('div');
+        stub.className = 'altar-stub';
+
+        const icon = document.createElement('div');
+        icon.className = 'altar-stub-icon';
+        icon.textContent = '□';
+
+        const text = document.createElement('div');
+        text.className = 'altar-stub-text';
+        text.textContent = label;
+
+        stub.appendChild(icon);
+        stub.appendChild(text);
+        body.appendChild(stub);
+    }
+
     function openModal(card) {
         if (!card || !card.dataset.src) return;
         grid.querySelectorAll('.altar-card').forEach(c => c.classList.remove('active'));
@@ -1003,6 +1258,8 @@ function bindAltars() {
         nameEl.textContent = name;
         body.innerHTML = '';
 
+        // Всегда пробуем загрузить — браузер сначала проверит кеш.
+        // Если не выйдет — onerror покажет заглушку.
         if (type === 'video') {
             const v = document.createElement('video');
             v.src = src;
@@ -1011,15 +1268,22 @@ function bindAltars() {
             v.loop = true;
             v.muted = true;
             v.playsInline = true;
+            v.addEventListener('error', () => {
+                showAltarStub(navigator.onLine ? 'Видео недоступно' : 'Нет соединения');
+            });
             body.appendChild(v);
         } else {
             const img = document.createElement('img');
             img.src = src;
             img.alt = name;
+            img.addEventListener('error', () => {
+                showAltarStub(navigator.onLine ? 'Не удалось загрузить' : 'Нет соединения');
+            });
             body.appendChild(img);
         }
 
         modal.hidden = false;
+        updateNavVisibility();
     }
 
     function goToNext(dir) {
@@ -1079,29 +1343,27 @@ function showSection(section) {
     document.querySelectorAll('.view').forEach(v => v.classList.remove('active'));
 
     document.body.className = 'index-page ' + section;
+    updateRefreshVisibility();
+    updateHash(section);
 
     if (section === 'bases') {
         document.getElementById('viewBases').classList.add('active');
         lastUpdEl.textContent = '—';
-        updateHash(section);
         return;
     }
     if (section === 'stickers') {
         document.getElementById('viewStickers').classList.add('active');
         lastUpdEl.textContent = '—';
-        updateHash(section);
         return;
     }
     if (section === 'altars') {
         document.getElementById('viewAltars').classList.add('active');
         lastUpdEl.textContent = '—';
-        updateHash(section);
         return;
     }
     if (section === 'links') {
         document.getElementById('viewLinks').classList.add('active');
         lastUpdEl.textContent = '—';
-        updateHash(section);
         return;
     }
 
@@ -1168,6 +1430,10 @@ if (subTypeSelEl) {
             updateSubtypeSelector();
             render();
             updateHash(currentType);
+
+            if (nickFilter.trim()) {
+                showToast('Фильтр: ' + nickFilter.trim());
+            }
         });
     });
 }
@@ -1175,6 +1441,27 @@ if (subTypeSelEl) {
 if (nickFilterEl) {
     nickFilterEl.addEventListener('input', (e) => {
         nickFilter = e.target.value;
+        render();
+    });
+    nickFilterEl.addEventListener('keydown', (e) => {
+        if (e.key === 'Escape' && nickFilter) {
+            e.preventDefault();
+            nickFilter = '';
+            nickFilterEl.value = '';
+            nickFilterEl.blur();
+            render();
+        }
+    });
+}
+
+const nickFilterClearEl = document.getElementById('nickFilterClear');
+if (nickFilterClearEl) {
+    nickFilterClearEl.addEventListener('click', () => {
+        nickFilter = '';
+        if (nickFilterEl) {
+            nickFilterEl.value = '';
+            nickFilterEl.focus();
+        }
         render();
     });
 }
@@ -1189,6 +1476,8 @@ if (shareBtn) shareBtn.addEventListener('click', copyShareLink);
     bindAltars();
     bindMskModal();
     bindNickModal();
+    bindScrollTop();
+    bindRefresh();
     checkMskReminder();
     setInterval(checkMskReminder, 60 * 1000);
 
@@ -1199,7 +1488,7 @@ if (shareBtn) shareBtn.addEventListener('click', copyShareLink);
     }
 
     try {
-        manifest = await fetchJSON('content/manifest.json');
+        manifest = await fetchJSON('content/manifest.json', { ttl: CACHE_TTL_MS });
     } catch (e) {
         console.error(e);
         lastUpdEl.textContent = 'Ошибка manifest.json: ' + e.message;

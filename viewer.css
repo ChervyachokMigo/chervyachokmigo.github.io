@@ -270,7 +270,8 @@ body.index-page {
 .edit-table {
   width: 982px; max-width: 100%;
   margin: 0 auto;
-  border-collapse: collapse;
+  border-collapse: separate;
+  border-spacing: 0;
   table-layout: fixed;
   user-select: text;
   border: 1px solid #333;
@@ -285,14 +286,17 @@ body.index-page {
   letter-spacing: 1px;
   padding: 14px 10px 14px 6px;
   text-align: center;
-  border-bottom: 1px solid #262626;
+  border-bottom: none;
   border-right: 1px dashed #2a2a2a;
   white-space: nowrap;
   overflow: hidden;
   text-overflow: ellipsis;
-    cursor: pointer;
-  user-select: none;
-  transition: background-color 0.12s;
+  cursor: pointer;
+  /* Sticky-заголовок */
+  position: sticky;
+  top: 0;
+  z-index: 10;
+  box-shadow: inset 0 -1px 0 #262626, 0 2px 8px rgba(0, 0, 0, 0.35);
 }
 .edit-table th:last-child { border-right: none; }
 .edit-table th:hover  { background: #1c1c1c; }
@@ -427,7 +431,9 @@ body.index-page {
   font-family: 'Segoe UI', 'Arial Black', Impact, sans-serif;
 }
 .participants-line span { font-size: 1.6rem; font-weight: 800; }
-
+.participants-line.is-loading {
+    visibility: hidden;
+}
 /* ============================================================
    Общая база карточек (стикеры / алтари / ссылки)
    ============================================================ */
@@ -725,9 +731,9 @@ body.index-page {
    Мобильная адаптация
    ============================================================ */
 @media (max-width: 1050px) {
-  .capture-area {
+ .capture-area {
     width: 100%;
-    overflow-x: auto;
+    /* overflow-x отключаем здесь — переносим ниже, на 900px */
   }
   .page-title { font-size: 1.8rem; letter-spacing: 2px; }
   .page-subtitle { letter-spacing: 4px; font-size: 0.8rem; }
@@ -1312,7 +1318,35 @@ body.index-page {
     opacity: 1;
     transform: translateX(-50%) translateY(0);
 }
-
+.refresh-fab {
+    position: fixed;
+    right: 52px;
+    bottom: 36px;
+    background: rgba(13, 13, 13, 0.9);
+    color: var(--accent);
+    border: 1px solid var(--accent);
+    width: 32px;
+    height: 32px;
+    font-size: 0.95rem;
+    cursor: pointer;
+    z-index: 90;
+    transition: 0.15s;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    font-family: 'Segoe UI', sans-serif;
+    padding: 0;
+}
+.refresh-fab:hover {
+    background: var(--accent);
+    color: #0d0d0d;
+}
+.refresh-fab.spinning {
+    animation: refresh-spin 0.8s linear infinite;
+}
+@keyframes refresh-spin {
+    to { transform: rotate(360deg); }
+}
 /* ============================================================
    Фильтр по нику
    ============================================================ */
@@ -1320,10 +1354,13 @@ body.index-page {
     padding-top: 10px;
     border-top: 1px dashed #2a2a2a;
     display: flex;
+    align-items: center;
+    gap: 8px;
 }
 
 .nick-filter {
     flex: 1;
+    min-width: 0;
     background: #0f0f0f;
     color: var(--accent);
     border: 1px solid #2a2a2a;
@@ -1332,16 +1369,83 @@ body.index-page {
     font-family: 'Segoe UI', sans-serif;
     outline: none;
     letter-spacing: 1px;
-    transition: border-color 0.15s;
+    transition: border-color 0.15s, background 0.15s;
 }
+
+/* Активный фильтр — рамка и лёгкий тинт */
+.nick-filter-wrap.filter-active .nick-filter {
+    border-color: var(--accent);
+    background: color-mix(in srgb, var(--accent) 6%, #0f0f0f);
+}
+
 .nick-filter:focus {
     border-color: var(--accent);
 }
+
 .nick-filter::placeholder {
     color: #555;
     text-transform: uppercase;
     letter-spacing: 1.5px;
     font-size: 0.75rem;
+}
+
+/* Счётчик совпадений */
+.nick-filter-status {
+    flex-shrink: 0;
+    color: var(--accent);
+    font-size: 0.7rem;
+    font-weight: 700;
+    text-transform: uppercase;
+    letter-spacing: 1px;
+    padding: 5px 10px;
+    border: 1px solid color-mix(in srgb, var(--accent) 40%, transparent);
+    background: color-mix(in srgb, var(--accent) 8%, transparent);
+    font-variant-numeric: tabular-nums;
+    font-family: 'Segoe UI', sans-serif;
+    white-space: nowrap;
+}
+
+/* Кнопка сброса */
+.nick-filter-clear {
+    flex-shrink: 0;
+    width: 32px;
+    height: 32px;
+    background: transparent;
+    color: var(--accent);
+    border: 1px solid var(--accent);
+    font-size: 1.2rem;
+    font-weight: 700;
+    line-height: 1;
+    cursor: pointer;
+    font-family: 'Segoe UI', sans-serif;
+    padding: 0;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    transition: 0.15s;
+}
+
+.nick-filter-clear:hover {
+    background: var(--accent);
+    color: #0d0d0d;
+}
+
+.nick-filter-clear[hidden],
+.nick-filter-status[hidden] {
+    display: none;
+}
+
+@media (max-width: 600px) {
+    .nick-filter-status {
+        font-size: 0.62rem;
+        padding: 4px 8px;
+        letter-spacing: 0.5px;
+    }
+    .nick-filter-clear {
+        width: 28px;
+        height: 28px;
+        font-size: 1rem;
+    }
 }
 
 /* ============================================================
@@ -1480,11 +1584,61 @@ body.index-page {
 
 .nick-modal-summary {
     display: grid;
-    grid-template-columns: repeat(4, 1fr);
+    grid-template-columns: repeat(3, 1fr);
     gap: 1px;
     background: #2a2a2a;
     border-top: 1px solid #2a2a2a;
     border-bottom: 1px solid #2a2a2a;
+}
+
+.nick-summary-block {
+    background: #0f0f0f;
+    padding: 12px 12px 14px;
+    min-width: 0;
+}
+
+.nick-summary-title {
+    color: #6a6a6a;
+    font-size: 0.68rem;
+    text-transform: uppercase;
+    letter-spacing: 1.5px;
+    font-weight: 700;
+    margin-bottom: 10px;
+    text-align: center;
+    padding-bottom: 6px;
+    border-bottom: 1px dashed #222;
+}
+
+.nick-summary-stats {
+    display: flex;
+    flex-direction: column;
+    gap: 4px;
+    font-size: 0.78rem;
+    font-family: 'Segoe UI', sans-serif;
+    font-variant-numeric: tabular-nums;
+}
+.nick-summary-stats > div {
+    display: flex;
+    justify-content: space-between;
+    gap: 6px;
+}
+.nick-summary-stats > div span {
+    color: #6a6a6a;
+    font-size: 0.7rem;
+    text-transform: uppercase;
+    letter-spacing: 0.5px;
+    font-weight: 600;
+}
+.nick-summary-stats > div b {
+    color: var(--accent);
+    font-weight: 700;
+}
+
+.nick-summary-empty {
+    color: #444;
+    text-align: center;
+    font-size: 0.85rem;
+    padding: 4px 0;
 }
 .nick-stat {
     background: #0f0f0f;
@@ -1519,54 +1673,19 @@ body.index-page {
     padding: 12px 24px 24px;
 }
 
-.nick-history-row {
-    padding: 12px 0;
-    border-bottom: 1px dashed #2a2a2a;
-}
-.nick-history-row:last-child { border-bottom: none; }
-
-.nick-history-date {
-    color: #6a6a6a;
-    font-size: 0.7rem;
-    text-transform: uppercase;
-    letter-spacing: 1.5px;
-    font-weight: 700;
-    margin-bottom: 8px;
-    font-variant-numeric: tabular-nums;
-}
-
-.nick-history-line {
-    display: flex;
-    align-items: center;
-    gap: 10px;
-    padding: 3px 0;
-    font-size: 0.9rem;
-    font-variant-numeric: tabular-nums;
-}
-.nick-history-label {
-    color: #888;
-    min-width: 92px;
-    font-size: 0.72rem;
-    text-transform: uppercase;
-    letter-spacing: 1px;
-    font-weight: 600;
-}
-.nick-history-value {
-    color: var(--accent);
-    font-weight: 700;
-}
-.nick-history-rank {
-    color: #6a6a6a;
-    font-size: 0.78rem;
-    font-weight: 600;
-    margin-left: auto;
-}
-
 @media (max-width: 600px) {
-    .nick-modal-summary { grid-template-columns: repeat(2, 1fr); }
     .nick-modal-header { padding: 20px 16px 14px; }
     .nick-modal-body { padding: 12px 16px 20px; }
-    .nick-history-label { min-width: 80px; font-size: 0.68rem; }
+    .nick-timeline-row {
+        grid-template-columns: 82px 80px 1fr 70px 44px;
+        gap: 6px;
+        padding: 6px 0;
+    }
+    .nick-timeline-date { font-size: 0.65rem; }
+    .nick-timeline-type { font-size: 0.6rem; letter-spacing: 0.5px; }
+    .nick-timeline-value { font-size: 0.82rem; }
+    .nick-timeline-diff { font-size: 0.7rem; }
+    .nick-timeline-rank { font-size: 0.7rem; }
     .nick-modal-avatar { width: 52px; height: 52px; }
     .nick-modal-name { font-size: 1.2rem; letter-spacing: 1px; }
     .toast { bottom: 80px; font-size: 0.72rem; }
@@ -1625,4 +1744,276 @@ body.index-page {
     }
     .altar-modal-prev { left: 8px; }
     .altar-modal-next { right: 8px; }
+}
+/* ============================================================
+   Индикатор загрузки таблицы
+   ============================================================ */
+.loading-row td {
+    text-align: center;
+    padding: 60px 20px;
+    color: #666;
+    font-size: 0.85rem;
+    letter-spacing: 3px;
+    text-transform: uppercase;
+    font-weight: 600;
+    font-family: 'Segoe UI', sans-serif;
+    background: #111111;
+    border: none;
+}
+
+.loading-spinner {
+    display: inline-block;
+    width: 16px;
+    height: 16px;
+    border: 2px solid rgba(255, 255, 255, 0.12);
+    border-top-color: var(--accent);
+    border-radius: 50%;
+    animation: loading-spin 0.8s linear infinite;
+    vertical-align: middle;
+    margin-right: 12px;
+    margin-top: -2px;
+}
+
+@keyframes loading-spin {
+    to { transform: rotate(360deg); }
+}
+
+/* ============================================================
+   История игрока — единый timeline
+   ============================================================ */
+.nick-timeline-row {
+    display: grid;
+    grid-template-columns: 92px 92px 1fr 88px 56px;
+    gap: 10px;
+    align-items: center;
+    padding: 8px 0;
+    border-bottom: 1px dashed #222;
+    font-family: 'Segoe UI', sans-serif;
+    font-variant-numeric: tabular-nums;
+}
+
+.nick-timeline-row:last-child {
+    border-bottom: none;
+}
+
+.nick-timeline-date {
+    color: #6a6a6a;
+    font-size: 0.72rem;
+    font-weight: 700;
+    letter-spacing: 0.5px;
+    text-transform: uppercase;
+    white-space: nowrap;
+}
+
+.nick-timeline-type {
+    font-size: 0.68rem;
+    font-weight: 700;
+    letter-spacing: 1px;
+    text-transform: uppercase;
+    padding: 3px 0;
+    white-space: nowrap;
+}
+.nick-type-test    { color: #b8a878; }
+.nick-type-stamina { color: #8ab8a8; }
+.nick-type-points  { color: #d09460; }
+
+.nick-timeline-value {
+    color: var(--accent);
+    font-size: 0.92rem;
+    font-weight: 700;
+    text-align: right;
+    white-space: nowrap;
+}
+
+.nick-timeline-diff {
+    font-size: 0.78rem;
+    font-weight: 700;
+    text-align: right;
+    white-space: nowrap;
+    letter-spacing: 0.3px;
+}
+.nick-timeline-diff.positive {
+    color: #43d17a;
+}
+.nick-timeline-diff.negative {
+    color: #ff4b3e;
+}
+.nick-timeline-diff.muted {
+    color: #444;
+    font-weight: 500;
+}
+
+.nick-timeline-rank {
+    color: #888;
+    font-size: 0.78rem;
+    font-weight: 600;
+    text-align: right;
+    white-space: nowrap;
+}
+
+/* ============================================================
+   Кнопка «Наверх»
+   ============================================================ */
+.scroll-top {
+    position: fixed;
+    right: 12px;
+    bottom: 76px;
+    width: 36px;
+    height: 36px;
+    background: rgba(13, 13, 13, 0.9);
+    color: var(--accent);
+    border: 1px solid var(--accent);
+    font-size: 1.2rem;
+    font-weight: 700;
+    cursor: pointer;
+    z-index: 90;
+    opacity: 0;
+    pointer-events: none;
+    transition: opacity 0.2s, background 0.15s;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    padding: 0;
+    font-family: 'Segoe UI', sans-serif;
+}
+.scroll-top.visible {
+    opacity: 1;
+    pointer-events: auto;
+}
+.scroll-top:hover {
+    background: var(--accent);
+    color: #0d0d0d;
+}
+
+/* ============================================================
+   Подсветка строки при наведении
+   ============================================================ */
+.edit-table tbody tr:hover td {
+    box-shadow: inset 0 0 0 1000px color-mix(in srgb, var(--accent) 5%, transparent);
+}
+.edit-table tbody tr.gap-row:hover td,
+.edit-table tbody tr.error-row:hover td {
+    box-shadow: none;
+}
+
+/* ============================================================
+   Ошибка загрузки с кнопкой «Повторить»
+   ============================================================ */
+.error-row td {
+    text-align: center;
+    padding: 40px 20px;
+    background: #111111;
+    border: none;
+}
+.error-cell {
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    gap: 16px;
+}
+.error-text {
+    color: #ff7a7a;
+    font-size: 0.85rem;
+    font-family: 'Segoe UI', sans-serif;
+    letter-spacing: 0.5px;
+    max-width: 600px;
+    word-break: break-word;
+}
+.error-retry {
+    background: #0f0f0f;
+    color: var(--accent);
+    border: 1px solid var(--accent);
+    padding: 10px 24px;
+    font-size: 0.8rem;
+    text-transform: uppercase;
+    letter-spacing: 1.5px;
+    font-weight: 700;
+    cursor: pointer;
+    transition: 0.15s;
+    font-family: 'Segoe UI', sans-serif;
+}
+.error-retry:hover {
+    background: var(--accent);
+    color: #0d0d0d;
+}
+
+/* ============================================================
+   Мобильная адаптация для новых элементов
+   ============================================================ */
+@media (max-width: 600px) {
+    .nick-modal-summary { grid-template-columns: 1fr; }
+    .nick-summary-block { padding: 10px 12px; }
+    .scroll-top { bottom: 72px; }
+    .error-row td { padding: 30px 14px; }
+}
+/* ============================================================
+   Быстрая анимация появления таблицы
+   ============================================================ */
+@keyframes tableFadeIn {
+    from { opacity: 0; transform: translateY(-6px); }
+    to   { opacity: 1; transform: translateY(0); }
+}
+
+.edit-table tbody.table-anim {
+    animation: tableFadeIn 0.18s ease-out;
+}
+/* ============================================================
+   Скроллбар модалки статистики (нейтральный)
+   ============================================================ */
+.nick-modal-body::-webkit-scrollbar {
+    width: 12px;
+}
+.nick-modal-body::-webkit-scrollbar-track {
+    background: #0a0a0a;
+    border-radius: 4px;
+}
+.nick-modal-body::-webkit-scrollbar-thumb {
+    background: #2a2a2a;
+    border-radius: 4px;
+    border: 1px solid #1a1a1a;
+}
+.nick-modal-body::-webkit-scrollbar-thumb:hover {
+    background: #3a3a3a;
+}
+.nick-modal-body {
+    scrollbar-width: thin;
+    scrollbar-color: #2a2a2a #0a0a0a;
+}
+/* ============================================================
+   Заглушка в модалке алтаря (нет сети / битый файл)
+   ============================================================ */
+.altar-stub {
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    justify-content: center;
+    gap: 20px;
+    min-width: 320px;
+    min-height: 240px;
+    padding: 40px 60px;
+    color: #666;
+    font-family: 'Segoe UI', sans-serif;
+    text-align: center;
+}
+
+.altar-stub-icon {
+    font-size: 4rem;
+    font-weight: 300;
+    color: #444;
+    line-height: 1;
+    border: 3px dashed #333;
+    border-radius: 12px;
+    width: 100px;
+    height: 100px;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+}
+
+.altar-stub-text {
+    font-size: 0.95rem;
+    font-weight: 600;
+    text-transform: uppercase;
+    letter-spacing: 2px;
+    color: #888;
 }
