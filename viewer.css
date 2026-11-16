@@ -77,9 +77,9 @@ body.index-page {
 
 .nav-btn {
   flex: 1 1 130px;
-  background: #0d0d0d;
+  background: color-mix(in srgb, var(--accent) 6%, #1a1a1a);
   color: var(--accent);
-  border: 2px solid var(--accent);
+  border: 1px solid color-mix(in srgb, var(--accent) 35%, transparent);
   padding: 14px 8px;
   font-size: 0.78rem;
   font-weight: 700;
@@ -92,6 +92,22 @@ body.index-page {
   overflow: hidden;
   text-overflow: ellipsis;
   min-width: 0;
+}
+
+.nav-btn:hover {
+  background: color-mix(in srgb, var(--accent) 14%, #1a1a1a);
+  border-color: var(--accent);
+}
+
+.nav-btn.active {
+  background: var(--accent);
+  color: #0d0d0d;
+  border-color: var(--accent);
+}
+
+.nav-btn:disabled {
+  opacity: 0.4;
+  cursor: not-allowed;
 }
 
 .nav-btn:hover  { background: #1c1c1c; }
@@ -748,7 +764,22 @@ body.index-page {
 .bases-table thead th { padding: 14px 22px; font-size: 0.72rem; letter-spacing: 1px; }
 .bases-table tbody td { padding: 18px 22px; font-size: 1rem; }
 .bases-table td.bases-code-cell { font-size: 1.05rem; }
-  .nav-btn    { padding: 12px 14px; font-size: 0.85rem; letter-spacing: 1px; }
+  .nav-btn {
+      flex: 1 1 110px;
+      padding: 10px 6px;
+      font-size: 0.7rem;
+      letter-spacing: 0.2px;
+      white-space: normal;
+      overflow: visible;
+      text-overflow: clip;
+      line-height: 1.15;
+      min-height: 48px;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      text-align: center;
+      word-break: break-word;
+  }
   .tables-control { padding: 10px; max-height: 320px; }
 .table-btn  { font-size: 0.72rem; padding: 6px 10px; }
   .sticker-grid { grid-template-columns: 1fr; }
@@ -1704,12 +1735,12 @@ body.index-page {
     position: fixed;
     top: 50%;
     transform: translateY(-50%);
-    width: 60px;
-    height: 60px;
-    background: rgba(13, 13, 13, 0.75);
-    color: var(--accent);
-    border: 2px solid var(--accent);
-    font-size: 2.6rem;
+    width: 56px;
+    height: 56px;
+    background: rgba(13, 13, 13, 0.45);
+    color: color-mix(in srgb, var(--accent) 75%, transparent);
+    border: 1px solid color-mix(in srgb, var(--accent) 40%, transparent);
+    font-size: 2.2rem;
     font-weight: 700;
     line-height: 1;
     cursor: pointer;
@@ -1719,14 +1750,19 @@ body.index-page {
     display: flex;
     align-items: center;
     justify-content: center;
-    padding-bottom: 6px;
+    padding-bottom: 4px;
     user-select: none;
+    opacity: 0.7;
+    backdrop-filter: blur(4px);
 }
 
 .altar-modal-nav:hover {
     background: var(--accent);
     color: #0d0d0d;
+    border-color: var(--accent);
     transform: translateY(-50%) scale(1.06);
+    opacity: 1;
+    backdrop-filter: none;
 }
 
 .altar-modal-nav:active {
@@ -1744,13 +1780,14 @@ body.index-page {
 /* Мобильная версия */
 @media (max-width: 700px) {
     .altar-modal-nav {
-        width: 46px;
-        height: 46px;
-        font-size: 2rem;
-        padding-bottom: 4px;
+        width: 38px;
+        height: 38px;
+        font-size: 1.6rem;
+        padding-bottom: 2px;
+        opacity: 0.55;
     }
-    .altar-modal-prev { left: 8px; }
-    .altar-modal-next { right: 8px; }
+    .altar-modal-prev { left: 6px; }
+    .altar-modal-next { right: 6px; }
 }
 /* ============================================================
    Индикатор загрузки таблицы
@@ -2255,16 +2292,26 @@ body.index-page {
    ============================================================ */
 @media (max-width: 700px) {
 
-    /* ---------- Верхнее меню: меньше шрифт и padding ---------- */
+    /* ---------- Верхнее меню: текст в 2 строки, без обрезки ---------- */
     .top-nav {
         gap: 8px;
         margin-bottom: 20px;
     }
     .nav-btn {
-        flex: 1 1 100px;
-        padding: 10px 6px;
-        font-size: 0.68rem;
-        letter-spacing: 0.3px;
+        flex: 1 1 95px;
+        padding: 10px 4px;
+        font-size: 0.62rem;
+        letter-spacing: 0;
+        white-space: normal;
+        overflow: visible;
+        text-overflow: clip;
+        line-height: 1.15;
+        min-height: 48px;
+        display: flex;
+        align-items: center;
+        justify-content: center;
+        text-align: center;
+        word-break: break-word;
     }
 
     /* ---------- Таблица — супер-компактная ---------- */
