@@ -95,8 +95,9 @@ function isVideoUrl(url) {
 /* ============================================================
    Кеш JSON (localStorage, TTL)
    ============================================================ */
-const CACHE_TTL_MS = 60 * 60 * 1000;   // 1 час
-const CACHE_PREFIX = 'cache_v1:';
+const CACHE_TTL_MS = 60 * 60 * 1000;   // 1 час — для таблиц
+const CACHE_TTL_SHORT_MS = 15 * 60 * 1000;   // 15 минут — для altars/stickers/bases/links
+const CACHE_PREFIX = 'cache_v2:';
 
 async function fetchJSON(url, opts = {}) {
     const { ttl = 0, bustCache = false, noFallback = false } = opts;
@@ -1196,12 +1197,16 @@ async function openNickStats(row) {
 /* ============================================================
    Стикеры
    ============================================================ */
-async function loadStickers() {
+async function loadStickers(bust = false) {
     const grid = document.getElementById('stickerGrid');
     if (!grid) return;
     let items;
     try {
-        items = await fetchJSON('content/stickers.json', { ttl: CACHE_TTL_MS });
+        items = await fetchJSON('content/stickers.json', {
+            ttl: CACHE_TTL_SHORT_MS,
+            bustCache: bust,
+            noFallback: bust,
+        });
     } catch (e) {
         console.warn('Не удалось загрузить stickers.json:', e.message);
         grid.innerHTML = '<span class="empty-selector">stickers.json не найден</span>';
@@ -1236,12 +1241,16 @@ async function loadStickers() {
 /* ============================================================
    Базы Зюзиков
    ============================================================ */
-async function loadBases() {
+async function loadBases(bust = false) {
     const tbody = document.getElementById('basesBody');
     if (!tbody) return;
     let items;
     try {
-        items = await fetchJSON('content/bases.json', { ttl: CACHE_TTL_MS });
+        items = await fetchJSON('content/bases.json', {
+            ttl: CACHE_TTL_SHORT_MS,
+            bustCache: bust,
+            noFallback: bust,
+        });
     } catch (e) {
         console.warn('Не удалось загрузить bases.json:', e.message);
         tbody.innerHTML = '<tr><td colspan="2" class="empty-cell">bases.json не найден</td></tr>';
@@ -1269,12 +1278,16 @@ async function loadBases() {
 /* ============================================================
    Алтари
    ============================================================ */
-async function loadAltars() {
+async function loadAltars(bust = false) {
     const grid = document.getElementById('altarGrid');
     if (!grid) return;
     let items;
     try {
-        items = await fetchJSON('content/altars.json', { ttl: CACHE_TTL_MS });
+        items = await fetchJSON('content/altars.json', {
+            ttl: CACHE_TTL_SHORT_MS,
+            bustCache: bust,
+            noFallback: bust,
+        });
     } catch (e) {
         console.warn('Не удалось загрузить altars.json:', e.message);
         grid.innerHTML = '<span class="empty-selector">altars.json не найден</span>';
@@ -1328,12 +1341,16 @@ async function loadAltars() {
 /* ============================================================
    Полезные ссылки
    ============================================================ */
-async function loadLinks() {
+async function loadLinks(bust = false) {
     const grid = document.getElementById('linksGrid');
     if (!grid) return;
     let items;
     try {
-        items = await fetchJSON('content/links.json', { ttl: CACHE_TTL_MS });
+        items = await fetchJSON('content/links.json', {
+            ttl: CACHE_TTL_SHORT_MS,
+            bustCache: bust,
+            noFallback: bust,
+        });
     } catch (e) {
         console.warn('Не удалось загрузить links.json:', e.message);
         grid.innerHTML = '<span class="empty-selector">links.json не найден</span>';
@@ -1453,7 +1470,17 @@ async function refreshCurrent() {
         allTablesCache = null;
         await preloadAllTables(true);
 
-        if (currentFile) {
+        // Перезагружаем «редкие» JSON с обходом кеша
+        try { await loadBases(true); } catch (e) {}
+        try { await loadStickers(true); } catch (e) {}
+        try { await loadAltars(true); } catch (e) {}
+        try { await loadLinks(true); } catch (e) {}
+
+        // Если сейчас на странице таблицы — перерисовываем её
+        const section = (document.body.className || '').replace('index-page', '').trim();
+        const onTablesPage = (section === 'assault' || section === 'defence');
+
+        if (onTablesPage && currentFile) {
             const folder = manifest[currentType].folder;
             const url = `${folder}/${encodeURIComponent(currentFile)}`;
 
@@ -1476,13 +1503,11 @@ async function refreshCurrent() {
             render();
         }
 
-        if (!currentFile) {
-            showToast('Нет таблиц для обновления');
-        } else if (nickFilter.trim()) {
-            showToast('Данные обновлены · Фильтр: ' + nickFilter.trim());
-        } else {
-            showToast('Данные обновлены');
+        let msg = 'Данные обновлены';
+        if (onTablesPage && nickFilter.trim()) {
+            msg += ' · Фильтр: ' + nickFilter.trim();
         }
+        showToast(msg);
     } catch (e) {
         console.error('Refresh failed:', e);
         showToast(navigator.onLine ? 'Ошибка обновления' : 'Соединение прервано');
@@ -1491,17 +1516,9 @@ async function refreshCurrent() {
     }
 }
 
-function updateRefreshVisibility() {
-    const btn = document.getElementById('refreshBtn');
-    if (!btn) return;
-    const section = (document.body.className || '').replace('index-page', '').trim();
-    btn.style.display = (section === 'assault' || section === 'defence') ? '' : 'none';
-}
-
 function bindRefresh() {
     const btn = document.getElementById('refreshBtn');
     if (btn) btn.addEventListener('click', refreshCurrent);
-    updateRefreshVisibility();
 }
 function bindScrollTop() {
     const btn = document.getElementById('scrollTopBtn');
@@ -1684,7 +1701,6 @@ async function showSection(section) {
     document.querySelectorAll('.view').forEach(v => v.classList.remove('active'));
 
     document.body.className = 'index-page ' + section;
-    updateRefreshVisibility();
     updateHash(section);
 
     if (section === 'bases') {
