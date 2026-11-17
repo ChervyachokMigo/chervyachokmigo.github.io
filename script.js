@@ -1866,7 +1866,34 @@ if (nickShareBtn) {
         }
     });
 }
+/* ============================================================
+   Переключатель зеркала 2ch
+   ============================================================ */
+const DOMAIN_KEY = 'gacha_domain';
+const DOMAINS = {
+    su:  'https://2ch.su/gacha/catalog.html?search=zzz',
+    org: 'https://2ch.org/gacha/catalog.html?search=zzz',
+};
 
+function applyDomain(domain) {
+    if (!DOMAINS[domain]) domain = 'su';
+    const link = document.getElementById('gachaLink');
+    if (link) link.href = DOMAINS[domain];
+    document.querySelectorAll('.domain-btn').forEach(b => {
+        b.classList.toggle('active', b.dataset.domain === domain);
+    });
+    try { localStorage.setItem(DOMAIN_KEY, domain); } catch (e) {}
+}
+
+function bindDomainSwitch() {
+    document.querySelectorAll('.domain-btn').forEach(btn => {
+        btn.addEventListener('click', () => applyDomain(btn.dataset.domain));
+    });
+
+    let saved = 'su';
+    try { saved = localStorage.getItem(DOMAIN_KEY) || 'su'; } catch (e) {}
+    applyDomain(saved);
+}
 /* ============================================================
    Старт
    ============================================================ */
@@ -1876,6 +1903,7 @@ if (nickShareBtn) {
     bindNickModal();
     bindScrollTop();
     bindRefresh();
+    bindDomainSwitch();
     checkMskReminder();
     setInterval(checkMskReminder, 60 * 1000);
 

@@ -2506,3 +2506,53 @@ body.index-page {
     color: #0d0d0d;
     border-bottom-color: transparent;
 }
+/* ============================================================
+   Переключатель зеркала в заголовке
+   ============================================================ */
+.title-domain-switch {
+    display: inline-flex;
+    gap: 4px;
+    margin-top: 14px;
+    opacity: 0.55;
+    transition: opacity 0.12s ease;
+}
+
+.title-domain-switch:hover {
+    opacity: 1;
+}
+
+.domain-btn {
+    background: transparent;
+    color: var(--accent);
+    border: 1px solid color-mix(in srgb, var(--accent) 30%, transparent);
+    padding: 3px 10px;
+    font-size: 0.62rem;
+    font-weight: 700;
+    text-transform: uppercase;
+    letter-spacing: 1px;
+    cursor: pointer;
+    font-family: 'Segoe UI', sans-serif;
+    transition: background-color 0.12s ease, border-color 0.12s ease, color 0.12s ease, opacity 0.12s ease;
+}
+
+.domain-btn:hover {
+    border-color: var(--accent);
+    opacity: 1;
+}
+
+.domain-btn.active {
+    background: color-mix(in srgb, var(--accent) 22%, transparent);
+    border-color: var(--accent);
+    color: var(--accent);
+    opacity: 1;
+}
+
+@media (max-width: 600px) {
+    .domain-btn {
+        font-size: 0.58rem;
+        padding: 2px 8px;
+    }
+    .title-domain-switch {
+        margin-top: 10px;
+    }
+}
