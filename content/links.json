@@ -5,11 +5,13 @@
             { "name": "HoYoLAB", "url": "https://act.hoyolab.com/bbs/event/signin/zzz/e202406031448091.html?act_id=e202406031448091" }
         ]
     },
+
     {
         "category": "Счётчики роллов",
         "links": [
             { "name": "RNG.moe", "url": "https://zzz.rng.moe" },
-            { "name": "StarDB",  "url": "https://stardb.gg" }
+            { "name": "StarDB",  "url": "https://stardb.gg" },
+            { "name": "HoyoLAB", "url": "https://act.hoyolab.com/zzz/event/gacha-record/index.html?hyl_presentation_style=fullscreen&utm_source=sns&utm_medium=CM_Twitter&utm_campaign=nap_appid_1309"}
         ]
     },
     {
