@@ -124,7 +124,7 @@
     },
     {
       "nick": "AM",
-      "test": "119984",
+      "test": "120164",
       "stamina": "",
       "id": "384f85ed",
       "avatar": "avatars/Avatar_Velina_Airgid.webp"
@@ -578,6 +578,6 @@
       "avatar": "avatars/Avatar_Deadly_Assault_Line_Breaker.webp"
     }
   ],
-  "savedAt": "2026-11-16T02:20:36.698Z",
+  "savedAt": "2026-11-18T17:32:39.153Z",
   "type": "assault"
 }

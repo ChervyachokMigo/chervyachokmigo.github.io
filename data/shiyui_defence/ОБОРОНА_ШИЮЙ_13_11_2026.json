@@ -10,16 +10,16 @@
       "avatar": "avatars/Avatar_Sunna.webp"
     },
     {
+      "nick": "MW",
+      "points": "138355",
+      "id": "404cdd7b",
+      "avatar": "avatars/Avatar_Koleda_Belobog.webp"
+    },
+    {
       "nick": "SD",
       "points": "138223",
       "id": "f300adf2",
       "avatar": "avatars/belle_wise_b_p_2.png"
-    },
-    {
-      "nick": "MW",
-      "points": "137314",
-      "id": "404cdd7b",
-      "avatar": "avatars/Avatar_Koleda_Belobog.webp"
     },
     {
       "nick": "ТЙ",
@@ -113,7 +113,7 @@
     },
     {
       "nick": "СЫ",
-      "points": "117773",
+      "points": "118354",
       "id": "371c77f6",
       "avatar": "avatars/Avatar_Banyue.webp"
     },
@@ -184,6 +184,12 @@
       "avatar": "avatars/Avatar_Tempered_Crown.webp"
     },
     {
+      "nick": "AG",
+      "points": "111547",
+      "id": "0d0180eb",
+      "avatar": "avatars/Avatar_Remielle_Dan.webp"
+    },
+    {
       "nick": "KU",
       "points": "111207",
       "id": "0a6c230f",
@@ -214,6 +220,12 @@
       "avatar": "avatars/Avatar_Nicole_Demara.webp"
     },
     {
+      "nick": "BN",
+      "points": "108716",
+      "id": "e456a704",
+      "avatar": "avatars/avatar_phoenix.png"
+    },
+    {
       "nick": "КИ",
       "points": "107893",
       "id": "fde6f094",
@@ -230,6 +242,12 @@
       "points": "107645",
       "id": "32070fbb",
       "avatar": "avatars/Avatar_Pulchra_Fellini.webp"
+    },
+    {
+      "nick": "KA",
+      "points": "106519",
+      "id": "f7dbdff4",
+      "avatar": "avatars/Avatar_Ukinami_Yuzuha.webp"
     },
     {
       "nick": "K7",
@@ -254,6 +272,12 @@
       "points": "104364",
       "id": "5d9b165e",
       "avatar": "avatars/Avatar_Zhao.webp"
+    },
+    {
+      "nick": "NA",
+      "points": "103282",
+      "id": "fc255113",
+      "avatar": "avatars/Avatar_Tempered_Crown.webp"
     },
     {
       "nick": "АТ",
@@ -418,12 +442,6 @@
       "avatar": "avatars/Avatar_Pulchra_Fellini.webp"
     },
     {
-      "nick": "KA",
-      "points": "83610",
-      "id": "f7dbdff4",
-      "avatar": "avatars/Avatar_Ukinami_Yuzuha.webp"
-    },
-    {
       "nick": "MA",
       "points": "83585",
       "id": "7b85f25b",
@@ -472,6 +490,6 @@
       "avatar": "avatars/Avatar_Burnice_White.webp"
     }
   ],
-  "savedAt": "2026-11-16T16:47:19.515Z",
+  "savedAt": "2026-11-18T17:34:22.478Z",
   "type": "defence"
 }
