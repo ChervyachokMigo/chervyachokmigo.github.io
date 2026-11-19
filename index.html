@@ -26,8 +26,8 @@
         <h1 class="page-title">Двач <a class="title-link" id="gachaLink" href="https://2ch.su/gacha/catalog.html?search=zzz" target="_blank" rel="noopener">/gacha/zzz</a></h1>
         <div class="page-subtitle">Добро пожаловать. Снова.</div>
         <div class="title-domain-switch">
-            <button type="button" class="domain-btn active" data-domain="su">2ch.su</button>
-            <button type="button" class="domain-btn" data-domain="org">2ch.org</button>
+            <button type="button" class="domain-btn active" data-domain="su" title="Ссылка /gacha/zzz в заголовке будет вести на 2ch.su">2ch.su</button>
+            <button type="button" class="domain-btn" data-domain="org" title="Ссылка /gacha/zzz в заголовке будет вести на 2ch.org">2ch.org</button>
         </div>
     </header>
 
@@ -147,9 +147,20 @@
     <div class="altar-modal" id="altarModal" hidden>
         <button class="altar-modal-close" id="altarModalClose" title="Закрыть (Esc)">×</button>
         <div class="altar-modal-name" id="altarModalName"></div>
+        <div class="altar-modal-tabs" id="altarModalTabs" hidden>
+            <button class="altar-tab-btn active" data-view="image">Картинка</button>
+            <button class="altar-tab-btn" data-view="video">Видео</button>
+        </div>
+        <button class="altar-modal-designation" id="altarModalDesignation" hidden title="Показать обозначения">◎ Обозначения</button>
         <button class="altar-modal-nav altar-modal-prev" id="altarModalPrev" title="Предыдущий (←)">‹</button>
         <button class="altar-modal-nav altar-modal-next" id="altarModalNext" title="Следующий (→)">›</button>
         <div class="altar-modal-body" id="altarModalBody"></div>
+    </div>
+
+    <div class="designation-modal" id="designationModal" hidden>
+        <button class="designation-modal-close" id="designationModalClose" title="Закрыть (Esc)">×</button>
+        <div class="designation-modal-name" id="designationModalName"></div>
+        <div class="designation-modal-body" id="designationModalBody"></div>
     </div>
         <!-- ==================== Статистика по нику ==================== -->
     <div class="nick-modal" id="nickModal" hidden>

@@ -1304,36 +1304,70 @@ async function loadAltars(bust = false) {
     });
     grid.innerHTML = '';
     for (const item of items) {
-        const src     = String(item.src || '').trim();
-        const name    = String(item.name || '').trim();
-        const missing = item.missing === true;
+        const src          = String(item.src || '').trim();
+        const name         = String(item.name || '').trim();
+        const missing      = item.missing === true;
+        const videoSrc     = String(item.video || '').trim();
+        const designation  = String(item.designation || '').trim();
+
         if (!missing && !src) continue;
-        const video = !missing && isVideoUrl(src);
+
+        const srcIsVideo = !missing && isVideoUrl(src);
+        const hasVideo = !missing && !srcIsVideo && !!videoSrc;
+        const hasDesignation = !missing && !!designation;
         const isPending = !missing && item.finalized === 0;
+
         const btn = document.createElement('button');
         if (missing) {
             btn.className = 'altar-card missing';
             btn.disabled = true;
         } else {
             btn.className = 'altar-card ' + (isPending ? 'pending' : 'finalized');
-            btn.dataset.src  = src;
-            btn.dataset.type = video ? 'video' : 'image';
+            btn.dataset.src = src;
+            btn.dataset.type = srcIsVideo ? 'video' : 'image';
+            if (hasVideo) btn.dataset.video = videoSrc;
+            if (hasDesignation) btn.dataset.designation = designation;
         }
+
         const info = document.createElement('span');
         info.className = 'altar-info';
+
         const v = document.createElement('span');
         v.className = 'altar-version';
         v.textContent = item.version || '';
         info.appendChild(v);
+
         const n = document.createElement('span');
         n.className = 'altar-name';
         n.textContent = name || '—';
         info.appendChild(n);
         btn.appendChild(info);
-        const tag = document.createElement('span');
-        tag.className = 'altar-tag';
-        tag.textContent = missing ? '—' : (video ? 'MP4' : 'PNG');
-        btn.appendChild(tag);
+
+        // Теги справа
+        const tags = document.createElement('span');
+        tags.className = 'altar-tags';
+
+        const primaryTag = document.createElement('span');
+        primaryTag.className = 'altar-tag';
+        primaryTag.textContent = missing ? '—' : (srcIsVideo ? 'MP4' : 'PNG');
+        tags.appendChild(primaryTag);
+
+        if (hasVideo) {
+            const t = document.createElement('span');
+            t.className = 'altar-tag altar-tag-extra';
+            t.textContent = '▶';
+            t.title = 'Есть видео-вариант';
+            tags.appendChild(t);
+        }
+        if (hasDesignation) {
+            const t = document.createElement('span');
+            t.className = 'altar-tag altar-tag-extra';
+            t.textContent = '◎';
+            t.title = 'Есть обозначения';
+            tags.appendChild(t);
+        }
+
+        btn.appendChild(tags);
         grid.appendChild(btn);
     }
 }
@@ -1559,11 +1593,18 @@ function bindAltars() {
     const closeBtn = document.getElementById('altarModalClose');
     const prevBtn  = document.getElementById('altarModalPrev');
     const nextBtn  = document.getElementById('altarModalNext');
+    const tabsEl   = document.getElementById('altarModalTabs');
+    const desigBtn = document.getElementById('altarModalDesignation');
+    const desigModal = document.getElementById('designationModal');
+    const desigBody  = document.getElementById('designationModalBody');
+    const desigName  = document.getElementById('designationModalName');
+    const desigClose = document.getElementById('designationModalClose');
     const grid     = document.getElementById('altarGrid');
     if (!modal || !body || !grid) return;
 
     let cardsList = [];
     let currentIdx = -1;
+    let currentCard = null;
 
     attachModalDismiss(modal, closeBtn, [modal, body]);
     modal.addEventListener('modal:closed', () => {
@@ -1572,6 +1613,8 @@ function bindAltars() {
         grid.querySelectorAll('.altar-card').forEach(c => c.classList.remove('active'));
         cardsList = [];
         currentIdx = -1;
+        currentCard = null;
+        if (desigModal) desigModal.hidden = true;
     });
 
     const missingCb = document.getElementById('showMissing');
@@ -1599,28 +1642,16 @@ function bindAltars() {
         body.appendChild(stub);
     }
 
-    function openModal(card) {
-        if (!card || !card.dataset.src) return;
-        grid.querySelectorAll('.altar-card').forEach(c => c.classList.remove('active'));
-        card.classList.add('active');
-
-        cardsList = Array.from(grid.querySelectorAll('.altar-card')).filter(c => {
-            return c.offsetParent !== null && c.dataset.src;
-        });
-        currentIdx = cardsList.indexOf(card);
-
-        const src  = card.dataset.src;
-        const type = card.dataset.type || 'image';
-        const name = card.querySelector('.altar-name')?.textContent || '';
-
-        nameEl.textContent = name;
+    function showMedia(view, primarySrc, videoSrc, name) {
         body.innerHTML = '';
 
-        // Всегда пробуем загрузить — браузер сначала проверит кеш.
-        // Если не выйдет — onerror покажет заглушку.
-        if (type === 'video') {
+        const useVideo = (view === 'video') && !!videoSrc;
+        const mediaSrc = useVideo ? videoSrc : primarySrc;
+        const isVid = useVideo || isVideoUrl(primarySrc);
+
+        if (isVid) {
             const v = document.createElement('video');
-            v.src = src;
+            v.src = mediaSrc;
             v.controls = true;
             v.autoplay = true;
             v.loop = true;
@@ -1632,13 +1663,56 @@ function bindAltars() {
             body.appendChild(v);
         } else {
             const img = document.createElement('img');
-            img.src = src;
+            img.src = mediaSrc;
             img.alt = name;
             img.addEventListener('error', () => {
                 showAltarStub(navigator.onLine ? 'Не удалось загрузить' : 'Нет соединения');
             });
             body.appendChild(img);
         }
+    }
+
+    function openModal(card) {
+        if (!card || !card.dataset.src) return;
+
+        if (desigModal) desigModal.hidden = true;
+
+        grid.querySelectorAll('.altar-card').forEach(c => c.classList.remove('active'));
+        card.classList.add('active');
+
+        cardsList = Array.from(grid.querySelectorAll('.altar-card')).filter(c => {
+            return c.offsetParent !== null && c.dataset.src;
+        });
+        currentIdx = cardsList.indexOf(card);
+        currentCard = card;
+
+        const src = card.dataset.src;
+        const videoSrc = card.dataset.video || '';
+        const designation = card.dataset.designation || '';
+        const name = card.querySelector('.altar-name')?.textContent || '';
+        const srcIsVideo = isVideoUrl(src);
+        const hasVideo = !srcIsVideo && !!videoSrc;
+        const hasDesignation = !!designation;
+
+        nameEl.textContent = name;
+
+        // Tabs
+        if (tabsEl) {
+            tabsEl.hidden = !hasVideo;
+            if (hasVideo) {
+                tabsEl.querySelectorAll('.altar-tab-btn').forEach(b => {
+                    b.classList.toggle('active', b.dataset.view === 'image');
+                });
+            }
+        }
+
+        // Designation button
+        if (desigBtn) {
+            desigBtn.hidden = !hasDesignation;
+        }
+
+        // Show primary
+        showMedia('image', src, videoSrc, name);
 
         modal.hidden = false;
         updateNavVisibility();
@@ -1650,7 +1724,6 @@ function bindAltars() {
         openModal(cardsList[nextIdx]);
     }
 
-    // Обновить видимость стрелок (скрыть, если карточек < 2)
     function updateNavVisibility() {
         const show = cardsList.length >= 2;
         if (prevBtn) prevBtn.style.display = show ? '' : 'none';
@@ -1680,9 +1753,68 @@ function bindAltars() {
         goToNext(1);
     });
 
-    // Клавиши ← →
+    // Вкладки Картинка/Видео
+    if (tabsEl) {
+        tabsEl.querySelectorAll('.altar-tab-btn').forEach(btn => {
+            btn.addEventListener('click', () => {
+                if (!currentCard) return;
+                const src = currentCard.dataset.src;
+                const videoSrc = currentCard.dataset.video || '';
+                const name = currentCard.querySelector('.altar-name')?.textContent || '';
+                showMedia(btn.dataset.view, src, videoSrc, name);
+                tabsEl.querySelectorAll('.altar-tab-btn').forEach(b => {
+                    b.classList.toggle('active', b === btn);
+                });
+            });
+        });
+    }
+
+    // Обозначения
+    if (desigBtn && desigModal && desigBody && desigName) {
+        desigBtn.addEventListener('click', () => {
+            if (!currentCard) return;
+            const designation = currentCard.dataset.designation || '';
+            if (!designation) return;
+
+            const name = currentCard.querySelector('.altar-name')?.textContent || '';
+            desigName.textContent = name + ' — Обозначения';
+            desigBody.innerHTML = '';
+
+            const img = document.createElement('img');
+            img.src = designation;
+            img.alt = name + ' (обозначения)';
+            img.addEventListener('error', () => {
+                desigBody.innerHTML = '';
+                const stub = document.createElement('div');
+                stub.className = 'altar-stub';
+                stub.innerHTML = '<div class="altar-stub-icon">□</div><div class="altar-stub-text">' +
+                    (navigator.onLine ? 'Не удалось загрузить' : 'Нет соединения') + '</div>';
+                desigBody.appendChild(stub);
+            });
+            desigBody.appendChild(img);
+
+            desigModal.hidden = false;
+        });
+    }
+
+    if (desigClose && desigModal) {
+        desigClose.addEventListener('click', () => { desigModal.hidden = true; });
+        desigModal.addEventListener('click', (e) => {
+            if (e.target === desigModal) desigModal.hidden = true;
+        });
+        // Escape в capture-фазе — сначала закрывает designation, потом уже altar
+        document.addEventListener('keydown', (e) => {
+            if (e.key === 'Escape' && !desigModal.hidden) {
+                e.stopImmediatePropagation();
+                desigModal.hidden = true;
+            }
+        }, true);
+    }
+
+    // Клавиши ← → (работают в altar modal)
     document.addEventListener('keydown', (e) => {
         if (modal.hidden) return;
+        if (desigModal && !desigModal.hidden) return; // пока открыт designation — не листаем
         if (e.target.tagName === 'INPUT' || e.target.isContentEditable) return;
         if (e.key !== 'ArrowLeft' && e.key !== 'ArrowRight') return;
         if (cardsList.length < 2) return;
