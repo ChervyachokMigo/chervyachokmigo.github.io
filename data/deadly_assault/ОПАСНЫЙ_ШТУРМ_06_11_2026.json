@@ -32,9 +32,16 @@
       "avatar": "avatars/ridu_09_26.png"
     },
     {
+      "nick": "КА",
+      "test": "160893",
+      "stamina": "55068",
+      "id": "7305b0bf",
+      "avatar": "avatars/ridu_09_26.png"
+    },
+    {
       "nick": "SC",
       "test": "141409",
-      "stamina": "",
+      "stamina": "35497",
       "id": "0fc702d4",
       "avatar": "avatars/Avatar_Hoshimi_Miyabi.webp"
     },
@@ -90,7 +97,7 @@
     {
       "nick": "ZE",
       "test": "125824",
-      "stamina": "",
+      "stamina": "30245",
       "id": "bc96fd7c",
       "avatar": "avatars/Avatar_Starlight_-_Billy_Kid.webp"
     },
@@ -100,6 +107,13 @@
       "stamina": "37008",
       "id": "29902bb0",
       "avatar": "avatars/Avatar_Alice_Thymefield.webp"
+    },
+    {
+      "nick": "CR",
+      "test": "125145",
+      "stamina": "",
+      "id": "e3c72a1f",
+      "avatar": "avatars/Avatar_Hoshimi_Miyabi.webp"
     },
     {
       "nick": "YY",
@@ -116,6 +130,13 @@
       "avatar": "avatars/Avatar_Tempered_Crown.webp"
     },
     {
+      "nick": "AM",
+      "test": "120672",
+      "stamina": "",
+      "id": "384f85ed",
+      "avatar": "avatars/Avatar_Velina_Airgid.webp"
+    },
+    {
       "nick": "NE",
       "test": "120265",
       "stamina": "",
@@ -123,11 +144,11 @@
       "avatar": "avatars/Avatar_Default_Anonymous.webp"
     },
     {
-      "nick": "AM",
-      "test": "120164",
+      "nick": "BR",
+      "test": "119064",
       "stamina": "",
-      "id": "384f85ed",
-      "avatar": "avatars/Avatar_Velina_Airgid.webp"
+      "id": "5d790795",
+      "avatar": "avatars/Avatar_Crowned_by_Waves_Apex.webp"
     },
     {
       "nick": "АТ",
@@ -172,18 +193,18 @@
       "avatar": "avatars/Avatar_Zhu_Yuan.webp"
     },
     {
+      "nick": "VD",
+      "test": "114564",
+      "stamina": "",
+      "id": "445be54d",
+      "avatar": "avatars/avatar_phoenix.png"
+    },
+    {
       "nick": "AS",
       "test": "114231",
       "stamina": "",
       "id": "62ae6f90",
       "avatar": "avatars/Avatar_Orphie_Magnusson_%2526_Magus.webp"
-    },
-    {
-      "nick": "BR",
-      "test": "113445",
-      "stamina": "",
-      "id": "5d790795",
-      "avatar": "avatars/Avatar_Crowned_by_Waves_Apex.webp"
     },
     {
       "nick": "СЫ",
@@ -212,6 +233,13 @@
       "stamina": "",
       "id": "5d9b165e",
       "avatar": "avatars/Avatar_Zhao.webp"
+    },
+    {
+      "nick": "YU",
+      "test": "109078",
+      "stamina": "",
+      "id": "d3a00e9f",
+      "avatar": "avatars/Avatar_Default_Anonymous.webp"
     },
     {
       "nick": "КИ",
@@ -279,7 +307,7 @@
     {
       "nick": "МЬ",
       "test": "100752",
-      "stamina": "",
+      "stamina": "31254",
       "id": "10c7cb83",
       "avatar": "avatars/Avatar_Jane_Doe.webp"
     },
@@ -289,6 +317,13 @@
       "stamina": "",
       "id": "cbbbd416",
       "avatar": "avatars/Avatar_Seed.webp"
+    },
+    {
+      "nick": "MH",
+      "test": "99838",
+      "stamina": "",
+      "id": "5bbf6901",
+      "avatar": "avatars/Avatar_Alexandrina_Sebastiane.webp"
     },
     {
       "nick": "K7",
@@ -310,6 +345,13 @@
       "stamina": "",
       "id": "2e6c7a60",
       "avatar": "avatars/Avatar_Zhu_Yuan.webp"
+    },
+    {
+      "nick": "LD",
+      "test": "96594",
+      "stamina": "",
+      "id": "7d641735",
+      "avatar": "avatars/Avatar_Hoshimi_Miyabi.webp"
     },
     {
       "nick": "SN",
@@ -508,6 +550,13 @@
       "avatar": "avatars/Avatar_Zhu_Yuan.webp"
     },
     {
+      "nick": "AA",
+      "test": "77439",
+      "stamina": "",
+      "id": "8d8f469e",
+      "avatar": "avatars/Avatar_Endless_Ascension_Smooth_Path.webp"
+    },
+    {
       "nick": "MA",
       "test": "77221",
       "stamina": "",
@@ -576,8 +625,15 @@
       "stamina": "",
       "id": "14a111dd",
       "avatar": "avatars/Avatar_Deadly_Assault_Line_Breaker.webp"
+    },
+    {
+      "nick": "GG",
+      "test": "64882",
+      "stamina": "",
+      "id": "09395b14",
+      "avatar": "avatars/Avatar_Deadly_Assault_Line_Breaker.webp"
     }
   ],
-  "savedAt": "2026-11-18T17:32:39.153Z",
+  "savedAt": "2026-11-20T02:54:11.960Z",
   "type": "assault"
 }
