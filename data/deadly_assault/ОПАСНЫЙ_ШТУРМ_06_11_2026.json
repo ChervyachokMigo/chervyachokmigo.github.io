@@ -1,7 +1,7 @@
 {
   "version": 1,
   "title": "ОПАСНЫЙ ШТУРМ 06 11 2026",
-  "locked": false,
+  "locked": true,
   "rows": [
     {
       "nick": "MS",
@@ -634,6 +634,6 @@
       "avatar": "avatars/Avatar_Deadly_Assault_Line_Breaker.webp"
     }
   ],
-  "savedAt": "2026-11-20T02:54:11.960Z",
+  "savedAt": "2026-11-20T22:26:38.821Z",
   "type": "assault"
 }
