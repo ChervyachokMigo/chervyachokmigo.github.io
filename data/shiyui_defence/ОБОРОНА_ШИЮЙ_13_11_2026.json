@@ -328,6 +328,12 @@
       "avatar": "avatars/Avatar_Seed.webp"
     },
     {
+      "nick": "ИН",
+      "points": "100866",
+      "id": "74f46a58",
+      "avatar": "avatars/Avatar_Hoshimi_Miyabi.webp"
+    },
+    {
       "nick": "NE",
       "points": "100761",
       "id": "c252c99d",
@@ -508,6 +514,6 @@
       "avatar": "avatars/Avatar_Burnice_White.webp"
     }
   ],
-  "savedAt": "2026-11-19T23:24:06.299Z",
+  "savedAt": "2026-11-21T06:22:07.562Z",
   "type": "defence"
 }

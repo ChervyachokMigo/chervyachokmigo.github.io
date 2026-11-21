@@ -13,7 +13,7 @@
     {
       "nick": "MW",
       "test": "160178",
-      "stamina": "",
+      "stamina": "30883",
       "id": "404cdd7b",
       "avatar": "avatars/Avatar_Koleda_Belobog.webp"
     },
@@ -117,7 +117,7 @@
     },
     {
       "nick": "AM",
-      "test": "113727",
+      "test": "117555",
       "stamina": "",
       "id": "384f85ed",
       "avatar": "avatars/Avatar_Velina_Airgid.webp"
@@ -163,6 +163,13 @@
       "stamina": "",
       "id": "c0b6877f",
       "avatar": "avatars/Avatar_Cissia.webp"
+    },
+    {
+      "nick": "AG",
+      "test": "105348",
+      "stamina": "",
+      "id": "0d0180eb",
+      "avatar": "avatars/Avatar_Remielle_Dan.webp"
     },
     {
       "nick": "НУ",
@@ -242,6 +249,13 @@
       "avatar": "avatars/Avatar_Banyue.webp"
     },
     {
+      "nick": "TN",
+      "test": "92548",
+      "stamina": "",
+      "id": "1fbb338b",
+      "avatar": "avatars/Avatar_Luciana_de_Montefio.webp"
+    },
+    {
       "nick": "NX",
       "test": "90943",
       "stamina": "",
@@ -268,6 +282,13 @@
       "stamina": "",
       "id": "c7d53ee6",
       "avatar": "avatars/Avatar_Aria.webp"
+    },
+    {
+      "nick": "ИН",
+      "test": "87988",
+      "stamina": "",
+      "id": "74f46a58",
+      "avatar": "avatars/Avatar_Hoshimi_Miyabi.webp"
     },
     {
       "nick": "JN",
@@ -361,6 +382,6 @@
       "avatar": "avatars/Avatar_Zhao.webp"
     }
   ],
-  "savedAt": "2026-11-20T22:46:10.315Z",
+  "savedAt": "2026-11-21T06:22:38.146Z",
   "type": "assault"
 }
