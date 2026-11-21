@@ -496,6 +496,12 @@
       "avatar": "avatars/Avatar_Evelyn_Chevalier.webp"
     },
     {
+      "nick": "BN",
+      "points": "81867",
+      "id": "b82b04d8",
+      "avatar": "avatars/Avatar_Soldier_11.webp"
+    },
+    {
       "nick": "VP",
       "points": "81579",
       "id": "17f7166a",
@@ -514,6 +520,6 @@
       "avatar": "avatars/Avatar_Burnice_White.webp"
     }
   ],
-  "savedAt": "2026-11-21T06:22:07.562Z",
+  "savedAt": "2026-11-21T11:52:21.064Z",
   "type": "defence"
 }
