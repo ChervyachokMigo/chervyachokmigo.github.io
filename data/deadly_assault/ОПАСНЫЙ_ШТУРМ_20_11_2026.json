@@ -48,7 +48,7 @@
     {
       "nick": "WR",
       "test": "129845",
-      "stamina": "",
+      "stamina": "30862",
       "id": "494f55c7",
       "avatar": "avatars/Avatar_Tempered_Crown.webp"
     },
@@ -69,7 +69,7 @@
     {
       "nick": "PO",
       "test": "126855",
-      "stamina": "34161",
+      "stamina": "35001",
       "id": "29902bb0",
       "avatar": "avatars/Avatar_Alice_Thymefield.webp"
     },
@@ -93,6 +93,13 @@
       "stamina": "",
       "id": "4857bd72",
       "avatar": "avatars/ridu_09_26.png"
+    },
+    {
+      "nick": "ZE",
+      "test": "121795",
+      "stamina": "",
+      "id": "bc96fd7c",
+      "avatar": "avatars/Avatar_Starlight_-_Billy_Kid.webp"
     },
     {
       "nick": "RN",
@@ -149,6 +156,13 @@
       "stamina": "",
       "id": "4959b51f",
       "avatar": "avatars/Avatar_Default_Anonymous.webp"
+    },
+    {
+      "nick": "ME",
+      "test": "112716",
+      "stamina": "",
+      "id": "9fc1987b",
+      "avatar": "avatars/Avatar_Hoshimi_Miyabi.webp"
     },
     {
       "nick": "КИ",
@@ -214,11 +228,25 @@
       "avatar": "avatars/Avatar_Zhao.webp"
     },
     {
+      "nick": "VP",
+      "test": "96032",
+      "stamina": "",
+      "id": "17f7166a",
+      "avatar": "avatars/Avatar_Fragrant_Infusion.webp"
+    },
+    {
       "nick": "KU",
       "test": "95943",
       "stamina": "",
       "id": "0a6c230f",
       "avatar": "avatars/Avatar_Hoshimi_Miyabi.webp"
+    },
+    {
+      "nick": "NX",
+      "test": "95571",
+      "stamina": "",
+      "id": "b076d064",
+      "avatar": "avatars/Avatar_Von_Lycaon.webp"
     },
     {
       "nick": "ЧЦ",
@@ -233,13 +261,6 @@
       "stamina": "",
       "id": "07916b53",
       "avatar": "avatars/Avatar_Blessed_by_Glory_The_Crown.webp"
-    },
-    {
-      "nick": "VP",
-      "test": "94561",
-      "stamina": "",
-      "id": "17f7166a",
-      "avatar": "avatars/Avatar_Fragrant_Infusion.webp"
     },
     {
       "nick": "LA",
@@ -261,13 +282,6 @@
       "stamina": "",
       "id": "c7d53ee6",
       "avatar": "avatars/Avatar_Aria.webp"
-    },
-    {
-      "nick": "NX",
-      "test": "92555",
-      "stamina": "",
-      "id": "b076d064",
-      "avatar": "avatars/Avatar_Von_Lycaon.webp"
     },
     {
       "nick": "TN",
@@ -324,6 +338,13 @@
       "stamina": "",
       "id": "b3f465e9",
       "avatar": "avatars/avatar_phoenix.png"
+    },
+    {
+      "nick": "DI",
+      "test": "80472",
+      "stamina": "",
+      "id": "cbbbd416",
+      "avatar": "avatars/Avatar_Seed.webp"
     },
     {
       "nick": "AA",
@@ -403,6 +424,6 @@
       "avatar": "avatars/Avatar_Zhao.webp"
     }
   ],
-  "savedAt": "2026-11-21T11:55:31.070Z",
+  "savedAt": "2026-11-22T04:49:13.274Z",
   "type": "assault"
 }
