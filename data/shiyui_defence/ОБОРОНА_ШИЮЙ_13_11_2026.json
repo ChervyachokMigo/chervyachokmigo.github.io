@@ -394,6 +394,12 @@
       "avatar": "avatars/Avatar_Sunna.webp"
     },
     {
+      "nick": "TE",
+      "points": "94149",
+      "id": "35c60b86",
+      "avatar": "avatars/Avatar_Default_Anonymous.webp"
+    },
+    {
       "nick": "NX",
       "points": "93515",
       "id": "b076d064",
@@ -440,6 +446,12 @@
       "points": "89426",
       "id": "b745bc18",
       "avatar": "avatars/Avatar_Zhao.webp"
+    },
+    {
+      "nick": "LR",
+      "points": "88907",
+      "id": "dd392274",
+      "avatar": "avatars/Avatar_Caesar_King.webp"
     },
     {
       "nick": "WR",
@@ -520,6 +532,6 @@
       "avatar": "avatars/Avatar_Burnice_White.webp"
     }
   ],
-  "savedAt": "2026-11-21T11:52:21.064Z",
+  "savedAt": "2026-11-22T16:00:43.555Z",
   "type": "defence"
 }

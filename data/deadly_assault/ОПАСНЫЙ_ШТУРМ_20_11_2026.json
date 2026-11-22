@@ -13,7 +13,7 @@
     {
       "nick": "SD",
       "test": "164504",
-      "stamina": "43008",
+      "stamina": "46541",
       "id": "f300adf2",
       "avatar": "avatars/belle_wise_b_p_2.png"
     },
@@ -33,8 +33,8 @@
     },
     {
       "nick": "MK",
-      "test": "134177",
-      "stamina": "",
+      "test": "134315",
+      "stamina": "30335",
       "id": "ff9e52d3",
       "avatar": "avatars/Avatar_Burnice_White.webp"
     },
@@ -326,6 +326,13 @@
       "avatar": "avatars/Avatar_Nangong_Yu.webp"
     },
     {
+      "nick": "TB",
+      "test": "83462",
+      "stamina": "",
+      "id": "7ebf1e52",
+      "avatar": "avatars/Avatar_Ye_Shunguang.webp"
+    },
+    {
       "nick": "DR",
       "test": "82602",
       "stamina": "",
@@ -382,6 +389,13 @@
       "avatar": "avatars/Avatar_Zhu_Yuan.webp"
     },
     {
+      "nick": "YO",
+      "test": "73547",
+      "stamina": "",
+      "id": "347b5412",
+      "avatar": "avatars/Avatar_Burnice_White.webp"
+    },
+    {
       "nick": "LE",
       "test": "72908",
       "stamina": "",
@@ -410,13 +424,6 @@
       "avatar": "avatars/Avatar_Anby_Demara.webp"
     },
     {
-      "nick": "YO",
-      "test": "67818",
-      "stamina": "",
-      "id": "347b5412",
-      "avatar": "avatars/Avatar_Burnice_White.webp"
-    },
-    {
       "nick": "TS",
       "test": "66788",
       "stamina": "",
@@ -424,6 +431,6 @@
       "avatar": "avatars/Avatar_Zhao.webp"
     }
   ],
-  "savedAt": "2026-11-22T04:49:13.274Z",
+  "savedAt": "2026-11-22T16:01:22.428Z",
   "type": "assault"
 }
