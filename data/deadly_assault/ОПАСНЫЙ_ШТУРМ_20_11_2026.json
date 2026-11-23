@@ -12,14 +12,14 @@
     },
     {
       "nick": "SD",
-      "test": "164504",
+      "test": "167962",
       "stamina": "46541",
       "id": "f300adf2",
       "avatar": "avatars/belle_wise_b_p_2.png"
     },
     {
       "nick": "MW",
-      "test": "160178",
+      "test": "162255",
       "stamina": "30900",
       "id": "404cdd7b",
       "avatar": "avatars/Avatar_Koleda_Belobog.webp"
@@ -144,6 +144,20 @@
       "avatar": "avatars/Avatar_Orphie_Magnusson_%2526_Magus.webp"
     },
     {
+      "nick": "НУ",
+      "test": "116143",
+      "stamina": "33890",
+      "id": "b19cb5d9",
+      "avatar": "avatars/Avatar_Tempered_Crown.webp"
+    },
+    {
+      "nick": "MH",
+      "test": "115308",
+      "stamina": "30289",
+      "id": "1b8aa508",
+      "avatar": "avatars/Avatar_Tempered_Crown.webp"
+    },
+    {
       "nick": "ЦУ",
       "test": "113384",
       "stamina": "",
@@ -174,7 +188,7 @@
     {
       "nick": "A0",
       "test": "109725",
-      "stamina": "",
+      "stamina": "32202",
       "id": "abbd1b6e",
       "avatar": "avatars/Avatar_Tempered_Crown.webp"
     },
@@ -191,13 +205,6 @@
       "stamina": "",
       "id": "0d0180eb",
       "avatar": "avatars/Avatar_Remielle_Dan.webp"
-    },
-    {
-      "nick": "НУ",
-      "test": "104932",
-      "stamina": "33890",
-      "id": "b19cb5d9",
-      "avatar": "avatars/Avatar_Tempered_Crown.webp"
     },
     {
       "nick": "NE",
@@ -264,7 +271,7 @@
     },
     {
       "nick": "LA",
-      "test": "93326",
+      "test": "94359",
       "stamina": "",
       "id": "5ed45566",
       "avatar": "avatars/Avatar_Nicole_Demara.webp"
@@ -424,13 +431,27 @@
       "avatar": "avatars/Avatar_Anby_Demara.webp"
     },
     {
+      "nick": "WE",
+      "test": "68386",
+      "stamina": "",
+      "id": "cca1a928",
+      "avatar": "avatars/Avatar_Default_Anonymous.webp"
+    },
+    {
       "nick": "TS",
       "test": "66788",
       "stamina": "",
       "id": "b745bc18",
       "avatar": "avatars/Avatar_Zhao.webp"
+    },
+    {
+      "nick": "KA",
+      "test": "64019",
+      "stamina": "",
+      "id": "14a111dd",
+      "avatar": "avatars/Avatar_Deadly_Assault_Line_Breaker.webp"
     }
   ],
-  "savedAt": "2026-11-22T16:01:22.428Z",
+  "savedAt": "2026-11-23T15:33:15.497Z",
   "type": "assault"
 }

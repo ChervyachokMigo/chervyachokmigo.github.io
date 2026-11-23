@@ -304,6 +304,12 @@
       "avatar": "avatars/Avatar_Soldier_11.webp"
     },
     {
+      "nick": "WE",
+      "points": "101992",
+      "id": "cca1a928",
+      "avatar": "avatars/Avatar_Default_Anonymous.webp"
+    },
+    {
       "nick": "BR",
       "points": "101965",
       "id": "ba938d27",
@@ -416,6 +422,12 @@
       "points": "93237",
       "id": "62ae6f90",
       "avatar": "avatars/Avatar_Orphie_Magnusson_%2526_Magus.webp"
+    },
+    {
+      "nick": "KA",
+      "points": "92985",
+      "id": "852700f8",
+      "avatar": "avatars/Avatar_Promeia.webp"
     },
     {
       "nick": "CL",
@@ -532,6 +544,6 @@
       "avatar": "avatars/Avatar_Burnice_White.webp"
     }
   ],
-  "savedAt": "2026-11-22T16:00:43.555Z",
+  "savedAt": "2026-11-23T15:30:06.614Z",
   "type": "defence"
 }

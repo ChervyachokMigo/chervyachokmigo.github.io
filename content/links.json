@@ -87,5 +87,10 @@
             { "name": "StarDB",  "url": "https://stardb.gg/ru/zzz/achievement-tracker" },
             { "name": "RNG.moe", "url": "https://zzz.rng.moe/ru/achievements/normal" }
         ]
+    },
+    {   "category": "Просмотр моделей",
+        "links": [
+            { "name": "Phoshco github io", "url": "https://phoshco.github.io/model-viewer/vivian%20banshee"}    
+        ]
     }
 ]
