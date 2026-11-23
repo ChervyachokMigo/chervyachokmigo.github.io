@@ -235,6 +235,13 @@
       "avatar": "avatars/Avatar_Zhao.webp"
     },
     {
+      "nick": "LA",
+      "test": "96476",
+      "stamina": "",
+      "id": "5ed45566",
+      "avatar": "avatars/Avatar_Nicole_Demara.webp"
+    },
+    {
       "nick": "VP",
       "test": "96032",
       "stamina": "",
@@ -270,13 +277,6 @@
       "avatar": "avatars/Avatar_Blessed_by_Glory_The_Crown.webp"
     },
     {
-      "nick": "LA",
-      "test": "94359",
-      "stamina": "",
-      "id": "5ed45566",
-      "avatar": "avatars/Avatar_Nicole_Demara.webp"
-    },
-    {
       "nick": "ФА",
       "test": "93111",
       "stamina": "",
@@ -285,7 +285,7 @@
     },
     {
       "nick": "BA",
-      "test": "92606",
+      "test": "92632",
       "stamina": "",
       "id": "c7d53ee6",
       "avatar": "avatars/Avatar_Aria.webp"
@@ -375,6 +375,20 @@
       "avatar": "avatars/Avatar_Remielle_Dan.webp"
     },
     {
+      "nick": "KA",
+      "test": "79506",
+      "stamina": "",
+      "id": "f7dbdff4",
+      "avatar": "avatars/Avatar_Ukinami_Yuzuha.webp"
+    },
+    {
+      "nick": "BR",
+      "test": "75813",
+      "stamina": "",
+      "id": "ba938d27",
+      "avatar": "avatars/Avatar_Trigger.webp"
+    },
+    {
       "nick": "FK",
       "test": "75628",
       "stamina": "",
@@ -417,13 +431,6 @@
       "avatar": "avatars/Avatar_Default_Pig.webp"
     },
     {
-      "nick": "BR",
-      "test": "72766",
-      "stamina": "",
-      "id": "ba938d27",
-      "avatar": "avatars/Avatar_Trigger.webp"
-    },
-    {
       "nick": "LT",
       "test": "68443",
       "stamina": "",
@@ -452,6 +459,6 @@
       "avatar": "avatars/Avatar_Deadly_Assault_Line_Breaker.webp"
     }
   ],
-  "savedAt": "2026-11-23T15:33:15.497Z",
+  "savedAt": "2026-11-23T22:52:45.141Z",
   "type": "assault"
 }
