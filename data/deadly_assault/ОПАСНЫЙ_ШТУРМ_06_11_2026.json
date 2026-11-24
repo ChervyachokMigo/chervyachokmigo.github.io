@@ -7,7 +7,7 @@
       "nick": "MS",
       "test": "195000",
       "stamina": "55345",
-      "id": "33dd49e9",
+      "id": "e035cf51",
       "avatar": "avatars/Avatar_Sunna.webp"
     },
     {
@@ -88,10 +88,10 @@
       "avatar": "avatars/Avatar_Tempered_Crown.webp"
     },
     {
-      "nick": "НУ",
+      "nick": "HY",
       "test": "127100",
       "stamina": "36560",
-      "id": "b19cb5d9",
+      "id": "b40f9b6b",
       "avatar": "avatars/Avatar_Tempered_Crown.webp"
     },
     {
@@ -207,10 +207,10 @@
       "avatar": "avatars/Avatar_Orphie_Magnusson_%2526_Magus.webp"
     },
     {
-      "nick": "СЫ",
+      "nick": "CЫ",
       "test": "112785",
       "stamina": "",
-      "id": "371c77f6",
+      "id": "838cc2f0",
       "avatar": "avatars/Avatar_Banyue.webp"
     },
     {
@@ -298,10 +298,10 @@
       "avatar": "avatars/Avatar_Pulchra_Fellini.webp"
     },
     {
-      "nick": "ML",
+      "nick": "MR",
       "test": "101079",
       "stamina": "",
-      "id": "07916b53",
+      "id": "6ff7eebc",
       "avatar": "avatars/Avatar_Blessed_by_Glory_The_Crown.webp"
     },
     {
@@ -602,7 +602,7 @@
       "nick": "LE",
       "test": "72266",
       "stamina": "",
-      "id": "124ab232",
+      "id": "1c9f02e1",
       "avatar": "avatars/Avatar_Ben_Bigger.webp"
     },
     {
@@ -634,6 +634,6 @@
       "avatar": "avatars/Avatar_Deadly_Assault_Line_Breaker.webp"
     }
   ],
-  "savedAt": "2026-11-20T22:26:38.821Z",
+  "savedAt": "2026-11-24T17:38:42.431Z",
   "type": "assault"
 }

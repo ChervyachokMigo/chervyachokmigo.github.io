@@ -6,7 +6,7 @@
     {
       "nick": "MS",
       "points": "150000",
-      "id": "33dd49e9",
+      "id": "e035cf51",
       "avatar": "avatars/Avatar_Sunna.webp"
     },
     {
@@ -142,9 +142,9 @@
       "avatar": "avatars/Avatar_Norma_Hollowell.webp"
     },
     {
-      "nick": "НУ",
+      "nick": "HY",
       "points": "119498",
-      "id": "b19cb5d9",
+      "id": "b40f9b6b",
       "avatar": "avatars/Avatar_Tempered_Crown.webp"
     },
     {
@@ -244,15 +244,15 @@
       "avatar": "avatars/Avatar_Zhao.webp"
     },
     {
-      "nick": "ML",
+      "nick": "MR",
       "points": "111920",
-      "id": "07916b53",
+      "id": "6ff7eebc",
       "avatar": "avatars/Avatar_Blessed_by_Glory_The_Crown.webp"
     },
     {
-      "nick": "СЫ",
+      "nick": "CЫ",
       "points": "111761",
-      "id": "371c77f6",
+      "id": "838cc2f0",
       "avatar": "avatars/Avatar_Banyue.webp"
     },
     {
@@ -486,7 +486,7 @@
     {
       "nick": "LE",
       "points": "96019",
-      "id": "124ab232",
+      "id": "1c9f02e1",
       "avatar": "avatars/Avatar_Ben_Bigger.webp"
     },
     {
@@ -694,6 +694,6 @@
       "avatar": "avatars/Avatar_Ukinami_Yuzuha.webp"
     }
   ],
-  "savedAt": "2026-11-13T02:49:05.731Z",
+  "savedAt": "2026-11-24T17:38:42.447Z",
   "type": "defence"
 }

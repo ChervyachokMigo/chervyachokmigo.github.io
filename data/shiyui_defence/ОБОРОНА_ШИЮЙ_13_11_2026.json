@@ -6,7 +6,7 @@
     {
       "nick": "MS",
       "points": "150000",
-      "id": "33dd49e9",
+      "id": "e035cf51",
       "avatar": "avatars/Avatar_Sunna.webp"
     },
     {
@@ -58,9 +58,9 @@
       "avatar": "avatars/Avatar_Norma_Hollowell.webp"
     },
     {
-      "nick": "НУ",
+      "nick": "HY",
       "points": "124031",
-      "id": "b19cb5d9",
+      "id": "b40f9b6b",
       "avatar": "avatars/Avatar_Tempered_Crown.webp"
     },
     {
@@ -106,15 +106,15 @@
       "avatar": "avatars/Avatar_Velina_Airgid.webp"
     },
     {
-      "nick": "ML",
+      "nick": "MR",
       "points": "118488",
-      "id": "07916b53",
+      "id": "6ff7eebc",
       "avatar": "avatars/Avatar_Blessed_by_Glory_The_Crown.webp"
     },
     {
-      "nick": "СЫ",
+      "nick": "CЫ",
       "points": "118354",
-      "id": "371c77f6",
+      "id": "838cc2f0",
       "avatar": "avatars/Avatar_Banyue.webp"
     },
     {
@@ -346,6 +346,12 @@
       "avatar": "avatars/Avatar_Camera_Sense.webp"
     },
     {
+      "nick": "HO",
+      "points": "100336",
+      "id": "ae6c79d1",
+      "avatar": "avatars/Avatar_A_Flavorful_Journey_Home.webp"
+    },
+    {
       "nick": "BA",
       "points": "98553",
       "id": "c7d53ee6",
@@ -450,7 +456,7 @@
     {
       "nick": "LE",
       "points": "89866",
-      "id": "124ab232",
+      "id": "1c9f02e1",
       "avatar": "avatars/Avatar_Ben_Bigger.webp"
     },
     {
@@ -544,6 +550,6 @@
       "avatar": "avatars/Avatar_Burnice_White.webp"
     }
   ],
-  "savedAt": "2026-11-23T15:30:06.614Z",
+  "savedAt": "2026-11-24T17:56:58.625Z",
   "type": "defence"
 }

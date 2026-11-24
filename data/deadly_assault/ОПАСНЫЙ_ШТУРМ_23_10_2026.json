@@ -7,7 +7,7 @@
       "nick": "MS",
       "test": "195000",
       "stamina": "51287",
-      "id": "33dd49e9",
+      "id": "e035cf51",
       "avatar": "avatars/Avatar_Sunna.webp"
     },
     {
@@ -207,10 +207,10 @@
       "avatar": "avatars/Avatar_Crowned_by_Waves_Apex.webp"
     },
     {
-      "nick": "ML",
+      "nick": "MR",
       "test": "109610",
       "stamina": "",
-      "id": "07916b53",
+      "id": "6ff7eebc",
       "avatar": "avatars/Avatar_Blessed_by_Glory_The_Crown.webp"
     },
     {
@@ -221,10 +221,10 @@
       "avatar": "avatars/Avatar_Alice_Thymefield.webp"
     },
     {
-      "nick": "НУ",
+      "nick": "HY",
       "test": "108355",
       "stamina": "31373",
-      "id": "b19cb5d9",
+      "id": "b40f9b6b",
       "avatar": "avatars/Avatar_Tempered_Crown.webp"
     },
     {
@@ -410,10 +410,10 @@
       "avatar": "avatars/Avatar_Soldier_11.webp"
     },
     {
-      "nick": "СЫ",
+      "nick": "CЫ",
       "test": "91028",
       "stamina": "",
-      "id": "371c77f6",
+      "id": "838cc2f0",
       "avatar": "avatars/Avatar_Banyue.webp"
     },
     {
@@ -623,7 +623,7 @@
       "nick": "LE",
       "test": "68235",
       "stamina": "",
-      "id": "124ab232",
+      "id": "1c9f02e1",
       "avatar": "avatars/Avatar_Ben_Bigger.webp"
     },
     {
@@ -683,6 +683,6 @@
       "avatar": "avatars/Avatar_Zhao.webp"
     }
   ],
-  "savedAt": "2026-11-06T18:40:14.706Z",
+  "savedAt": "2026-11-24T17:38:42.436Z",
   "type": "assault"
 }

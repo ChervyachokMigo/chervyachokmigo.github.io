@@ -6,7 +6,7 @@
     {
       "nick": "MS",
       "points": "150000",
-      "id": "33dd49e9",
+      "id": "e035cf51",
       "avatar": "avatars/Avatar_Sunna.webp"
     },
     {
@@ -58,9 +58,9 @@
       "avatar": "avatars/Avatar_Velina_Airgid.webp"
     },
     {
-      "nick": "СЫ",
+      "nick": "CЫ",
       "points": "125443",
-      "id": "371c77f6",
+      "id": "838cc2f0",
       "avatar": "avatars/Avatar_Banyue.webp"
     },
     {
@@ -238,9 +238,9 @@
       "avatar": "avatars/Avatar_Zhu_Yuan.webp"
     },
     {
-      "nick": "НУ",
+      "nick": "HY",
       "points": "106720",
-      "id": "b19cb5d9",
+      "id": "b40f9b6b",
       "avatar": "avatars/Avatar_Tempered_Crown.webp"
     },
     {
@@ -280,9 +280,9 @@
       "avatar": "avatars/Avatar_Tempered_Crown.webp"
     },
     {
-      "nick": "ML",
+      "nick": "MR",
       "points": "104361",
-      "id": "07916b53",
+      "id": "6ff7eebc",
       "avatar": "avatars/Avatar_Blessed_by_Glory_The_Crown.webp"
     },
     {
@@ -510,7 +510,7 @@
     {
       "nick": "LE",
       "points": "88151",
-      "id": "124ab232",
+      "id": "1c9f02e1",
       "avatar": "avatars/Avatar_Ben_Bigger.webp"
     },
     {
@@ -628,6 +628,6 @@
       "avatar": "avatars/Avatar_Ukinami_Yuzuha.webp"
     }
   ],
-  "savedAt": "2026-11-06T10:32:44.253Z",
+  "savedAt": "2026-11-24T17:38:42.439Z",
   "type": "defence"
 }
