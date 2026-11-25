@@ -19,7 +19,7 @@
     },
     {
       "nick": "MW",
-      "test": "162255",
+      "test": "162493",
       "stamina": "30900",
       "id": "404cdd7b",
       "avatar": "avatars/Avatar_Koleda_Belobog.webp"
@@ -130,6 +130,13 @@
       "avatar": "avatars/Avatar_Qingyi.webp"
     },
     {
+      "nick": "WM",
+      "test": "118054",
+      "stamina": "",
+      "id": "dcf480a3",
+      "avatar": "avatars/Avatar_Evelyn_Chevalier.webp"
+    },
+    {
       "nick": "BO",
       "test": "117923",
       "stamina": "",
@@ -214,6 +221,13 @@
       "avatar": "avatars/Avatar_Remielle_Dan.webp"
     },
     {
+      "nick": "MM",
+      "test": "102351",
+      "stamina": "",
+      "id": "e1ef8900",
+      "avatar": "avatars/Avatar_Alice_Thymefield.webp"
+    },
+    {
       "nick": "NE",
       "test": "100412",
       "stamina": "",
@@ -291,6 +305,13 @@
       "avatar": "avatars/Avatar_Banyue.webp"
     },
     {
+      "nick": "AA",
+      "test": "93052",
+      "stamina": "",
+      "id": "8d8f469e",
+      "avatar": "avatars/Avatar_Endless_Ascension_Smooth_Path.webp"
+    },
+    {
       "nick": "BA",
       "test": "92632",
       "stamina": "",
@@ -361,6 +382,13 @@
       "avatar": "avatars/Avatar_Evelyn_Chevalier.webp"
     },
     {
+      "nick": "АА",
+      "test": "81586",
+      "stamina": "",
+      "id": "896c39cc",
+      "avatar": "avatars/Avatar_Jane_Doe.webp"
+    },
+    {
       "nick": "CL",
       "test": "81350",
       "stamina": "",
@@ -373,13 +401,6 @@
       "stamina": "",
       "id": "cbbbd416",
       "avatar": "avatars/Avatar_Seed.webp"
-    },
-    {
-      "nick": "AA",
-      "test": "79950",
-      "stamina": "",
-      "id": "8d8f469e",
-      "avatar": "avatars/Avatar_Endless_Ascension_Smooth_Path.webp"
     },
     {
       "nick": "FL",
@@ -408,6 +429,13 @@
       "stamina": "",
       "id": "b3cd578d",
       "avatar": "avatars/Avatar_Jane_Doe.webp"
+    },
+    {
+      "nick": "CS",
+      "test": "74865",
+      "stamina": "",
+      "id": "a5cc7f88",
+      "avatar": "avatars/Avatar_Remielle_Dan.webp"
     },
     {
       "nick": "MA",
@@ -473,6 +501,6 @@
       "avatar": "avatars/Avatar_Deadly_Assault_Line_Breaker.webp"
     }
   ],
-  "savedAt": "2026-11-25T03:22:52.303Z",
+  "savedAt": "2026-11-25T23:09:42.799Z",
   "type": "assault"
 }

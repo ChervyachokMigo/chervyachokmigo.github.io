@@ -28,6 +28,18 @@
       "avatar": "avatars/avatar_severian.png"
     },
     {
+      "nick": "КА",
+      "points": "135780",
+      "id": "7305b0bf",
+      "avatar": "avatars/ridu_09_26.png"
+    },
+    {
+      "nick": "ВА",
+      "points": "133724",
+      "id": "98ed7026",
+      "avatar": "avatars/ridu_09_26.png"
+    },
+    {
       "nick": "MK",
       "points": "130583",
       "id": "ff9e52d3",
@@ -44,6 +56,12 @@
       "points": "127005",
       "id": "494f55c7",
       "avatar": "avatars/Avatar_Tempered_Crown.webp"
+    },
+    {
+      "nick": "CR",
+      "points": "126816",
+      "id": "e3c72a1f",
+      "avatar": "avatars/Avatar_Hoshimi_Miyabi.webp"
     },
     {
       "nick": "BR",
@@ -364,6 +382,12 @@
       "avatar": "avatars/Avatar_Claret_Flint.webp"
     },
     {
+      "nick": "MM",
+      "points": "98079",
+      "id": "e1ef8900",
+      "avatar": "avatars/Avatar_Alice_Thymefield.webp"
+    },
+    {
       "nick": "ПК",
       "points": "98062",
       "id": "44fdcf92",
@@ -442,10 +466,22 @@
       "avatar": "avatars/avatar_phoenix.png"
     },
     {
+      "nick": "KK",
+      "points": "91675",
+      "id": "e9374be8",
+      "avatar": "avatars/Avatar_Sigrid_de_L%2527Azur.webp"
+    },
+    {
       "nick": "SN",
       "points": "91588",
       "id": "242870a1",
       "avatar": "avatars/Avatar_Nangong_Yu.webp"
+    },
+    {
+      "nick": "AA",
+      "points": "90472",
+      "id": "8d8f469e",
+      "avatar": "avatars/Avatar_Endless_Ascension_Smooth_Path.webp"
     },
     {
       "nick": "FK",
@@ -494,6 +530,12 @@
       "points": "85958",
       "id": "c92295fe",
       "avatar": "avatars/Avatar_Pulchra_Fellini.webp"
+    },
+    {
+      "nick": "KA",
+      "points": "84044",
+      "id": "14a111dd",
+      "avatar": "avatars/Avatar_Deadly_Assault_Line_Breaker.webp"
     },
     {
       "nick": "MA",
@@ -550,6 +592,6 @@
       "avatar": "avatars/Avatar_Burnice_White.webp"
     }
   ],
-  "savedAt": "2026-11-24T17:56:58.625Z",
+  "savedAt": "2026-11-25T23:14:31.919Z",
   "type": "defence"
 }
