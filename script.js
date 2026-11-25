@@ -84,10 +84,46 @@ function shortDate(title, file) {
     if (m) return `${m[1]} ${m[2]} ${m[3]}`;
     return (title || file || '').replace(/\.json$/i, '');
 }
+
 function titleDateVal(title) {
     const m = String(title || '').match(/(\d{1,2})[\s_\-]+(\d{1,2})[\s_\-]+(\d{4})/);
     if (!m) return 0;
     return Date.UTC(parseInt(m[3], 10), parseInt(m[2], 10) - 1, parseInt(m[1], 10));
+}
+/* Отсортированный по дате таблицы (из title) список файлов, новые сверху.
+   Стабильная сортировка: при равных датах сохраняется исходный порядок. */
+function getSortedFiles(type) {
+    const files = (manifest?.[type]?.files || []).slice();
+    return files
+        .map((f, i) => ({ f, i, d: titleDateVal(f.title) }))
+        .sort((a, b) => (b.d - a.d) || (a.i - b.i))
+        .map(x => x.f);
+}
+function getHistoryKeysForFile(type, fileName) {
+    const prevKeys = new Set();
+    const olderKeys = new Set();
+    if (!allTablesCache || !fileName) return { prevKeys, olderKeys };
+    const files = getSortedFiles(type);                    // ← было: manifest?.[type]?.files || []
+    const idx = files.findIndex(f => f.file === fileName);
+    if (idx < 0) return { prevKeys, olderKeys };
+
+    const findTable = (file) =>
+        allTablesCache.find(t => t.type === type && t.meta.file === file);
+
+    const prevFile = files[idx + 1]?.file;
+    if (prevFile) {
+        const item = findTable(prevFile);
+        if (item?.data?.rows) {
+            for (const r of item.data.rows) prevKeys.add(rowKey(r));
+        }
+    }
+    for (let i = idx + 2; i < files.length; i++) {
+        const item = findTable(files[i].file);
+        if (item?.data?.rows) {
+            for (const r of item.data.rows) olderKeys.add(rowKey(r));
+        }
+    }
+    return { prevKeys, olderKeys };
 }
 function isVideoUrl(url) {
     return /\.(mp4|webm|mov|mkv)(\?.*)?$/i.test(String(url || ''));
@@ -889,7 +925,7 @@ function applySubtypeVisibility() {
    Выбор таблицы
    ============================================================ */
 function renderTableSelector() {
-    const files = manifest?.[currentType]?.files || [];
+    const files = getSortedFiles(currentType);
     tableSelectorEl.innerHTML = '';
     if (files.length === 0) {
         tableSelectorEl.innerHTML = '<span class="empty-selector">Нет таблиц в папке</span>';
@@ -951,9 +987,9 @@ async function loadTable(fileName) {
     try {
         currentData = await fetchJSON(url, { ttl: CACHE_TTL_MS });
 
-        const files = manifest[currentType].files;
-        const idx = files.findIndex(f => f.file === fileName);
-        const prevFile = files[idx + 1]?.file;
+    const files = getSortedFiles(currentType);
+    const idx = files.findIndex(f => f.file === fileName);
+    const prevFile = files[idx + 1]?.file;
 
         previousData = null;
         if (prevFile) {
@@ -1520,7 +1556,7 @@ async function refreshCurrent() {
 
             const fresh = await fetchJSON(url, { ttl: CACHE_TTL_MS, bustCache: true, noFallback: true });
 
-            const files = manifest[currentType].files;
+            const files = getSortedFiles(currentType);
             const idx = files.findIndex(f => f.file === currentFile);
             const prevFile = files[idx + 1]?.file;
             let prevFresh = null;
@@ -1869,7 +1905,7 @@ async function showSection(section) {
     document.getElementById('viewTables').classList.add('active');
     renderTableSelector();
 
-    const files = manifest?.[currentType]?.files || [];
+    const files = getSortedFiles(currentType);
     if (files.length > 0) {
         const targetFile = selectedFiles[currentType] || files[0].file;
         await loadTable(targetFile);
