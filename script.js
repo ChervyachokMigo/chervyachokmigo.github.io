@@ -90,8 +90,8 @@ function titleDateVal(title) {
     if (!m) return 0;
     return Date.UTC(parseInt(m[3], 10), parseInt(m[2], 10) - 1, parseInt(m[1], 10));
 }
-/* Отсортированный по дате таблицы (из title) список файлов, новые сверху.
-   Стабильная сортировка: при равных датах сохраняется исходный порядок. */
+/* Файлы таблиц, отсортированные по дате из title (новые сверху).
+   Стабильная сортировка: при равных датах сохраняется исходный порядок manifest. */
 function getSortedFiles(type) {
     const files = (manifest?.[type]?.files || []).slice();
     return files
@@ -1907,7 +1907,10 @@ async function showSection(section) {
 
     const files = getSortedFiles(currentType);
     if (files.length > 0) {
-        const targetFile = selectedFiles[currentType] || files[0].file;
+        const wanted = selectedFiles[currentType];
+        const targetFile = (wanted && files.some(f => f.file === wanted))
+            ? wanted
+            : files[0].file;
         await loadTable(targetFile);
     } else {
         headEl.innerHTML = '';
