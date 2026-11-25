@@ -102,6 +102,13 @@
       "avatar": "avatars/Avatar_Starlight_-_Billy_Kid.webp"
     },
     {
+      "nick": "NA",
+      "test": "121506",
+      "stamina": "",
+      "id": "fc255113",
+      "avatar": "avatars/Avatar_Tempered_Crown.webp"
+    },
+    {
       "nick": "RN",
       "test": "121096",
       "stamina": "33497",
@@ -466,6 +473,6 @@
       "avatar": "avatars/Avatar_Deadly_Assault_Line_Breaker.webp"
     }
   ],
-  "savedAt": "2026-11-24T18:26:05.250Z",
+  "savedAt": "2026-11-25T03:22:52.303Z",
   "type": "assault"
 }
