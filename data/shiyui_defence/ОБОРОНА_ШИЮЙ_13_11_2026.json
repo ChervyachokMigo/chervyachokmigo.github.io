@@ -10,6 +10,12 @@
       "avatar": "avatars/Avatar_Sunna.webp"
     },
     {
+      "nick": "КА",
+      "points": "138983",
+      "id": "7305b0bf",
+      "avatar": "avatars/ridu_09_26.png"
+    },
+    {
       "nick": "MW",
       "points": "138355",
       "id": "404cdd7b",
@@ -28,16 +34,16 @@
       "avatar": "avatars/avatar_severian.png"
     },
     {
-      "nick": "КА",
-      "points": "135780",
-      "id": "7305b0bf",
-      "avatar": "avatars/ridu_09_26.png"
-    },
-    {
       "nick": "ВА",
       "points": "133724",
       "id": "98ed7026",
       "avatar": "avatars/ridu_09_26.png"
+    },
+    {
+      "nick": "ЁЁ",
+      "points": "133518",
+      "id": "c907b1f3",
+      "avatar": "avatars/Avatar_Nangong_Yu.webp"
     },
     {
       "nick": "MK",
@@ -196,6 +202,12 @@
       "avatar": "avatars/Avatar_A_Flavorful_Journey_Home.webp"
     },
     {
+      "nick": "ФА",
+      "points": "111721",
+      "id": "263a36fc",
+      "avatar": "avatars/Avatar_Banyue.webp"
+    },
+    {
       "nick": "YY",
       "points": "111699",
       "id": "02f35ac4",
@@ -310,12 +322,6 @@
       "avatar": "avatars/Avatar_Cissia.webp"
     },
     {
-      "nick": "ФА",
-      "points": "102645",
-      "id": "263a36fc",
-      "avatar": "avatars/Avatar_Banyue.webp"
-    },
-    {
       "nick": "PN",
       "points": "102162",
       "id": "ac0d41bb",
@@ -404,6 +410,12 @@
       "points": "97226",
       "id": "716ac6f0",
       "avatar": "avatars/Avatar_Sunna.webp"
+    },
+    {
+      "nick": "LK",
+      "points": "96444",
+      "id": "c9932d6c",
+      "avatar": "avatars/Avatar_Ellen_Joe.webp"
     },
     {
       "nick": "ТЛ",
@@ -592,6 +604,6 @@
       "avatar": "avatars/Avatar_Burnice_White.webp"
     }
   ],
-  "savedAt": "2026-11-26T05:25:43.227Z",
+  "savedAt": "2026-11-26T17:38:49.503Z",
   "type": "defence"
 }

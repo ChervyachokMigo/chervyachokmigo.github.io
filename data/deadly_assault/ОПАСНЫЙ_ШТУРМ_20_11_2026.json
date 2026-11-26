@@ -46,6 +46,13 @@
       "avatar": "avatars/Avatar_Hoshimi_Miyabi.webp"
     },
     {
+      "nick": "ЁЁ",
+      "test": "132696",
+      "stamina": "",
+      "id": "c907b1f3",
+      "avatar": "avatars/Avatar_Nangong_Yu.webp"
+    },
+    {
       "nick": "WR",
       "test": "129845",
       "stamina": "30862",
@@ -90,7 +97,7 @@
     {
       "nick": "ЖЯ",
       "test": "122227",
-      "stamina": "",
+      "stamina": "31023",
       "id": "4857bd72",
       "avatar": "avatars/ridu_09_26.png"
     },
@@ -131,7 +138,7 @@
     },
     {
       "nick": "AM",
-      "test": "118101",
+      "test": "118140",
       "stamina": "",
       "id": "384f85ed",
       "avatar": "avatars/Avatar_Velina_Airgid.webp"
@@ -205,6 +212,13 @@
       "stamina": "32202",
       "id": "abbd1b6e",
       "avatar": "avatars/Avatar_Tempered_Crown.webp"
+    },
+    {
+      "nick": "BR",
+      "test": "109196",
+      "stamina": "",
+      "id": "5d790795",
+      "avatar": "avatars/Avatar_Crowned_by_Waves_Apex.webp"
     },
     {
       "nick": "АТ",
@@ -354,6 +368,13 @@
       "avatar": "avatars/Avatar_Grace_Howard.webp"
     },
     {
+      "nick": "LD",
+      "test": "86660",
+      "stamina": "",
+      "id": "7d641735",
+      "avatar": "avatars/Avatar_Hoshimi_Miyabi.webp"
+    },
+    {
       "nick": "BY",
       "test": "84320",
       "stamina": "",
@@ -501,6 +522,6 @@
       "avatar": "avatars/Avatar_Deadly_Assault_Line_Breaker.webp"
     }
   ],
-  "savedAt": "2026-11-26T05:59:46.258Z",
+  "savedAt": "2026-11-26T17:38:49.479Z",
   "type": "assault"
 }
