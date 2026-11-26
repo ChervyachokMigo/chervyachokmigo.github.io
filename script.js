@@ -402,8 +402,9 @@ function applyFilters(rows, statsMap, prevRankMap, olderKeys) {
     function deltaType(row) {
         const key = rowKey(row);
         const curRank = statsMap.get(row)?.rank;
+        if (curRank == null) return null;
         const prevRank = prevRankMap ? prevRankMap.get(key) : null;
-        if (prevRank != null && curRank != null) {
+        if (prevRank != null) {
             if (curRank < prevRank) return 'grew';
             if (curRank > prevRank) return 'fell';
             return 'same';
@@ -551,7 +552,7 @@ function buildTable(cfg, rows, prevIndex, prevRankMap, statsMap, headTarget, bod
         }
 
         const tr = document.createElement('tr');
-        const stats = statsMap.get(row) || { pct: null, avg: null };
+        const stats = statsMap.get(row) || { pct: null, avg: null, rank: null };
 
         if (stats.avg != null && stats.avg > 100) {
             tr.classList.add('top-row');
@@ -672,14 +673,17 @@ function updateFilterUI() {
     wrap.classList.toggle('filter-active', active);
     clearBtn.hidden = !active;
 
-    if (active) {
-        const rows = (currentData?.rows || []);
-        const matches = rows.filter(r =>
-            String(r.nick || '').toLowerCase().includes(q.toLowerCase())
-        ).length;
-        statusEl.textContent = matches > 0 ? `${matches} найдено` : 'нет совпадений';
-        statusEl.hidden = false;
-    } else {
+if (active) {
+    let bodyToCheck = bodyEl;
+    if (currentType === 'assault' && currentSubtype === 'stamina') {
+        bodyToCheck = document.getElementById('staminaBody') || bodyEl;
+    }
+    const visibleRows = bodyToCheck.querySelectorAll(
+        'tr.nick-match:not(.gap-row)'
+    ).length;
+    statusEl.textContent = visibleRows > 0 ? `${visibleRows} найдено` : 'нет совпадений';
+    statusEl.hidden = false;
+} else {
         statusEl.hidden = true;
         statusEl.textContent = '';
     }
@@ -954,7 +958,7 @@ async function loadTable(fileName) {
 
     const files = getSortedFiles(currentType);
     const idx = files.findIndex(f => f.file === fileName);
-    const prevFile = files[idx + 1]?.file;
+    const prevFile = idx >= 0 ? files[idx + 1]?.file : null;
 
         previousData = null;
         if (prevFile) {
@@ -1523,7 +1527,8 @@ async function refreshCurrent() {
 
             const files = getSortedFiles(currentType);
             const idx = files.findIndex(f => f.file === currentFile);
-            const prevFile = files[idx + 1]?.file;
+            const prevFile = idx >= 0 ? files[idx + 1]?.file : null;
+
             let prevFresh = null;
             if (prevFile) {
                 try {
