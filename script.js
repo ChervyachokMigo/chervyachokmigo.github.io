@@ -224,33 +224,6 @@ async function preloadAllTables(bust = false) {
     return allTablesCache;
 }
 
-function getHistoryKeysForFile(type, fileName) {
-    const prevKeys = new Set();
-    const olderKeys = new Set();
-    if (!allTablesCache || !fileName) return { prevKeys, olderKeys };
-    const files = manifest?.[type]?.files || [];
-    const idx = files.findIndex(f => f.file === fileName);
-    if (idx < 0) return { prevKeys, olderKeys };
-
-    const findTable = (file) =>
-        allTablesCache.find(t => t.type === type && t.meta.file === file);
-
-    const prevFile = files[idx + 1]?.file;
-    if (prevFile) {
-        const item = findTable(prevFile);
-        if (item?.data?.rows) {
-            for (const r of item.data.rows) prevKeys.add(rowKey(r));
-        }
-    }
-    for (let i = idx + 2; i < files.length; i++) {
-        const item = findTable(files[i].file);
-        if (item?.data?.rows) {
-            for (const r of item.data.rows) olderKeys.add(rowKey(r));
-        }
-    }
-    return { prevKeys, olderKeys };
-}
-
 function computeSummary(currentRows, prevRows, field, olderKeys) {
     // Ранги: в текущей и предыдущей
     const curRanking  = computeRanking(currentRows, field);
