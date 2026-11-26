@@ -99,31 +99,25 @@ function getSortedFiles(type) {
         .sort((a, b) => (b.d - a.d) || (a.i - b.i))
         .map(x => x.f);
 }
-function getHistoryKeysForFile(type, fileName) {
-    const prevKeys = new Set();
+function getHistoryKeysForFile(type, fileName, field = null) {
     const olderKeys = new Set();
-    if (!allTablesCache || !fileName) return { prevKeys, olderKeys };
-    const files = getSortedFiles(type);                    // ← было: manifest?.[type]?.files || []
+    if (!allTablesCache || !fileName) return { olderKeys };
+    const files = getSortedFiles(type);
     const idx = files.findIndex(f => f.file === fileName);
-    if (idx < 0) return { prevKeys, olderKeys };
+    if (idx < 0) return { olderKeys };
 
     const findTable = (file) =>
         allTablesCache.find(t => t.type === type && t.meta.file === file);
 
-    const prevFile = files[idx + 1]?.file;
-    if (prevFile) {
-        const item = findTable(prevFile);
-        if (item?.data?.rows) {
-            for (const r of item.data.rows) prevKeys.add(rowKey(r));
-        }
-    }
     for (let i = idx + 2; i < files.length; i++) {
         const item = findTable(files[i].file);
-        if (item?.data?.rows) {
-            for (const r of item.data.rows) olderKeys.add(rowKey(r));
+        if (!item?.data?.rows) continue;
+        for (const r of item.data.rows) {
+            if (field && num(r[field]) == null) continue;
+            olderKeys.add(rowKey(r));
         }
     }
-    return { prevKeys, olderKeys };
+    return { olderKeys };
 }
 function isVideoUrl(url) {
     return /\.(mp4|webm|mov|mkv)(\?.*)?$/i.test(String(url || ''));
@@ -540,11 +534,9 @@ function buildTable(cfg, rows, prevIndex, prevRankMap, statsMap, headTarget, bod
 
     if (!rows.length) {
         const msg = nickFilter.trim() ? 'Ничего не найдено' : 'Нет данных';
-        bodyTarget.innerHTML = `<tr><td colspan="${cfg.columns.length}" style="text-align:center;padding:40px;color:#666;">${msg}</td></tr>`;
+        bodyTarget.innerHTML = `<tr class="empty-msg"><td colspan="${cfg.columns.length}" style="text-align:center;padding:40px;color:#666;">${msg}</td></tr>`;
         return;
     }
-
-    const top10Count = Math.max(1, Math.ceil(rows.filter(r => !r.__gap).length * 0.1));
 
     for (const row of rows) {
         if (row.__gap) {
@@ -701,7 +693,7 @@ function updateFilterUI() {
                 bodyToCheck = document.getElementById('staminaBody') || bodyEl;
             }
             const cnt = bodyToCheck.querySelectorAll(
-                'tr:not(.gap-row):not(.loading-row):not(.error-row)'
+                'tr:not(.gap-row):not(.loading-row):not(.error-row):not(.empty-msg)'
             ).length;
             deltaStatusEl.textContent = cnt > 0 ? `${cnt} шт.` : 'пусто';
             deltaStatusEl.hidden = false;
@@ -730,7 +722,7 @@ function updateSummary() {
         field = 'points';
     }
 
-    const { olderKeys } = getHistoryKeysForFile(currentType, currentFile);
+    const { olderKeys } = getHistoryKeysForFile(currentType, currentFile, field);
     const s = computeSummary(currentData.rows || [], previousData.rows || [], field, olderKeys);
 
     const total = s.grew + s.fell + s.same + s.newCount + s.backCount + s.leftCount;
@@ -789,7 +781,7 @@ function render() {
     }
 
     // Игроки, которые были в таблицах старше предыдущей
-    const { olderKeys } = getHistoryKeysForFile(currentType, currentFile);
+    const { olderKeys } = getHistoryKeysForFile(currentType, currentFile, cfg.sortField);
 
     const sortCol = cfg.columns.find(c => c.key === state.key)
         || cfg.columns.find(c => c.key === cfg.sortField)
@@ -864,7 +856,7 @@ function renderStamina() {
         }
     }
 
-    const { olderKeys } = getHistoryKeysForFile(currentType, currentFile);
+    const { olderKeys } = getHistoryKeysForFile(currentType, currentFile, 'stamina');
 
     const sortCol = cfg.columns.find(c => c.key === state.key)
         || cfg.columns.find(c => c.key === 'stamina')
@@ -1109,7 +1101,7 @@ async function openNickStats(row) {
     }
 
     // Сортировка по ДАТЕ ИЗ НАЗВАНИЯ (не по savedAt), новые сверху.
-    // Тай-брейк для одинаковой даты: Испытание → Стойкость → Оборона.
+    // Тай-брейк для одинаковой даты: Стойкость → Испытание → Оборона.
     timeline.sort((a, b) => {
         const da = titleDateVal(a.title);
         const db = titleDateVal(b.title);
@@ -2091,7 +2083,7 @@ function bindDomainSwitch() {
             }
         } else if (initial.section === 'assault' || initial.section === 'defence') {
             if (initial.subtype) currentSubtype = initial.subtype;
-            const files = manifest[initial.section].files || [];
+            const files = getSortedFiles(initial.section);
             if (initial.file) {
                 const match = files.find(f =>
                     f.file.replace(/\.json$/i, '') === initial.file
