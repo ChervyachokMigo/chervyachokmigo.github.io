@@ -88,10 +88,10 @@
       "avatar": "avatars/Avatar_Hoshimi_Miyabi.webp"
     },
     {
-      "nick": "ТЙ",
+      "nick": "TЙ",
       "test": "139769",
       "stamina": "32192",
-      "id": "edbf4a3e",
+      "id": "38b2c900",
       "avatar": "avatars/avatar_severian.png"
     },
     {
@@ -725,6 +725,6 @@
       "avatar": "avatars/Avatar_Zhao.webp"
     }
   ],
-  "savedAt": "2026-11-24T17:38:42.432Z",
+  "savedAt": "2026-11-26T05:25:43.218Z",
   "type": "assault"
 }

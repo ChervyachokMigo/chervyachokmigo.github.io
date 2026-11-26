@@ -137,10 +137,10 @@
       "avatar": "avatars/Avatar_A_Flavorful_Journey_Home.webp"
     },
     {
-      "nick": "ТЙ",
+      "nick": "TЙ",
       "test": "114684",
       "stamina": "30444",
-      "id": "edbf4a3e",
+      "id": "38b2c900",
       "avatar": "avatars/avatar_severian.png"
     },
     {
@@ -683,6 +683,6 @@
       "avatar": "avatars/Avatar_Zhao.webp"
     }
   ],
-  "savedAt": "2026-11-24T17:38:42.436Z",
+  "savedAt": "2026-11-26T05:25:43.222Z",
   "type": "assault"
 }

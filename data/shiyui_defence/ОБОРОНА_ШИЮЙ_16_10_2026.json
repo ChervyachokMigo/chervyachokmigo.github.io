@@ -28,9 +28,9 @@
       "avatar": "avatars/Avatar_Koleda_Belobog.webp"
     },
     {
-      "nick": "ТЙ",
+      "nick": "TЙ",
       "points": "137637",
-      "id": "edbf4a3e",
+      "id": "38b2c900",
       "avatar": "avatars/avatar_severian.png"
     },
     {
@@ -712,6 +712,6 @@
       "avatar": "avatars/Avatar_Jane_Doe.webp"
     }
   ],
-  "savedAt": "2026-11-24T17:38:42.445Z",
+  "savedAt": "2026-11-26T05:25:43.229Z",
   "type": "defence"
 }

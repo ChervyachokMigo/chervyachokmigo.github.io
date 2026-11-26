@@ -74,10 +74,10 @@
       "avatar": "avatars/Avatar_Alice_Thymefield.webp"
     },
     {
-      "nick": "ТЙ",
+      "nick": "TЙ",
       "test": "125780",
       "stamina": "30964",
-      "id": "edbf4a3e",
+      "id": "38b2c900",
       "avatar": "avatars/avatar_severian.png"
     },
     {
@@ -130,6 +130,13 @@
       "avatar": "avatars/Avatar_Qingyi.webp"
     },
     {
+      "nick": "AM",
+      "test": "118101",
+      "stamina": "",
+      "id": "384f85ed",
+      "avatar": "avatars/Avatar_Velina_Airgid.webp"
+    },
+    {
       "nick": "WM",
       "test": "118054",
       "stamina": "",
@@ -142,13 +149,6 @@
       "stamina": "",
       "id": "3286b2f3",
       "avatar": "avatars/Avatar_Starlight_-_Billy_Kid.webp"
-    },
-    {
-      "nick": "AM",
-      "test": "117555",
-      "stamina": "",
-      "id": "384f85ed",
-      "avatar": "avatars/Avatar_Velina_Airgid.webp"
     },
     {
       "nick": "AS",
@@ -501,6 +501,6 @@
       "avatar": "avatars/Avatar_Deadly_Assault_Line_Breaker.webp"
     }
   ],
-  "savedAt": "2026-11-25T23:09:42.799Z",
+  "savedAt": "2026-11-26T05:59:46.258Z",
   "type": "assault"
 }
