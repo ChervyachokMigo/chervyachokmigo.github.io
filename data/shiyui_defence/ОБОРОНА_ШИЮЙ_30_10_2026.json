@@ -1,7 +1,7 @@
 {
   "version": 1,
   "title": "ОБОРОНА ШИЮЙ 30 10 2026",
-  "locked": false,
+  "locked": true,
   "rows": [
     {
       "nick": "MS",
@@ -694,6 +694,6 @@
       "avatar": "avatars/Avatar_Ukinami_Yuzuha.webp"
     }
   ],
-  "savedAt": "2026-11-26T05:25:43.230Z",
+  "savedAt": "2026-11-27T08:59:33.400Z",
   "type": "defence"
 }

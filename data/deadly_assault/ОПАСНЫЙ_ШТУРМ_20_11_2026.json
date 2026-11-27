@@ -438,8 +438,15 @@
       "avatar": "avatars/Avatar_Ukinami_Yuzuha.webp"
     },
     {
+      "nick": "LR",
+      "test": "78532",
+      "stamina": "",
+      "id": "dd392274",
+      "avatar": "avatars/Avatar_Caesar_King.webp"
+    },
+    {
       "nick": "BR",
-      "test": "75813",
+      "test": "76611",
       "stamina": "",
       "id": "ba938d27",
       "avatar": "avatars/Avatar_Trigger.webp"
@@ -522,6 +529,6 @@
       "avatar": "avatars/Avatar_Deadly_Assault_Line_Breaker.webp"
     }
   ],
-  "savedAt": "2026-11-26T17:38:49.479Z",
+  "savedAt": "2026-11-27T08:57:40.361Z",
   "type": "assault"
 }

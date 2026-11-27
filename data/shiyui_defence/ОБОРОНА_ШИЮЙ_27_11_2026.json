@@ -1,0 +1,135 @@
+{
+  "version": 1,
+  "title": "ОБОРОНА ШИЮЙ 27 11 2026",
+  "locked": false,
+  "rows": [
+    {
+      "nick": "SD",
+      "points": "137069",
+      "id": "f300adf2",
+      "avatar": "avatars/belle_wise_b_p_2.png"
+    },
+    {
+      "nick": "MW",
+      "points": "135522",
+      "id": "404cdd7b",
+      "avatar": "avatars/Avatar_Koleda_Belobog.webp"
+    },
+    {
+      "nick": "PO",
+      "points": "122285",
+      "id": "29902bb0",
+      "avatar": "avatars/Avatar_Alice_Thymefield.webp"
+    },
+    {
+      "nick": "WR",
+      "points": "121512",
+      "id": "494f55c7",
+      "avatar": "avatars/Avatar_Tempered_Crown.webp"
+    },
+    {
+      "nick": "AM",
+      "points": "120740",
+      "id": "384f85ed",
+      "avatar": "avatars/Avatar_Velina_Airgid.webp"
+    },
+    {
+      "nick": "SD",
+      "points": "119416",
+      "id": "5d8751bc",
+      "avatar": "avatars/Avatar_Ju_Fufu.webp"
+    },
+    {
+      "nick": "YY",
+      "points": "116148",
+      "id": "02f35ac4",
+      "avatar": "avatars/Avatar_Tempered_Crown.webp"
+    },
+    {
+      "nick": "KR",
+      "points": "110721",
+      "id": "d668aa19",
+      "avatar": "avatars/Avatar_Remielle_Dan.webp"
+    },
+    {
+      "nick": "CЫ",
+      "points": "110001",
+      "id": "838cc2f0",
+      "avatar": "avatars/Avatar_Banyue.webp"
+    },
+    {
+      "nick": "ЦУ",
+      "points": "109939",
+      "id": "4043ac45",
+      "avatar": "avatars/Avatar_Norma_Hollowell.webp"
+    },
+    {
+      "nick": "BO",
+      "points": "109338",
+      "id": "3286b2f3",
+      "avatar": "avatars/Avatar_Starlight_-_Billy_Kid.webp"
+    },
+    {
+      "nick": "KA",
+      "points": "109005",
+      "id": "5d9b165e",
+      "avatar": "avatars/Avatar_Zhao.webp"
+    },
+    {
+      "nick": "A0",
+      "points": "108593",
+      "id": "abbd1b6e",
+      "avatar": "avatars/Avatar_Tempered_Crown.webp"
+    },
+    {
+      "nick": "LA",
+      "points": "107633",
+      "id": "5ed45566",
+      "avatar": "avatars/Avatar_Nicole_Demara.webp"
+    },
+    {
+      "nick": "DI",
+      "points": "103666",
+      "id": "cbbbd416",
+      "avatar": "avatars/Avatar_Seed.webp"
+    },
+    {
+      "nick": "RF",
+      "points": "102820",
+      "id": "4b7676fd",
+      "avatar": "avatars/Avatar_A_Flavorful_Journey_Home.webp"
+    },
+    {
+      "nick": "KU",
+      "points": "98410",
+      "id": "0a6c230f",
+      "avatar": "avatars/Avatar_Hoshimi_Miyabi.webp"
+    },
+    {
+      "nick": "BE",
+      "points": "93579",
+      "id": "0fe7c9ef",
+      "avatar": "avatars/Avatar_Vivian_Banshee.webp"
+    },
+    {
+      "nick": "LE",
+      "points": "92860",
+      "id": "1c9f02e1",
+      "avatar": "avatars/Avatar_Ben_Bigger.webp"
+    },
+    {
+      "nick": "JN",
+      "points": "90595",
+      "id": "9fd21aa6",
+      "avatar": "avatars/Avatar_Grace_Howard.webp"
+    },
+    {
+      "nick": "WE",
+      "points": "88493",
+      "id": "2297d4f1",
+      "avatar": "avatars/belle_wise_event.png"
+    }
+  ],
+  "savedAt": "2026-11-27T09:00:04.485Z",
+  "type": "defence"
+}

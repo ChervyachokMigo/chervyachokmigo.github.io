@@ -1,7 +1,7 @@
 {
   "version": 1,
   "title": "ОБОРОНА ШИЮЙ 13 11 2026",
-  "locked": false,
+  "locked": true,
   "rows": [
     {
       "nick": "MS",
@@ -46,6 +46,12 @@
       "avatar": "avatars/Avatar_Nangong_Yu.webp"
     },
     {
+      "nick": "VD",
+      "points": "131394",
+      "id": "445be54d",
+      "avatar": "avatars/avatar_phoenix.png"
+    },
+    {
       "nick": "MK",
       "points": "130583",
       "id": "ff9e52d3",
@@ -56,6 +62,12 @@
       "points": "127713",
       "id": "4857bd72",
       "avatar": "avatars/ridu_09_26.png"
+    },
+    {
+      "nick": "MH",
+      "points": "127385",
+      "id": "5bbf6901",
+      "avatar": "avatars/Avatar_Alexandrina_Sebastiane.webp"
     },
     {
       "nick": "WR",
@@ -94,6 +106,12 @@
       "avatar": "avatars/Avatar_Alice_Thymefield.webp"
     },
     {
+      "nick": "AM",
+      "points": "122173",
+      "id": "384f85ed",
+      "avatar": "avatars/Avatar_Velina_Airgid.webp"
+    },
+    {
       "nick": "ME",
       "points": "121860",
       "id": "9fc1987b",
@@ -122,12 +140,6 @@
       "points": "118526",
       "id": "0fc702d4",
       "avatar": "avatars/Avatar_Hoshimi_Miyabi.webp"
-    },
-    {
-      "nick": "AM",
-      "points": "118505",
-      "id": "384f85ed",
-      "avatar": "avatars/Avatar_Velina_Airgid.webp"
     },
     {
       "nick": "MR",
@@ -262,6 +274,12 @@
       "avatar": "avatars/avatar_phoenix.png"
     },
     {
+      "nick": "DY",
+      "points": "107986",
+      "id": "f93e2015",
+      "avatar": "avatars/Avatar_S%253Fn-Z_The_Never-Ending_Show.webp"
+    },
+    {
       "nick": "КИ",
       "points": "107893",
       "id": "fde6f094",
@@ -368,6 +386,12 @@
       "points": "100761",
       "id": "c252c99d",
       "avatar": "avatars/Avatar_Camera_Sense.webp"
+    },
+    {
+      "nick": "DR",
+      "points": "100425",
+      "id": "35cb9028",
+      "avatar": "avatars/Avatar_Default_Cat.webp"
     },
     {
       "nick": "HO",
@@ -574,6 +598,12 @@
       "avatar": "avatars/belle_wise_event.png"
     },
     {
+      "nick": "GG",
+      "points": "82277",
+      "id": "09395b14",
+      "avatar": "avatars/Avatar_Deadly_Assault_Line_Breaker.webp"
+    },
+    {
       "nick": "DR",
       "points": "81875",
       "id": "04e9418e",
@@ -604,6 +634,6 @@
       "avatar": "avatars/Avatar_Burnice_White.webp"
     }
   ],
-  "savedAt": "2026-11-26T17:38:49.503Z",
+  "savedAt": "2026-11-27T08:59:25.562Z",
   "type": "defence"
 }
