@@ -4,6 +4,12 @@
   "locked": false,
   "rows": [
     {
+      "nick": "MS",
+      "points": "150000",
+      "id": "e035cf51",
+      "avatar": "avatars/Avatar_Sunna.webp"
+    },
+    {
       "nick": "SD",
       "points": "137069",
       "id": "f300adf2",
@@ -46,16 +52,16 @@
       "avatar": "avatars/Avatar_Tempered_Crown.webp"
     },
     {
+      "nick": "CЫ",
+      "points": "111099",
+      "id": "838cc2f0",
+      "avatar": "avatars/Avatar_Banyue.webp"
+    },
+    {
       "nick": "KR",
       "points": "110721",
       "id": "d668aa19",
       "avatar": "avatars/Avatar_Remielle_Dan.webp"
-    },
-    {
-      "nick": "CЫ",
-      "points": "110001",
-      "id": "838cc2f0",
-      "avatar": "avatars/Avatar_Banyue.webp"
     },
     {
       "nick": "ЦУ",
@@ -130,6 +136,6 @@
       "avatar": "avatars/belle_wise_event.png"
     }
   ],
-  "savedAt": "2026-11-27T09:00:04.485Z",
+  "savedAt": "2026-11-27T09:05:15.239Z",
   "type": "defence"
 }
