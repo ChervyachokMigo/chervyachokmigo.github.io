@@ -456,7 +456,7 @@
       "test": "86280",
       "stamina": "",
       "id": "0fe7c9ef",
-      "avatar": "avatars/Avatar_Vivian_Banshee.webp"
+      "avatar": "avatars/Avatar_Lucia_Elowen.webp"
     },
     {
       "nick": "CL",
@@ -466,10 +466,10 @@
       "avatar": "avatars/avatar_phoenix.png"
     },
     {
-      "nick": "АЙ",
+      "nick": "AЙ",
       "test": "85443",
       "stamina": "",
-      "id": "e1c1a9ca",
+      "id": "c8eeea94",
       "avatar": "avatars/Avatar_Sunna.webp"
     },
     {
@@ -634,6 +634,6 @@
       "avatar": "avatars/Avatar_Deadly_Assault_Line_Breaker.webp"
     }
   ],
-  "savedAt": "2026-11-26T05:25:43.217Z",
+  "savedAt": "2026-11-28T01:23:01.377Z",
   "type": "assault"
 }

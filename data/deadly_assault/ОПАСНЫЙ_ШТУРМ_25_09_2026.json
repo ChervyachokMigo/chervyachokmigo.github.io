@@ -340,10 +340,10 @@
       "avatar": "avatars/Avatar_Orphie_Magnusson_%2526_Magus.webp"
     },
     {
-      "nick": "АЙ",
+      "nick": "AЙ",
       "test": "108375",
       "stamina": "",
-      "id": "e1c1a9ca",
+      "id": "c8eeea94",
       "avatar": "avatars/Avatar_Sunna.webp"
     },
     {
@@ -379,7 +379,7 @@
       "test": "106239",
       "stamina": "",
       "id": "0fe7c9ef",
-      "avatar": "avatars/Avatar_Vivian_Banshee.webp"
+      "avatar": "avatars/Avatar_Lucia_Elowen.webp"
     },
     {
       "nick": "KR",
@@ -697,6 +697,6 @@
       "avatar": "avatars/Avatar_Deadly_Assault_Line_Breaker.webp"
     }
   ],
-  "savedAt": "2026-11-26T05:25:43.224Z",
+  "savedAt": "2026-11-28T01:23:01.384Z",
   "type": "assault"
 }

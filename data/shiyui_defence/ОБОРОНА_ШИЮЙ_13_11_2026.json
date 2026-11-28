@@ -460,9 +460,9 @@
       "avatar": "avatars/Avatar_Ellen_Joe.webp"
     },
     {
-      "nick": "АЙ",
+      "nick": "AЙ",
       "points": "94547",
-      "id": "e1c1a9ca",
+      "id": "c8eeea94",
       "avatar": "avatars/Avatar_Sunna.webp"
     },
     {
@@ -583,7 +583,7 @@
       "nick": "BE",
       "points": "83110",
       "id": "0fe7c9ef",
-      "avatar": "avatars/Avatar_Vivian_Banshee.webp"
+      "avatar": "avatars/Avatar_Lucia_Elowen.webp"
     },
     {
       "nick": "NI",
@@ -634,6 +634,6 @@
       "avatar": "avatars/Avatar_Burnice_White.webp"
     }
   ],
-  "savedAt": "2026-11-27T08:59:25.562Z",
+  "savedAt": "2026-11-28T01:23:01.386Z",
   "type": "defence"
 }

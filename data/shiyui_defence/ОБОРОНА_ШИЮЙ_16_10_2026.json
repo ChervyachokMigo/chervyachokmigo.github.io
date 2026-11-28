@@ -388,9 +388,9 @@
       "avatar": "avatars/Avatar_Evelyn_Chevalier.webp"
     },
     {
-      "nick": "АЙ",
+      "nick": "AЙ",
       "points": "106406",
-      "id": "e1c1a9ca",
+      "id": "c8eeea94",
       "avatar": "avatars/Avatar_Sunna.webp"
     },
     {
@@ -613,7 +613,7 @@
       "nick": "BE",
       "points": "91691",
       "id": "0fe7c9ef",
-      "avatar": "avatars/Avatar_Vivian_Banshee.webp"
+      "avatar": "avatars/Avatar_Lucia_Elowen.webp"
     },
     {
       "nick": "JN",
@@ -712,6 +712,6 @@
       "avatar": "avatars/Avatar_Jane_Doe.webp"
     }
   ],
-  "savedAt": "2026-11-26T05:25:43.229Z",
+  "savedAt": "2026-11-28T01:23:01.388Z",
   "type": "defence"
 }

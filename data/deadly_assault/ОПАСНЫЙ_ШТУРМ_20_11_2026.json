@@ -351,7 +351,7 @@
       "test": "89444",
       "stamina": "",
       "id": "0fe7c9ef",
-      "avatar": "avatars/Avatar_Vivian_Banshee.webp"
+      "avatar": "avatars/Avatar_Lucia_Elowen.webp"
     },
     {
       "nick": "ИН",
@@ -403,6 +403,13 @@
       "avatar": "avatars/Avatar_Evelyn_Chevalier.webp"
     },
     {
+      "nick": "D4",
+      "test": "81915",
+      "stamina": "",
+      "id": "4b01b43a",
+      "avatar": "avatars/Avatar_Ju_Fufu.webp"
+    },
+    {
       "nick": "АА",
       "test": "81586",
       "stamina": "",
@@ -415,6 +422,13 @@
       "stamina": "",
       "id": "b3f465e9",
       "avatar": "avatars/avatar_phoenix.png"
+    },
+    {
+      "nick": "AЙ",
+      "test": "81263",
+      "stamina": "",
+      "id": "c8eeea94",
+      "avatar": "avatars/Avatar_Sunna.webp"
     },
     {
       "nick": "DI",
@@ -522,6 +536,13 @@
       "avatar": "avatars/Avatar_Zhao.webp"
     },
     {
+      "nick": "LE",
+      "test": "66623",
+      "stamina": "",
+      "id": "1a32ad65",
+      "avatar": "avatars/Avatar_Default_Anonymous.webp"
+    },
+    {
       "nick": "KA",
       "test": "64019",
       "stamina": "",
@@ -529,6 +550,6 @@
       "avatar": "avatars/Avatar_Deadly_Assault_Line_Breaker.webp"
     }
   ],
-  "savedAt": "2026-11-27T08:57:40.361Z",
+  "savedAt": "2026-11-28T01:18:52.576Z",
   "type": "assault"
 }

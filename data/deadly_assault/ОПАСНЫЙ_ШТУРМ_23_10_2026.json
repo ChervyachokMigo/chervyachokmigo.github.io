@@ -242,10 +242,10 @@
       "avatar": "avatars/Avatar_Hoshimi_Miyabi.webp"
     },
     {
-      "nick": "АЙ",
+      "nick": "AЙ",
       "test": "105159",
       "stamina": "",
-      "id": "e1c1a9ca",
+      "id": "c8eeea94",
       "avatar": "avatars/Avatar_Sunna.webp"
     },
     {
@@ -372,7 +372,7 @@
       "test": "94031",
       "stamina": "",
       "id": "0fe7c9ef",
-      "avatar": "avatars/Avatar_Vivian_Banshee.webp"
+      "avatar": "avatars/Avatar_Lucia_Elowen.webp"
     },
     {
       "nick": "DI",
@@ -683,6 +683,6 @@
       "avatar": "avatars/Avatar_Zhao.webp"
     }
   ],
-  "savedAt": "2026-11-26T05:25:43.222Z",
+  "savedAt": "2026-11-28T01:23:01.383Z",
   "type": "assault"
 }
