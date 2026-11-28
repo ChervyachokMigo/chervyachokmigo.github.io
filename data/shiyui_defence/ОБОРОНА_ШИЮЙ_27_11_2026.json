@@ -46,6 +46,12 @@
       "avatar": "avatars/Avatar_Velina_Airgid.webp"
     },
     {
+      "nick": "BR",
+      "points": "118642",
+      "id": "5d790795",
+      "avatar": "avatars/Avatar_Crowned_by_Waves_Apex.webp"
+    },
+    {
       "nick": "BO",
       "points": "118242",
       "id": "3286b2f3",
@@ -112,6 +118,12 @@
       "avatar": "avatars/Avatar_Remielle_Dan.webp"
     },
     {
+      "nick": "LA",
+      "points": "109296",
+      "id": "5ed45566",
+      "avatar": "avatars/Avatar_Nicole_Demara.webp"
+    },
+    {
       "nick": "KA",
       "points": "109005",
       "id": "5d9b165e",
@@ -128,12 +140,6 @@
       "points": "108035",
       "id": "2e6c7a60",
       "avatar": "avatars/Avatar_Zhu_Yuan.webp"
-    },
-    {
-      "nick": "LA",
-      "points": "107633",
-      "id": "5ed45566",
-      "avatar": "avatars/Avatar_Nicole_Demara.webp"
     },
     {
       "nick": "ME",
@@ -298,6 +304,12 @@
       "avatar": "avatars/Avatar_Ben_Bigger.webp"
     },
     {
+      "nick": "ПК",
+      "points": "92101",
+      "id": "44fdcf92",
+      "avatar": "avatars/Avatar_Default_Pig.webp"
+    },
+    {
       "nick": "TO",
       "points": "91649",
       "id": "f6284211",
@@ -358,12 +370,18 @@
       "avatar": "avatars/Avatar_Claret_Flint.webp"
     },
     {
+      "nick": "YO",
+      "points": "84164",
+      "id": "347b5412",
+      "avatar": "avatars/Avatar_Burnice_White.webp"
+    },
+    {
       "nick": "LE",
       "points": "84035",
       "id": "1a32ad65",
       "avatar": "avatars/Avatar_Default_Anonymous.webp"
     }
   ],
-  "savedAt": "2026-11-28T01:17:30.943Z",
+  "savedAt": "2026-11-28T09:17:31.550Z",
   "type": "defence"
 }
